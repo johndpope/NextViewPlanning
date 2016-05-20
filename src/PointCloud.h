@@ -27,6 +27,7 @@ namespace nvp {
         void clipPointsByZ();
         void getCartesianCoordinates(Eigen::MatrixXd& cartCoord);
         void computeWorldCoordinates(Camera& camera);
+        void computeNearestProjectedPts(Camera &camera);
 
         double computeRadiusFromCentroid();
         long m_numPoints;

@@ -178,11 +178,31 @@ namespace nvp {
     }
 
     void PointCloud::computeProjectedCoordinates(Camera &camera) {
+        // this method projects all the points in the view of the camera
+        // it doesn't check for depth
         Eigen::Matrix4d worldToCamera;
         camera.getCameraTransform(worldToCamera);
 
         this->applyTransformation(worldToCamera);
     }
+
+    void PointCloud::computeNearestProjectedPts(Camera &camera) {
+        // this method projects all of the points in the view of the camera and
+        // it saves only the ones that are first seen with a z-buffer
+
+        computeProjectedCoordinates(camera);
+
+        Eigen::MatrixXd nearestProjectedPts;
+
+        getNearestPointsToCamera(m_vertices,
+                                 nearestProjectedPts);
+
+        m_vertices = nearestProjectedPts;
+        m_numPoints = m_vertices.cols();
+
+    }
+
+
 
 
 

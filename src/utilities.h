@@ -8,10 +8,13 @@
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 
-namespace nvp{
+namespace nvp {
     Eigen::Matrix4d createRotationMatrix(double rotRadiansX,
                                          double rotRadiansY,
                                          double rotRadiansZ);
+
+    void getNearestPointsToCamera(Eigen::MatrixXd &projectedPts,
+                                  Eigen::MatrixXd &out_nearestProjectedPts);
 
 //    Eigen::MatrixXd sortMatrixByZ(Eigen::MatrixXd& coordMat);
 //

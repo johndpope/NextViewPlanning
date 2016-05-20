@@ -6,6 +6,8 @@
 #define NEXTVIEWPLANNING_DEFS_H
 
 #include <Eigen/Dense>
+#include <Eigen/Sparse>
+
 
 #include <OpenMesh/Core/IO/MeshIO.hh>
 #include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
@@ -20,6 +22,9 @@ namespace nvp {
 //        FaceAttributes( OpenMesh::Attributes::Normal | OpenMesh::Attributes::Color );
     };
     typedef OpenMesh::TriMesh_ArrayKernelT<MyTraits>  MyMesh;
+    // declares a column-major sparse matrix type of double
+//    typedef Eigen::SparseMatrix<double> SparseMatrix;
+//    typedef Eigen::Triplet<double> Triplet;
 
     static double IMAGEPLANE_SIZE = 800;
 

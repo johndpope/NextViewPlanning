@@ -13,7 +13,11 @@ namespace nvp{
                                          double rotRadiansY,
                                          double rotRadiansZ);
 
-
+//    Eigen::MatrixXd sortMatrixByZ(Eigen::MatrixXd& coordMat);
+//
+//    bool isZBiggerThan(Eigen::Vector3d &vec1, Eigen::Vector3d &vec2);
+//
+//    void swapVectors(Eigen::Vector3d &vec1, Eigen::Vector3d &vec2);
 }//namespace nvp
 
 

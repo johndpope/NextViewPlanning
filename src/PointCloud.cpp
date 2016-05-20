@@ -4,9 +4,16 @@
 #include <iostream>
 #include "PointCloud.h"
 #include "converter.h"
+#include "utilities.h"
 
 
 namespace nvp {
+//    struct eigenVecZComp{
+//        bool operator()(const Eigen::Vector3d &vec1, const Eigen::Vector3d &vec2){
+//            return vec1[2] > vec1[2];
+//        }
+//    } ComparisonFunc;
+
     PointCloud::PointCloud(std::string filename) {
         MyMesh mesh;
         if (!OpenMesh::IO::read_mesh(mesh, filename)) {
@@ -20,8 +27,7 @@ namespace nvp {
              v_it != mesh.vertices_end(); ++v_it) {
             OpenMesh::Vec3d thisOMVert = mesh.point(*v_it);
             Eigen::Vector3d thisEVert = convertOMVecToEIGENVec(thisOMVert);
-            // vectors are represented as matrices in Eigen
-            // .col = block operation for matrices and arrays
+
             m_vertices.col(colIdx) = thisEVert;
             colIdx++;
         }
@@ -94,8 +100,8 @@ namespace nvp {
 
         Eigen::Vector3d centroid = m_vertices.colwise().mean();
 
-        std::cout << "Centroid coords are: (" << centroid[0]
-        << "," << centroid[1] << "," << centroid[2] << ")" << std::endl;
+//        std::cout << "Centroid coords are: (" << centroid[0]
+//        << "," << centroid[1] << "," << centroid[2] << ")" << std::endl;
 
         //calculate the distance to the furthest point in the cloud
         for (auto row = 0; row < m_vertices.rows(); ++row) {
@@ -113,17 +119,75 @@ namespace nvp {
 
         }
 
-        std::cout << "Distance from centroid to furthest vertex is " << distance << std::endl;
+//        std::cout << "Distance from centroid to furthest vertex is " << distance << std::endl;
         radius = distance * 2;
-        std::cout << "Radius is twice the distance to furthest vertex:" << radius << std::endl;
+//        std::cout << "Radius is twice the distance to furthest vertex:" << radius << std::endl;
         return radius;
     }
 
-    void PointCloud::getCenterXY(double& x, double& y) {
+    void PointCloud::getCenterXY(double &x, double &y) {
         Eigen::Vector3d meanP = m_vertices.colwise().mean();
         x = meanP[0];
         y = meanP[1];
     }
+
+
+    void PointCloud::clipPointsByZ() {
+        double minZ = m_vertices.row(2).minCoeff();
+        double maxZ = m_vertices.row(2).maxCoeff();
+//        std::cout << "Camera - PointCloud: Min distance = " << minZ << std::endl;
+//        std::cout << "Camera - PointCloud: Max distance = " << maxZ << std::endl;
+
+        double threshold = minZ + std::abs(maxZ - minZ) / 2.0;
+//      std::cout << "Camera - PointCloud: Threshold = " << threshold << std::endl;
+
+        Eigen::MatrixXd clippedPoints(Eigen::MatrixXd::Zero(3,m_numPoints));
+        long colIdx = 0;
+        std::cout << "Remove points that are further away than the threshold: " << threshold << std::endl;
+
+        for (int i = 0; i < m_vertices.cols(); i++) {
+            if (m_vertices.col(i)[2] < threshold) {
+                clippedPoints.col(colIdx) = m_vertices.col(i);
+                colIdx ++;
+            }
+        }
+        m_vertices = clippedPoints.block(0,0,3,colIdx-1);
+        m_numPoints = m_vertices.cols();
+    }
+
+    void PointCloud::getCartesianCoordinates(Eigen::MatrixXd &cartCoord) {
+        cartCoord = Eigen::MatrixXd::Zero(2, m_numPoints);
+
+        // x coord / z coord
+        cartCoord.row(0) = (m_vertices.row(0).array() /
+                            m_vertices.row(2).replicate(3, 1).array()).matrix();
+
+        // y coord / z coord
+        cartCoord.row(1) = (m_vertices.row(1).array() /
+                            m_vertices.row(2).replicate(3, 1).array()).matrix();
+
+    }
+
+    void PointCloud::computeWorldCoordinates(Camera &camera) {
+        // return the world coordinated of the projected points
+        // by applying the inverse of the camera matrix
+        Eigen::Matrix4d worldToCamera;
+        camera.getCameraTransform(worldToCamera);
+
+        this->applyTransformation(worldToCamera.inverse());
+    }
+
+    void PointCloud::computeProjectedCoordinates(Camera &camera) {
+        Eigen::Matrix4d worldToCamera;
+        camera.getCameraTransform(worldToCamera);
+
+        this->applyTransformation(worldToCamera);
+    }
+
+
+
+
+
 
 
 //    void PointCloud::demeanPointCloud() {

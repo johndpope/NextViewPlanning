@@ -6,6 +6,7 @@
 #define NEXTVIEWPLANNING_POINTCLOUD_H
 #include <Eigen/Dense>
 #include "defs.h"
+#include "Camera.h"
 
 
 namespace nvp {
@@ -19,9 +20,13 @@ namespace nvp {
         ~PointCloud(){}
         void getPoints(Eigen::MatrixXd& out_pointSet);
         void setPoints(Eigen::MatrixXd& in_pointSet);
+        void computeProjectedCoordinates(Camera& camera);
         void applyTransformation(Eigen::Matrix4d transfMat);
         int write(std::string filename);
         void getCenterXY(double& x, double& y);
+        void clipPointsByZ();
+        void getCartesianCoordinates(Eigen::MatrixXd& cartCoord);
+        void computeWorldCoordinates(Camera& camera);
 
         double computeRadiusFromCentroid();
         long m_numPoints;

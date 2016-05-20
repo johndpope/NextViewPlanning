@@ -82,6 +82,7 @@ namespace nvp {
     }
 
     double PointCloud::computeRadiusFromCentroid() {
+        // Author: Karina Mady
         double distance = 0;
         double max_distance = 0;
         double xSqr;

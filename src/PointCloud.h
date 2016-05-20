@@ -8,7 +8,6 @@
 #include "defs.h"
 
 
-
 namespace nvp {
 
 
@@ -22,10 +21,12 @@ namespace nvp {
         void setPoints(Eigen::MatrixXd& in_pointSet);
         void applyTransformation(Eigen::Matrix4d transfMat);
         int write(std::string filename);
+        void getCenterXY(double& x, double& y);
 
+        double computeRadiusFromCentroid();
         long m_numPoints;
     private:
-        Eigen::MatrixXd m_vertices;
+        Eigen::MatrixXd m_vertices; // 3xnumPoints
 
 
     };

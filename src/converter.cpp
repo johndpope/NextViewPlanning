@@ -17,6 +17,11 @@ namespace nvp{
         return omCoord;
     }
 
+    double deg2rad(double degrees) {
+        return (degrees * M_PI/180.0);
+    }
+
+
 } //namespace nvp
 
 

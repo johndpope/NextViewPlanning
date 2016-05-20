@@ -9,7 +9,9 @@
 #include <Eigen/Geometry>
 
 namespace nvp{
-    Eigen::Matrix4d createTransformationMatrix(double rotX, double rotY, double rotZ);
+    Eigen::Matrix4d createRotationMatrix(double rotRadiansX,
+                                         double rotRadiansY,
+                                         double rotRadiansZ);
 
 
 }//namespace nvp

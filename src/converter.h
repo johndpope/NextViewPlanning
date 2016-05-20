@@ -13,6 +13,8 @@ namespace nvp{
 
     OpenMesh::Vec3d convertEIGENVecToOMVec (Eigen::Vector3d eCoord);
 
+    double deg2rad(double degrees);
+
 } //namespace nvp
 
 #endif //NEXTVIEWPLANNING_CONVERTER_H

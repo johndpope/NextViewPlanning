@@ -21,9 +21,10 @@ namespace nvp {
     };
     typedef OpenMesh::TriMesh_ArrayKernelT<MyTraits>  MyMesh;
 
+    static double IMAGEPLANE_SIZE = 800;
 
     static std::string MODEL_1_FILENAME = "../models/_armadillo.ply";
-    static std::string MODEL_1_OUTPUT_FILENAME = "../output/_armadillo.ply";
+    static std::string MODEL_1_OUTPUT_FILENAME = "../output/_out_armadillo.ply";
 
 
 #define SUCCESS 0;

@@ -26,7 +26,7 @@ link_directories(${OPENMESH_LIBRARY_DIR})
 include_directories(src)
 include_directories(lib)
 
-set(SOURCE_FILES src/main.cpp src/PointCloud.cpp src/converter.cpp src/utilities.cpp)
+set(SOURCE_FILES src/main.cpp src/PointCloud.cpp src/converter.cpp src/utilities.cpp src/Camera.cpp)
 
 add_library(nvp_library ${SOURCE_FILES})
 

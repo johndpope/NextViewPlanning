@@ -14,10 +14,12 @@ namespace nvp {
 
     class PointCloud {
     public:
+
         PointCloud(std::string filename);
         PointCloud& operator= (const PointCloud &pSrc);
         PointCloud(const PointCloud&);
         ~PointCloud(){}
+
         void getPoints(Eigen::MatrixXd& out_pointSet);
         void setPoints(Eigen::MatrixXd& in_pointSet);
         void computeProjectedCoordinates(Camera& camera);
@@ -30,9 +32,12 @@ namespace nvp {
         void computeNearestProjectedPts(Camera &camera);
 
         double computeRadiusFromCentroid();
+        void   writeCloud(std::string filename);
+
         long m_numPoints;
     private:
         Eigen::MatrixXd m_vertices; // 3xnumPoints
+        std::vector<Eigen::Vector3f> colors = { {255.,0.,0.}, {0.,255.,0.}, {0.,0.,255.}, {255.,255.,0.}, {255.,0.,255.}, {0.,255.,255.} };
 
 
     };

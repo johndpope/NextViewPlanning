@@ -8,7 +8,7 @@
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 
-namespace nvp {
+namespace nvp{
     Eigen::Matrix4d createRotationMatrix(double rotRadiansX,
                                          double rotRadiansY,
                                          double rotRadiansZ);

@@ -6,7 +6,6 @@
 #include "utilities.h"
 #include <vector>
 
-
 namespace nvp {
 
     Eigen::Matrix4d createRotationMatrix(double rotRadiansX,
@@ -35,6 +34,7 @@ namespace nvp {
 //        std::cout << "rotationMat: \n" << rotMat.matrix() << std::endl;
         return rotationMat;
     }
+
 
     double getValueInRange(double value,
                            double currentMin,
@@ -73,25 +73,33 @@ namespace nvp {
         idxBuffer = -1 * Eigen::MatrixXd::Ones(widthBuffer, heightBuffer);
 
         double currXIdx, currYIdx;
-        for (int i = 0; i < ptsCoord.cols(); i++) {
+        for (int i = 0; i < ptsCoord.cols(); ++i)
+        {
             currXIdx = getValueInRange(ptsCoord.col(i)[0],
                                        xMin,
                                        xMax,
                                        0,
                                        widthBuffer - 1);
+
+
             currYIdx = getValueInRange(ptsCoord.col(i)[1],
                                        yMin,
                                        yMax,
                                        0,
                                        heightBuffer - 1);
+
+
+            std::cout<<"crashes inside isPointCloser -> utilities.cpp : createZBuffer() "<<std::endl;
             if(isPointCloser(ptsCoord(2,i),
                              zBuffer(currXIdx,currYIdx)))
             {
+
+                std::cout<<"this never gets printed"<<std::endl;
                 // save new z depth in the buffer
                 zBuffer(currXIdx,currYIdx) = ptsCoord(2,i);
                 // save the corresponding idx for the point in the idxBuffer
                 idxBuffer(currXIdx,currYIdx) = i;
-                numNearestPts ++;
+                numNearestPts++ ;
             }
         }
     }
@@ -104,80 +112,28 @@ namespace nvp {
                       zBuffer,
                       idxBuffer,
                       numNearestPts);
+
         out_nearestProjectedPts = Eigen::MatrixXd::Zero(3,numNearestPts);
         long colIdx = 0;
 
-        for( int i = 0; i < idxBuffer.rows(); i++)
+        for( int i = 0; i < idxBuffer.rows(); ++i)
         {
-            for( int j = 0; j < idxBuffer.cols(); j++)
+            for( int j = 0; j < idxBuffer.cols(); ++j)
             {
                 if (idxBuffer(i,j) != -1)
                 {
                     out_nearestProjectedPts.col(colIdx) = projectedPts.col(idxBuffer(i,j));
-                    colIdx ++;
+                    colIdx++;
                 }
             }
         }
 
     }
 
-
-
-
-//    bool isZBiggerThan(Eigen::Vector3d &vec1, Eigen::Vector3d &vec2) {
+//    bool isZBiggerThan(Eigen::Vector3d &vec1, Eigen::Vector3d &vec2)
+//    {
 //        return (vec1[2] > vec2[2]);
 //    }
-//
-//    void swapVectors(Eigen::Vector3d &vec1, Eigen::Vector3d &vec2) {
-////        std::cout << vec1 << std::endl << vec2 << std::endl;
-//        Eigen::Vector3d aux = vec1;
-//        vec1 = vec2;
-//        vec2 = aux;
-////        std::cout << vec1 << std::endl << vec2 << std::endl;
-//    }
-
-
-//    Eigen::MatrixXd sortMatrixByZ(Eigen::MatrixXd& coordMat) {
-////        std::cout << "Before:\n";
-////        std::cout << coordMat << std::endl;
-//
-//        if (coordMat.size() == 0) {
-//            std::cerr << "ERROR! Utilities.cpp: Empty matrix \n";
-//            throw ERROR;
-//        }
-//        std::cout << "Matrix size = " << coordMat.size() << std::endl;
-//        double numPts = coordMat.cols();
-//        double numCoord = coordMat.rows();
-//
-//        if (numCoord != 3) {
-//            std::cerr << "ERROR! Utilities.cpp: Each column should have 3 coord: x,y,z \n";
-//            throw ERROR;
-//        }
-//
-//
-//
-//
-////        bool swapped = true;
-////        while (swapped) {
-////            swapped = false;
-////            for (int i = 1; i < numPts; i++) {
-////                Eigen::Vector3d prevPoint = coordMat.col(i - 1);
-////                Eigen::Vector3d curPoint = coordMat.col(i);
-////
-////                if (isZBiggerThan(prevPoint, curPoint)) {
-////                    swapVectors(prevPoint, curPoint);
-////                    coordMat.col(i - 1) = prevPoint;
-////                    coordMat.col(i) = curPoint;
-////                    swapped = true;
-////                }
-////            }
-////            numPts --;
-////        }
-////        std::cout << "After:\n";
-////        std::cout << coordMat << std::endl;
-//        return coordMat;
-//    }
-
 
 } //namespace nvp
 

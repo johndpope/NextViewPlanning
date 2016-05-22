@@ -42,12 +42,12 @@ namespace nvp {
 
     void Camera::setCameraIntrinsics(double focalLength,
                                             double offsets) {
-        m_intrinsics = Eigen::MatrixXd::Identity(4,4);
+        m_intrinsics = Eigen::MatrixXd::Identity(4, 4);
 //    intrinsicMat(2,2) = 1;
-        m_intrinsics(0,2) = offsets; // offset x
-        m_intrinsics(1,2) = offsets; // offset y
-        m_intrinsics(0,0) = focalLength; // focal length x
-        m_intrinsics(1,1) = focalLength; // focal length y
+        m_intrinsics(0, 2) = offsets; // offset x
+        m_intrinsics(1, 2) = offsets; // offset y
+        m_intrinsics(0, 0) = focalLength; // focal length x
+        m_intrinsics(1, 1) = focalLength; // focal length y
     }
 
 

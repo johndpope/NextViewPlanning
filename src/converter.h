@@ -9,7 +9,7 @@
 #include <Eigen/Dense>
 
 namespace nvp{
-   // Eigen::Vector3d convertOMVecToEIGENVec (OpenMesh::Vec3d omCoord);
+    //Eigen::Vector3d convertOMVecToEIGENVec (OpenMesh::Vec3d omCoord);
 
     //OpenMesh::Vec3d convertEIGENVecToOMVec (Eigen::Vector3d eCoord);
 

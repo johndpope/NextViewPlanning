@@ -31,7 +31,6 @@ namespace nvp {
         double m_focalLengthxy = 1000;
         double m_offsetXY = IMAGEPLANE_SIZE/2;
 
-
     };
 } //namespace nvp
 

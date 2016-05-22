@@ -33,11 +33,12 @@ namespace nvp {
 
         double computeRadiusFromCentroid();
         void   writeCloud(std::string filename);
+        void   mergeClouds( Eigen::MatrixXd &all_vertices);
 
         long m_numPoints;
     private:
         Eigen::MatrixXd m_vertices; // 3xnumPoints
-        std::vector<Eigen::Vector3f> colors = { {255.,0.,0.}, {0.,255.,0.}, {0.,0.,255.}, {255.,255.,0.}, {255.,0.,255.}, {0.,255.,255.} };
+        std::vector<Eigen::Vector3d> colors = { {255.,0.,0.}, {0.,255.,0.}, {0.,0.,255.}, {255.,255.,0.}, {255.,0.,255.}, {0.,255.,255.} };
 
 
     };

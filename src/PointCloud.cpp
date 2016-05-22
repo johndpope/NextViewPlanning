@@ -6,35 +6,9 @@
 #include "PointCloud.h"
 #include "converter.h"
 #include "utilities.h"
-
+#include "time.h"
 
 namespace nvp {
-//    struct eigenVecZComp{
-//        bool operator()(const Eigen::Vector3d &vec1, const Eigen::Vector3d &vec2){
-//            return vec1[2] > vec1[2];
-//        }
-//    } ComparisonFunc;
-
-#if 0
-    PointCloud::PointCloud(std::string filename) {
-        MyMesh mesh;
-        if (!OpenMesh::IO::read_mesh(mesh, filename)) {
-            std::cerr << "Error: Cannot read mesh from " << filename << std::endl;
-        }
-        m_numPoints = mesh.n_vertices();
-        m_vertices = Eigen::MatrixXd::Zero(3, m_numPoints);
-        uint32_t colIdx = 0;
-
-        for (MyMesh::VertexIter v_it = mesh.vertices_begin();
-             v_it != mesh.vertices_end(); ++v_it) {
-            OpenMesh::Vec3d thisOMVert = mesh.point(*v_it);
-            Eigen::Vector3d thisEVert = convertOMVecToEIGENVec(thisOMVert);
-
-            m_vertices.col(colIdx) = thisEVert;
-            colIdx++;
-        }
-    }
-#endif
 
     PointCloud::PointCloud(std::string filename)
     {
@@ -44,7 +18,7 @@ namespace nvp {
             std::cerr << "[PointCloud.cpp::PointCloud()] could not open " << filename << std::endl;
             exit(1);
         }
-        std::vector<Eigen::Vector3f> vertData; // filled with read data
+        std::vector<Eigen::Vector3d> vertData; // filled with read data
 
         m_numPoints = -1;
         long int vertexId(0);
@@ -55,7 +29,7 @@ namespace nvp {
             if ( endHeaderFound )
             {
                 std::istringstream iss(line);
-                Eigen::Vector3f pt;
+                Eigen::Vector3d pt;
                 iss >> pt(0) >> pt(1) >> pt(2);
                 vertData.push_back(pt);
                 ++vertexId;
@@ -80,24 +54,32 @@ namespace nvp {
                 endHeaderFound = true;
             }
             else
-                std::cout << "[PointCloud.cpp::PointCloud()] skipping line " << line << std::endl;
+            { /*std::cout << "[PointCloud.cpp::PointCloud()] skipping line " << line << std::endl;*/}
         }
+
         m_vertices.resize( 3, vertData.size() );
+        std::cout<<"m_vertices.cols() is "<<m_vertices.cols()<<std::endl;
+        std::cout<<"m_numPoints should be the same as above: "<<m_numPoints<<std::endl;
+
         for ( size_t pntId = 0; pntId != vertData.size(); ++pntId )
         {
-            m_vertices.col(pntId) = vertData[ pntId ].cast<double>();
+            m_vertices.col(pntId) = vertData[ pntId ];
         }
         f.close();
-        std::cout << "Bunny cloud loaded" << std::endl;
+        std::cout << "Cloud has been read in" << std::endl;
+
     }
 
     void PointCloud::writeCloud(std::string filename)
     {
-        Eigen::Vector3f color = colors[3 % colors.size()];
+        srand(time(NULL));
+        int value = rand()%100;
+        Eigen::Vector3d color = colors[value % colors.size()];
+
         std::stringstream stream;
         stream << m_vertices.cols();
         std::string s_num_vertices = stream.str();
-        //std::cout<<s_num_vertices<<std::endl;
+       // std::cout<<s_num_vertices<<std::endl;
 
         const std::string vertices = "element vertex " + s_num_vertices;
         //std::cout<<vertices<<std::endl;
@@ -121,10 +103,10 @@ namespace nvp {
             {
                 fout << header[i] << "\n";
             }
-            for (int rowId = 0; rowId < 3; rowId++)
+            for (int colId = 0; colId < m_vertices.cols(); colId++)
             {
                 std::string point;
-                for (int colId = 0; colId < m_vertices.cols(); colId++)
+                for (int rowId = 0; rowId < m_vertices.rows(); rowId++)
                 {
                     std::stringstream coord;
                     coord << m_vertices(rowId, colId);
@@ -133,7 +115,6 @@ namespace nvp {
                 }
                 fout << point << " " << color(0) << " " << color(1) << " " << color(2) << "\n";
             }
-            std::cout << "File written" << std::endl;
         }
         else //file could not be opened
             std::cout << "File could not be opened." << std::endl;
@@ -151,24 +132,6 @@ namespace nvp {
         m_numPoints = in_pointSet.cols();
     }
 
-/*
-    int PointCloud::write(std::string filename) {
-        MyMesh mesh;
-        uint32_t colIdx = 0;
-        for (int i = 0; i < m_numPoints; i++) {
-            OpenMesh::Vec3d thisVert = convertEIGENVecToOMVec(m_vertices.col(colIdx));
-            mesh.add_vertex(thisVert);
-            colIdx++;
-        }
-        std::cout << mesh.n_vertices() << " points written\n";
-
-        if (!OpenMesh::IO::write_mesh(mesh, filename)) {
-            std::cerr << "Error: cannot write mesh to " << filename << std::endl;
-            return ERROR;
-        }
-        return SUCCESS;
-    }
-*/
 
     void PointCloud::applyTransformation(Eigen::Matrix4d transfMat) {
         for (int i = 0; i < m_numPoints; i++) {
@@ -208,14 +171,15 @@ namespace nvp {
         Eigen::Vector3d curr_vertex;
         double radius = 0;
 
-        Eigen::Vector3d centroid = m_vertices.colwise().mean();
+        Eigen::Vector3d centroid = m_vertices.rowwise().mean();
 
 //        std::cout << "Centroid coords are: (" << centroid[0]
 //        << "," << centroid[1] << "," << centroid[2] << ")" << std::endl;
 
         //calculate the distance to the furthest point in the cloud
-        for (auto row = 0; row < m_vertices.rows(); ++row) {
-            curr_vertex = m_vertices.row(row);
+        for (auto col = 0; col < m_vertices.cols(); ++col)
+        {
+            curr_vertex = m_vertices.col(col);
 
             xSqr = (centroid[0] - curr_vertex[0]) * (centroid[0] - curr_vertex[0]);
             ySqr = (centroid[1] - curr_vertex[1]) * (centroid[1] - curr_vertex[1]);
@@ -226,7 +190,6 @@ namespace nvp {
 
             if (max_distance > distance)
                 distance = max_distance;
-
         }
 
 //        std::cout << "Distance from centroid to furthest vertex is " << distance << std::endl;
@@ -284,7 +247,6 @@ namespace nvp {
         // by applying the inverse of the camera matrix
         Eigen::Matrix4d worldToCamera;
         camera.getCameraTransform(worldToCamera);
-
         this->applyTransformation(worldToCamera.inverse());
     }
 
@@ -307,11 +269,10 @@ namespace nvp {
         m_numPoints = m_vertices.cols();
     }
 
-//    void PointCloud::demeanPointCloud() {
-//        Eigen::Vector3d meanP = m_vertices.colwise().mean();
-//
-//        m_vertices = m_vertices - meanP.replicate(1,m_numPoints);
-//    }
+    void PointCloud::mergeClouds( Eigen::MatrixXd &all_vertices)
+    {
+        all_vertices(3, all_vertices.cols()+ m_vertices.cols());
+    }
 
 }//namespace nvp
 

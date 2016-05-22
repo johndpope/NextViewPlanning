@@ -82,6 +82,8 @@ namespace nvp {
                                        widthBuffer - 1);
 
 
+            std::cout<<"currXIdx is "<<currXIdx<<std::endl;
+
             currYIdx = getValueInRange(ptsCoord.col(i)[1],
                                        yMin,
                                        yMax,
@@ -89,7 +91,13 @@ namespace nvp {
                                        heightBuffer - 1);
 
 
+            std::cout<<"currYIdx is "<<currYIdx<<std::endl;
+
+
             std::cout<<"crashes inside isPointCloser -> utilities.cpp : createZBuffer() "<<std::endl;
+
+            std::cout<<"zBuffer("<<currXIdx<<","<<currYIdx<<") is "<< zBuffer(currXIdx,currYIdx)<<std::endl;
+
             if(isPointCloser(ptsCoord(2,i),
                              zBuffer(currXIdx,currYIdx)))
             {
@@ -129,11 +137,6 @@ namespace nvp {
         }
 
     }
-
-//    bool isZBiggerThan(Eigen::Vector3d &vec1, Eigen::Vector3d &vec2)
-//    {
-//        return (vec1[2] > vec2[2]);
-//    }
 
 } //namespace nvp
 

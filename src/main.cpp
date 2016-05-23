@@ -57,7 +57,7 @@ int main() {
 
 
     // convert the projected points back to the world coordinate frame
-    // pc.computeWorldCoordinates(currentCamera);
+    pc.computeWorldCoordinates(currentCamera);
 
     std::cout << "Writing 3D model to output folder..." << std::endl;
     pc.write(MODEL_1_OUTPUT_FILENAME);

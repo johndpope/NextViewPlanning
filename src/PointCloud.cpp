@@ -98,14 +98,14 @@ namespace nvp {
         Eigen::Vector3d curr_vertex;
         double radius = 0;
 
-        Eigen::Vector3d centroid = m_vertices.colwise().mean();
+        Eigen::Vector3d centroid = m_vertices.rowwise().mean();
 
 //        std::cout << "Centroid coords are: (" << centroid[0]
 //        << "," << centroid[1] << "," << centroid[2] << ")" << std::endl;
 
         //calculate the distance to the furthest point in the cloud
-        for (auto row = 0; row < m_vertices.rows(); ++row) {
-            curr_vertex = m_vertices.row(row);
+        for (auto colIdx = 0; colIdx < m_vertices.rows(); ++colIdx) {
+            curr_vertex = m_vertices.col(colIdx);
 
             xSqr = (centroid[0] - curr_vertex[0]) * (centroid[0] - curr_vertex[0]);
             ySqr = (centroid[1] - curr_vertex[1]) * (centroid[1] - curr_vertex[1]);

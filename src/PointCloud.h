@@ -15,6 +15,7 @@ namespace nvp {
     class PointCloud {
     public:
 
+        PointCloud();
         PointCloud(std::string filename);
         PointCloud& operator= (const PointCloud &pSrc);
         PointCloud(const PointCloud&);
@@ -33,7 +34,7 @@ namespace nvp {
 
         double computeRadiusFromCentroid();
         void   writeCloud(std::string filename);
-        void   mergeClouds( Eigen::MatrixXd &all_vertices);
+        void   mergeClouds( Eigen::MatrixXd &points_all_scans);
 
         long m_numPoints;
     private:

@@ -10,6 +10,9 @@
 
 namespace nvp {
 
+
+    PointCloud::PointCloud(){}
+
     PointCloud::PointCloud(std::string filename)
     {
         std::ifstream f(filename);
@@ -58,8 +61,8 @@ namespace nvp {
         }
 
         m_vertices.resize( 3, vertData.size() );
-        std::cout<<"m_vertices.cols() is "<<m_vertices.cols()<<std::endl;
-        std::cout<<"m_numPoints should be the same as above: "<<m_numPoints<<std::endl;
+        //std::cout<<"m_vertices.cols() is "<<m_vertices.cols()<<std::endl;
+        //std::cout<<"m_numPoints should be the same as above: "<<m_numPoints<<std::endl;
 
         for ( size_t pntId = 0; pntId != vertData.size(); ++pntId )
         {
@@ -238,7 +241,6 @@ namespace nvp {
         // y coord / z coord
         cartCoord.row(1) = (m_vertices.row(1).array() /
                             m_vertices.row(2).replicate(3, 1).array()).matrix();
-
     }
 
     void PointCloud::computeWorldCoordinates(Camera &camera)
@@ -269,9 +271,18 @@ namespace nvp {
         m_numPoints = m_vertices.cols();
     }
 
-    void PointCloud::mergeClouds( Eigen::MatrixXd &all_vertices)
+
+    //this function is being called for every scan we want to use in the reconstruction
+    //takes the point cloud from the scan and merges it with the point cloud that will be
+    //written to the reconstruction file
+    void PointCloud::mergeClouds( Eigen::MatrixXd &points_all_scans)
     {
-        all_vertices(3, all_vertices.cols()+ m_vertices.cols());
+        //std::cout<<"points_all_scans is "<<points_all_scans.cols()<<std::endl;
+        std::cout<<"m_vertices.cols() is "<<m_vertices.cols()<<std::endl;
+        points_all_scans.resize(3, points_all_scans.cols()+ m_vertices.cols());
+        points_all_scans<<(points_all_scans,m_vertices);
+        std::cout<<"points_all_scans after merge is "<<points_all_scans.cols()<<std::endl;
+
     }
 
 }//namespace nvp

@@ -36,7 +36,7 @@ namespace nvp {
     }
 
 
-    double getValueInRange(double value,
+    int getValueInRange(double value,
                            double currentMin,
                            double currentMax,
                            double rangeMin,
@@ -44,11 +44,12 @@ namespace nvp {
         // This function brings the *value* which is in the range [currentMin, currentMax]
         // into [rangeMin,rangeMax]
 
-        return rangeMin + ((rangeMax - rangeMin) * (value - currentMin)) / (currentMax - currentMin);
+        return int(rangeMin + ((rangeMax - rangeMin) * (value - currentMin)) /
+                                      (currentMax - currentMin));
     }
 
     bool isPointCloser(double newZ, double currentZ) {
-        return newZ < currentZ;
+        return newZ <= currentZ;
     }
 
     void createZBuffer(Eigen::MatrixXd &ptsCoord,
@@ -56,23 +57,20 @@ namespace nvp {
                        Eigen::MatrixXd &idxBuffer,
                        long& numNearestPts) {
         numNearestPts = 0;
-        // if steps = 1, it might lead to stack overflow
-        // => we need better memory management
-        // => the use sparse matrices for the zBufffer and the idxBuffer
-        double steps = 500.0;
         double xMin = ptsCoord.row(0).minCoeff();
         double xMax = ptsCoord.row(0).maxCoeff();
         double yMin = ptsCoord.row(1).minCoeff();
         double yMax = ptsCoord.row(1).maxCoeff();
         double zMin = ptsCoord.row(2).minCoeff();
         double zMax = ptsCoord.row(2).maxCoeff();
-        long widthBuffer = std::floor(std::abs(xMax - xMin) / steps);
-        long heightBuffer = std::floor(std::abs(yMax - yMin) / steps);
+        int widthBuffer = 300;
+        int heightBuffer = 300;
+
 
         zBuffer = zMax * Eigen::MatrixXd::Ones(widthBuffer, heightBuffer);
         idxBuffer = -1 * Eigen::MatrixXd::Ones(widthBuffer, heightBuffer);
 
-        double currXIdx, currYIdx;
+        int currXIdx, currYIdx;
         for (int i = 0; i < ptsCoord.cols(); ++i)
         {
             currXIdx = getValueInRange(ptsCoord.col(i)[0],

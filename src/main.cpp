@@ -148,6 +148,5 @@ int main() {
     std::cout<<"Now we check for quality..."<<std::endl;
     compareInputMeshWithReconstruction(pc,reconstruction_cloud);
 
-
     return SUCCESS;
 }

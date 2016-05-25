@@ -12,6 +12,29 @@ namespace nvp {
         m_cameraTransf = m_intrinsics * m_extrinsics;
     }
 
+    Camera& Camera::operator= (const Camera &pSrc) {
+        // check for self - assignment
+        if (this == &pSrc)
+            return *this;
+
+        m_cameraTransf = pSrc.m_cameraTransf;
+        m_intrinsics = pSrc.m_intrinsics;
+        m_extrinsics = pSrc.m_extrinsics;
+        m_focalLengthxy = pSrc.m_focalLengthxy;
+        m_offsetXY = pSrc.m_offsetXY;
+
+        // return the existing object
+        return *this;
+    }
+
+    Camera::Camera(const Camera& pSrc) {
+        m_cameraTransf = pSrc.m_cameraTransf;
+        m_intrinsics = pSrc.m_intrinsics;
+        m_extrinsics = pSrc.m_extrinsics;
+        m_focalLengthxy = pSrc.m_focalLengthxy;
+        m_offsetXY = pSrc.m_offsetXY;
+    }
+
     Camera::Camera(double rotDegreesX,
                    double rotDegreesY,
                    double rotDegreesZ,

@@ -196,6 +196,7 @@ namespace nvp {
 
 //        std::cout << "Distance from centroid to furthest vertex is " << distance << std::endl;
         radius = distance * 2;
+
 //        std::cout << "Radius is twice the distance to furthest vertex:" << radius << std::endl;
         return radius;
     }
@@ -278,8 +279,13 @@ namespace nvp {
     {
         //std::cout<<"points_all_scans is "<<points_all_scans.cols()<<std::endl;
         std::cout<<"m_vertices.cols() is "<<m_vertices.cols()<<std::endl;
-        points_all_scans.resize(3, points_all_scans.cols()+ m_vertices.cols());
-        points_all_scans<<(points_all_scans,m_vertices);
+
+        Eigen::MatrixXd temporaryMat(3, points_all_scans.cols()+ m_vertices.cols());
+        temporaryMat << points_all_scans,m_vertices;
+
+        points_all_scans = temporaryMat;
+//        points_all_scans.resize(3, points_all_scans.cols()+ m_vertices.cols());
+//        points_all_scans<<points_all_scans,m_vertices;
         std::cout<<"points_all_scans after merge is "<<points_all_scans.cols()<<std::endl;
 
     }

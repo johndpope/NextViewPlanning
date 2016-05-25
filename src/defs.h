@@ -31,8 +31,8 @@ namespace nvp {
     static std::string MODEL_2_FILENAME = "../models/_cube.ply";
     static std::string MODEL_2_OUTPUT_FILENAME = "../output/_out_cube.ply";
 
-    static std::string MODEL_3_FILENAME = "_bunny.ply";
-    static std::string MODEL_3_OUTPUT_FILENAME = "_out_bunny.ply";
+    static std::string MODEL_3_FILENAME = "../_bunny.ply";
+    static std::string MODEL_3_OUTPUT_FILENAME = "../_out_bunny.ply";
 
     // declares a column-major sparse matrix type of double
     // typedef Eigen::SparseMatrix<double> SparseMatrix;

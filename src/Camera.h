@@ -11,6 +11,8 @@ namespace nvp {
     class Camera {
     public:
         Camera(Eigen::Matrix4d extrinsics);
+        Camera& operator= (const Camera &pSrc);
+        Camera(const Camera&);
         Camera(double rotDegreesX = 0.0,
                double rotDegreesY = 0.0,
                double rotDegreesZ = 0.0,

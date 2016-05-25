@@ -25,7 +25,6 @@ namespace nvp {
         void setPoints(Eigen::MatrixXd& in_pointSet);
         void computeProjectedCoordinates(Camera& camera);
         void applyTransformation(Eigen::Matrix4d transfMat);
-        int write(std::string filename);
         void getCenterXY(double& x, double& y);
         void clipPointsByZ();
         void getCartesianCoordinates(Eigen::MatrixXd& cartCoord);

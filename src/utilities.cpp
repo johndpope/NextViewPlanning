@@ -63,8 +63,9 @@ namespace nvp {
         double yMax = ptsCoord.row(1).maxCoeff();
         double zMin = ptsCoord.row(2).minCoeff();
         double zMax = ptsCoord.row(2).maxCoeff();
-        int widthBuffer = 300;
-        int heightBuffer = 300;
+        // decrease the size of the buffer for smaller meshes
+        int widthBuffer = 100;
+        int heightBuffer = 100;
 
 
         zBuffer = zMax * Eigen::MatrixXd::Ones(widthBuffer, heightBuffer);
@@ -80,7 +81,7 @@ namespace nvp {
                                        widthBuffer - 1);
 
 
-            std::cout<<"currXIdx is "<<currXIdx<<std::endl;
+            //std::cout<<"currXIdx is "<<currXIdx<<std::endl;
 
             currYIdx = getValueInRange(ptsCoord.col(i)[1],
                                        yMin,
@@ -89,18 +90,18 @@ namespace nvp {
                                        heightBuffer - 1);
 
 
-            std::cout<<"currYIdx is "<<currYIdx<<std::endl;
+            //std::cout<<"currYIdx is "<<currYIdx<<std::endl;
 
 
-            std::cout<<"crashes inside isPointCloser -> utilities.cpp : createZBuffer() "<<std::endl;
+            //std::cout<<"crashes inside isPointCloser -> utilities.cpp : createZBuffer() "<<std::endl;
 
-            std::cout<<"zBuffer("<<currXIdx<<","<<currYIdx<<") is "<< zBuffer(currXIdx,currYIdx)<<std::endl;
+            //std::cout<<"zBuffer("<<currXIdx<<","<<currYIdx<<") is "<< zBuffer(currXIdx,currYIdx)<<std::endl;
 
             if(isPointCloser(ptsCoord(2,i),
                              zBuffer(currXIdx,currYIdx)))
             {
 
-                std::cout<<"this never gets printed"<<std::endl;
+                //std::cout<<"this never gets printed"<<std::endl;
                 // save new z depth in the buffer
                 zBuffer(currXIdx,currYIdx) = ptsCoord(2,i);
                 // save the corresponding idx for the point in the idxBuffer

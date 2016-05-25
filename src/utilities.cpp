@@ -67,7 +67,6 @@ namespace nvp {
         int widthBuffer = 100;
         int heightBuffer = 100;
 
-
         zBuffer = zMax * Eigen::MatrixXd::Ones(widthBuffer, heightBuffer);
         idxBuffer = -1 * Eigen::MatrixXd::Ones(widthBuffer, heightBuffer);
 

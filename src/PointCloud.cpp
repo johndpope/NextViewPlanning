@@ -70,6 +70,7 @@ namespace nvp {
         }
         f.close();
         std::cout << "Cloud has been read in" << std::endl;
+
     }
 
     void PointCloud::writeCloud(std::string filename)

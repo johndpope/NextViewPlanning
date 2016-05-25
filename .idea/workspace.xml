@@ -14,14 +14,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c4c6dfac-4425-49e4-a10f-1fabebdb3f2b" name="Default" comment="">
+<<<<<<< HEAD
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Camera.cpp" afterPath="$PROJECT_DIR$/src/Camera.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Camera.h" afterPath="$PROJECT_DIR$/src/Camera.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/PointCloud.cpp" afterPath="$PROJECT_DIR$/src/PointCloud.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/PointCloud.h" afterPath="$PROJECT_DIR$/src/PointCloud.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/defs.h" afterPath="$PROJECT_DIR$/src/defs.h" />
+=======
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scan_3.ply" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scan_4.ply" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scan_5.ply" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reconstruction.ply" afterPath="$PROJECT_DIR$/reconstruction.ply" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scan_1.ply" afterPath="$PROJECT_DIR$/scan_1.ply" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scan_2.ply" afterPath="$PROJECT_DIR$/scan_2.ply" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/PointCloud.cpp" afterPath="$PROJECT_DIR$/src/PointCloud.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/PointCloud.h" afterPath="$PROJECT_DIR$/src/PointCloud.h" />
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.cpp" afterPath="$PROJECT_DIR$/src/main.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utilities.cpp" afterPath="$PROJECT_DIR$/src/utilities.cpp" />
     </list>
     <ignored path="NextViewPlanning.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,35 +56,55 @@
     <favorites_list name="NextViewPlanning" />
   </component>
   <component name="FileEditorManager">
+<<<<<<< HEAD
     <splitter split-orientation="horizontal" split-proportion="0.34567901">
+=======
+    <splitter split-orientation="horizontal" split-proportion="0.4542857">
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
           <file leaf-file-name="PointCloud.h" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/PointCloud.h">
               <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
                 <state relative-caret-position="120">
                   <caret line="20" column="36" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
+=======
+                <state relative-caret-position="550">
+                  <caret line="38" column="7" selection-start-line="38" selection-start-column="7" selection-end-line="38" selection-end-column="7" />
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="utilities.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/utilities.h">
+          <file leaf-file-name="PlainObjectBase.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/lib/Eigen/src/Core/PlainObjectBase.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="330">
-                  <caret line="23" column="16" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
+                <state relative-caret-position="31">
+                  <caret line="135" column="0" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
+<<<<<<< HEAD
           <file leaf-file-name="Camera.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Camera.h">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="243">
                   <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
                   <folding />
+=======
+          <file leaf-file-name="utilities.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/utilities.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="352">
+                  <caret line="64" column="29" selection-start-line="64" selection-start-column="29" selection-end-line="64" selection-end-column="29" />
+                  <folding>
+                    <element signature="e#55#74#0" expanded="true" />
+                  </folding>
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
                 </state>
               </provider>
             </entry>
@@ -82,9 +113,10 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-          <file leaf-file-name="PointCloud.cpp" pinned="false" current-in-tab="false">
+          <file leaf-file-name="PointCloud.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/PointCloud.cpp">
               <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
                 <state relative-caret-position="320">
                   <caret line="285" column="40" selection-start-line="285" selection-start-column="40" selection-end-line="285" selection-end-column="40" />
                   <folding>
@@ -92,6 +124,15 @@
                     <element signature="e#6821#6984#0" expanded="false" />
                     <element signature="e#6991#7981#0" expanded="false" />
                     <element signature="e#7987#8456#0" expanded="false" />
+=======
+                <state relative-caret-position="101">
+                  <caret line="273" column="0" selection-start-line="273" selection-start-column="0" selection-end-line="273" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#55#74#0" expanded="true" />
+                    <element signature="e#5009#5306#0" expanded="false" />
+                    <element signature="e#5312#5444#0" expanded="false" />
+                    <element signature="e#6821#6984#0" expanded="false" />
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
                   </folding>
                 </state>
               </provider>
@@ -110,13 +151,22 @@
           <file leaf-file-name="main.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main.cpp">
               <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
                 <state relative-caret-position="314">
                   <caret line="82" column="54" selection-start-line="82" selection-start-column="54" selection-end-line="82" selection-end-column="54" />
                   <folding />
+=======
+                <state relative-caret-position="84">
+                  <caret line="90" column="27" selection-start-line="90" selection-start-column="27" selection-end-line="90" selection-end-column="27" />
+                  <folding>
+                    <element signature="e#1719#2174#0" expanded="true" />
+                  </folding>
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
                 </state>
               </provider>
             </entry>
           </file>
+<<<<<<< HEAD
           <file leaf-file-name="utilities.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/utilities.cpp">
               <provider selected="true" editor-type-id="text-editor">
@@ -129,6 +179,8 @@
               </provider>
             </entry>
           </file>
+=======
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
         </leaf>
       </split-second>
     </splitter>
@@ -148,10 +200,16 @@
         <option value="$PROJECT_DIR$/src/defs.h" />
         <option value="$PROJECT_DIR$/src/utilities.cpp" />
         <option value="$PROJECT_DIR$/src/Camera.h" />
+        <option value="$PROJECT_DIR$/src/utilities.cpp" />
         <option value="$PROJECT_DIR$/src/PointCloud.h" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/src/Camera.cpp" />
         <option value="$PROJECT_DIR$/src/PointCloud.cpp" />
         <option value="$PROJECT_DIR$/src/main.cpp" />
+=======
+        <option value="$PROJECT_DIR$/src/main.cpp" />
+        <option value="$PROJECT_DIR$/src/PointCloud.cpp" />
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
       </list>
     </option>
   </component>
@@ -162,8 +220,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1280" />
-    <option name="height" value="800" />
+    <option name="x" value="5" />
+    <option name="width" value="1602" />
+    <option name="height" value="900" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -281,6 +340,9 @@
     <configuration default="true" type="CompoundRunConfigurationType" factoryName="Compound Run Configuration">
       <method />
     </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -324,6 +386,22 @@
       <OutputType value="CONSOLE" save-to-file="false" />
       <FileType name="XML" />
       <JdkChoice value="FROM_MODULE" />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run-script" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Attests">
@@ -467,27 +545,40 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
+<<<<<<< HEAD
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09928515" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329235" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.51229507" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+=======
+    <frame x="5" y="0" width="1602" height="900" extended-state="1" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10025707" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329235" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24932249" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3989071" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32328767" sideWeight="0.5059571" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32786885" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46476966" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2494043" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36885247" sideWeight="0.4940429" order="10" side_tool="false" content_ui="tabs" />
+=======
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37398374" sideWeight="0.4940429" order="10" side_tool="false" content_ui="tabs" />
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24932249" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46476966" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329235" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -552,9 +643,15 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#55#74#0" expanded="true" />
+<<<<<<< HEAD
             <element signature="e#6821#6984#0" expanded="false" />
             <element signature="e#6991#7981#0" expanded="false" />
             <element signature="e#7987#8456#0" expanded="false" />
+=======
+            <element signature="e#5009#5306#0" expanded="false" />
+            <element signature="e#5312#5444#0" expanded="false" />
+            <element signature="e#6821#6984#0" expanded="false" />
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
           </folding>
         </state>
       </provider>
@@ -617,9 +714,15 @@
           <caret line="170" column="2" selection-start-line="170" selection-start-column="2" selection-end-line="170" selection-end-column="2" />
           <folding>
             <element signature="e#55#74#0" expanded="true" />
+<<<<<<< HEAD
             <element signature="e#6821#6984#0" expanded="false" />
             <element signature="e#6991#7981#0" expanded="false" />
             <element signature="e#7987#8456#0" expanded="false" />
+=======
+            <element signature="e#5009#5306#0" expanded="false" />
+            <element signature="e#5312#5444#0" expanded="false" />
+            <element signature="e#6821#6984#0" expanded="false" />
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
           </folding>
         </state>
       </provider>
@@ -628,7 +731,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
           <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#56#75#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -678,9 +783,15 @@
           <caret line="51" column="58" selection-start-line="51" selection-start-column="58" selection-end-line="51" selection-end-column="58" />
           <folding>
             <element signature="e#55#74#0" expanded="true" />
+<<<<<<< HEAD
             <element signature="e#6821#6984#0" expanded="false" />
             <element signature="e#6991#7981#0" expanded="false" />
             <element signature="e#7987#8456#0" expanded="false" />
+=======
+            <element signature="e#5009#5306#0" expanded="false" />
+            <element signature="e#5312#5444#0" expanded="false" />
+            <element signature="e#6821#6984#0" expanded="false" />
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
           </folding>
         </state>
       </provider>
@@ -746,9 +857,15 @@
           <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding>
             <element signature="e#55#74#0" expanded="true" />
+<<<<<<< HEAD
             <element signature="e#6821#6984#0" expanded="false" />
             <element signature="e#6991#7981#0" expanded="false" />
             <element signature="e#7987#8456#0" expanded="false" />
+=======
+            <element signature="e#5009#5306#0" expanded="false" />
+            <element signature="e#5312#5444#0" expanded="false" />
+            <element signature="e#6821#6984#0" expanded="false" />
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
           </folding>
         </state>
       </provider>
@@ -800,6 +917,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/defs.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="25" column="40" selection-start-line="25" selection-start-column="40" selection-end-line="25" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
@@ -814,7 +938,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Program Files/mingw-w64/x86_64-5.3.0-posix-seh-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include/c++/bits/ios_base.h" />
+    <entry file="file://C:/Program Files/mingw-w64/x86_64-5.3.0-posix-seh-rt_v4-rev0/mingw64/x86_64-w64-mingw32/include/c++/bits/ios_base.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="45" column="24" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/_bunny.ply">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-176">
@@ -822,17 +952,54 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://D:/School/ICP backup/coursework_icp/src/PlyCube.cpp" />
     <entry file="file://$PROJECT_DIR$/scan_1.ply" />
     <entry file="file://$PROJECT_DIR$/reconstruction.ply" />
     <entry file="file://$PROJECT_DIR$/lib/Eigen/src/Core/PlainObjectBase.h">
+=======
+    <entry file="file://D:/School/ICP backup/coursework_icp/src/PlyCube.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="135" column="0" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
+        <state relative-caret-position="-1122">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utilities.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Camera.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Camera.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="15" column="38" selection-start-line="15" selection-start-column="38" selection-end-line="15" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utilities.cpp">
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="64" column="29" selection-start-line="64" selection-start-column="29" selection-end-line="64" selection-end-column="29" />
+          <folding>
+            <element signature="e#55#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/defs.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="404">
@@ -842,13 +1009,17 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/utilities.h">
+=======
+    <entry file="file://$PROJECT_DIR$/scan_1.ply">
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="23" column="16" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
+        <state relative-caret-position="242">
+          <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/utilities.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="585">
@@ -863,20 +1034,37 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="243">
           <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
+=======
+    <entry file="file://$PROJECT_DIR$/lib/Eigen/src/Core/PlainObjectBase.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="31">
+          <caret line="135" column="0" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/PointCloud.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="20" column="36" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
           <folding />
+=======
+    <entry file="file://$PROJECT_DIR$/src/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="90" column="27" selection-start-line="90" selection-start-column="27" selection-end-line="90" selection-end-column="27" />
+          <folding>
+            <element signature="e#1719#2174#0" expanded="true" />
+          </folding>
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/PointCloud.cpp">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="320">
           <caret line="285" column="40" selection-start-line="285" selection-start-column="40" selection-end-line="285" selection-end-column="40" />
           <folding>
@@ -884,22 +1072,45 @@
             <element signature="e#6821#6984#0" expanded="false" />
             <element signature="e#6991#7981#0" expanded="false" />
             <element signature="e#7987#8456#0" expanded="false" />
+=======
+        <state relative-caret-position="101">
+          <caret line="273" column="0" selection-start-line="273" selection-start-column="0" selection-end-line="273" selection-end-column="0" />
+          <folding>
+            <element signature="e#55#74#0" expanded="true" />
+            <element signature="e#5009#5306#0" expanded="false" />
+            <element signature="e#5312#5444#0" expanded="false" />
+            <element signature="e#6821#6984#0" expanded="false" />
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Camera.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="29" column="40" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="40" />
+=======
+    <entry file="file://$PROJECT_DIR$/reconstruction.ply">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="314">
           <caret line="82" column="54" selection-start-line="82" selection-start-column="54" selection-end-line="82" selection-end-column="54" />
+=======
+    <entry file="file://$PROJECT_DIR$/src/PointCloud.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="38" column="7" selection-start-line="38" selection-start-column="7" selection-end-line="38" selection-end-column="7" />
+>>>>>>> 286a3d879fb1b52624725f464c791ac983d7bb72
           <folding />
         </state>
       </provider>

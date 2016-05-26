@@ -11,10 +11,10 @@
 
 namespace nvp {
 
-
     class PointCloud {
     public:
         PointCloud(std::string filename);
+        PointCloud(Eigen::MatrixXd& in_pcd);
         PointCloud& operator= (const PointCloud &pSrc);
         PointCloud(const PointCloud&);
         ~PointCloud(){}
@@ -24,7 +24,6 @@ namespace nvp {
         void applyTransformation(Eigen::Matrix4d transfMat);
         int write(std::string filename);
         void getCenterXY(double& x, double& y);
-        void clipPointsByZ();
         void getCartesianCoordinates(Eigen::MatrixXd& cartCoord);
         void computeWorldCoordinates(Camera& camera);
         void computeNearestProjectedPts(Camera &camera);

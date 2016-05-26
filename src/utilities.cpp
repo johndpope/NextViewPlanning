@@ -4,7 +4,6 @@
 #include <iostream>
 #include "defs.h"
 #include "utilities.h"
-#include <vector>
 
 
 namespace nvp {
@@ -37,15 +36,15 @@ namespace nvp {
     }
 
     int getValueInRange(double value,
-                           double currentMin,
-                           double currentMax,
-                           double rangeMin,
-                           double rangeMax) {
+                        double currentMin,
+                        double currentMax,
+                        double rangeMin,
+                        double rangeMax) {
         // This function brings the *value* which is in the range [currentMin, currentMax]
         // into [rangeMin,rangeMax]
 
         return int((rangeMin + ((rangeMax - rangeMin) *
-                (value - currentMin)) / (currentMax - currentMin)));
+                                (value - currentMin)) / (currentMax - currentMin)));
     }
 
     bool isPointCloser(double newZ, double currentZ) {
@@ -55,22 +54,16 @@ namespace nvp {
     void createZBuffer(Eigen::MatrixXd &ptsCoord,
                        Eigen::MatrixXd &zBuffer,
                        Eigen::MatrixXd &idxBuffer,
-                       long& numNearestPts) {
+                       long &numNearestPts) {
         numNearestPts = 0;
-        // if steps = 1, it might lead to stack overflow
-        // => we need better memory management
-        // => the use sparse matrices for the zBufffer and the idxBuffer
-        //double steps = 500.0;
         double xMin = ptsCoord.row(0).minCoeff();
         double xMax = ptsCoord.row(0).maxCoeff();
         double yMin = ptsCoord.row(1).minCoeff();
         double yMax = ptsCoord.row(1).maxCoeff();
         double zMin = ptsCoord.row(2).minCoeff();
         double zMax = ptsCoord.row(2).maxCoeff();
-        int widthBuffer = 200;
-        //std::floor(std::abs(xMax - xMin) / steps);
-        int heightBuffer = 200;
-        //std::floor(std::abs(yMax - yMin) / steps);
+        int widthBuffer = ZBUFFER_SIDE;
+        int heightBuffer = ZBUFFER_SIDE;
 
         zBuffer = zMax * Eigen::MatrixXd::Ones(widthBuffer, heightBuffer);
         idxBuffer = -1 * Eigen::MatrixXd::Ones(widthBuffer, heightBuffer);
@@ -88,14 +81,13 @@ namespace nvp {
                                        0,
                                        heightBuffer - 1);
 //            std::cout << "xIdx = " << currXIdx << " & yIdx = " << currYIdx << std::endl;
-            if(isPointCloser(ptsCoord(2,i),
-                             zBuffer(currXIdx,currYIdx)))
-            {
+            if (isPointCloser(ptsCoord(2, i),
+                              zBuffer(currXIdx, currYIdx))) {
                 // save new z depth in the buffer
-                zBuffer(currXIdx,currYIdx) = ptsCoord(2,i);
+                zBuffer(currXIdx, currYIdx) = ptsCoord(2, i);
                 // save the corresponding idx for the point in the idxBuffer
-                idxBuffer(currXIdx,currYIdx) = i;
-                numNearestPts ++;
+                idxBuffer(currXIdx, currYIdx) = i;
+                numNearestPts++;
             }
         }
     }
@@ -108,79 +100,33 @@ namespace nvp {
                       zBuffer,
                       idxBuffer,
                       numNearestPts);
-        out_nearestProjectedPts = Eigen::MatrixXd::Zero(3,numNearestPts);
+        out_nearestProjectedPts = Eigen::MatrixXd::Zero(3, numNearestPts);
         long colIdx = 0;
 
-        for( int i = 0; i < idxBuffer.rows(); i++)
-        {
-            for( int j = 0; j < idxBuffer.cols(); j++)
-            {
-                if (idxBuffer(i,j) != -1)
-                {
-                    out_nearestProjectedPts.col(colIdx) = projectedPts.col(idxBuffer(i,j));
-                    colIdx ++;
+        for (int i = 0; i < idxBuffer.rows(); i++) {
+            for (int j = 0; j < idxBuffer.cols(); j++) {
+                if (idxBuffer(i, j) != -1) {
+                    out_nearestProjectedPts.col(colIdx) = projectedPts.col(idxBuffer(i, j));
+                    colIdx++;
                 }
             }
         }
 
     }
 
+    void mergePointClouds(PointCloud &pc1, PointCloud &pc2, Eigen::MatrixXd &out_pointSet) {
+        // Author: Karina Mady
 
+        Eigen::MatrixXd pc1_pointSet, pc2_pointSet;
+        pc1.getPoints(pc1_pointSet);
+        pc2.getPoints(pc2_pointSet);
 
+        out_pointSet = Eigen::MatrixXd::Zero(3, pc1.m_numPoints + pc2.m_numPoints);
+        out_pointSet << pc1_pointSet, pc2_pointSet;
 
-//    bool isZBiggerThan(Eigen::Vector3d &vec1, Eigen::Vector3d &vec2) {
-//        return (vec1[2] > vec2[2]);
-//    }
-//
-//    void swapVectors(Eigen::Vector3d &vec1, Eigen::Vector3d &vec2) {
-////        std::cout << vec1 << std::endl << vec2 << std::endl;
-//        Eigen::Vector3d aux = vec1;
-//        vec1 = vec2;
-//        vec2 = aux;
-////        std::cout << vec1 << std::endl << vec2 << std::endl;
-//    }
-
-
-//    Eigen::MatrixXd sortMatrixByZ(Eigen::MatrixXd& coordMat) {
-////        std::cout << "Before:\n";
-////        std::cout << coordMat << std::endl;
-//
-//        if (coordMat.size() == 0) {
-//            std::cerr << "ERROR! Utilities.cpp: Empty matrix \n";
-//            throw ERROR;
-//        }
-//        std::cout << "Matrix size = " << coordMat.size() << std::endl;
-//        double numPts = coordMat.cols();
-//        double numCoord = coordMat.rows();
-//
-//        if (numCoord != 3) {
-//            std::cerr << "ERROR! Utilities.cpp: Each column should have 3 coord: x,y,z \n";
-//            throw ERROR;
-//        }
-//
-//
-//
-//
-////        bool swapped = true;
-////        while (swapped) {
-////            swapped = false;
-////            for (int i = 1; i < numPts; i++) {
-////                Eigen::Vector3d prevPoint = coordMat.col(i - 1);
-////                Eigen::Vector3d curPoint = coordMat.col(i);
-////
-////                if (isZBiggerThan(prevPoint, curPoint)) {
-////                    swapVectors(prevPoint, curPoint);
-////                    coordMat.col(i - 1) = prevPoint;
-////                    coordMat.col(i) = curPoint;
-////                    swapped = true;
-////                }
-////            }
-////            numPts --;
-////        }
-////        std::cout << "After:\n";
-////        std::cout << coordMat << std::endl;
-//        return coordMat;
-//    }
+        std::cout << "Merged pc1 (" << pc1.m_numPoints <<
+        ") with pc2(" << pc2.m_numPoints << ")\n";
+    }
 
 
 } //namespace nvp

@@ -8,11 +8,6 @@
 
 
 namespace nvp {
-//    struct eigenVecZComp{
-//        bool operator()(const Eigen::Vector3d &vec1, const Eigen::Vector3d &vec2){
-//            return vec1[2] > vec1[2];
-//        }
-//    } ComparisonFunc;
 
     PointCloud::PointCloud(std::string filename) {
         MyMesh mesh;
@@ -31,6 +26,10 @@ namespace nvp {
             m_vertices.col(colIdx) = thisEVert;
             colIdx++;
         }
+    }
+    PointCloud::PointCloud(Eigen::MatrixXd& in_pcd) {
+        m_vertices = in_pcd;
+        m_numPoints = in_pcd.cols();
     }
 
     void PointCloud::getPoints(Eigen::MatrixXd &out_pointSet) {
@@ -131,30 +130,6 @@ namespace nvp {
         y = meanP[1];
     }
 
-
-    void PointCloud::clipPointsByZ() {
-        double minZ = m_vertices.row(2).minCoeff();
-        double maxZ = m_vertices.row(2).maxCoeff();
-//        std::cout << "Camera - PointCloud: Min distance = " << minZ << std::endl;
-//        std::cout << "Camera - PointCloud: Max distance = " << maxZ << std::endl;
-
-        double threshold = minZ + std::abs(maxZ - minZ) / 2.0;
-//      std::cout << "Camera - PointCloud: Threshold = " << threshold << std::endl;
-
-        Eigen::MatrixXd clippedPoints(Eigen::MatrixXd::Zero(3,m_numPoints));
-        long colIdx = 0;
-        std::cout << "Remove points that are further away than the threshold: " << threshold << std::endl;
-
-        for (int i = 0; i < m_vertices.cols(); i++) {
-            if (m_vertices.col(i)[2] < threshold) {
-                clippedPoints.col(colIdx) = m_vertices.col(i);
-                colIdx ++;
-            }
-        }
-        m_vertices = clippedPoints.block(0,0,3,colIdx-1);
-        m_numPoints = m_vertices.cols();
-    }
-
     void PointCloud::getCartesianCoordinates(Eigen::MatrixXd &cartCoord) {
         cartCoord = Eigen::MatrixXd::Zero(2, m_numPoints);
 
@@ -203,18 +178,6 @@ namespace nvp {
     }
 
 
-
-
-
-
-
-
-
-//    void PointCloud::demeanPointCloud() {
-//        Eigen::Vector3d meanP = m_vertices.colwise().mean();
-//
-//        m_vertices = m_vertices - meanP.replicate(1,m_numPoints);
-//    }
 
 
 }//namespace nvp

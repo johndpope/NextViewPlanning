@@ -17,7 +17,7 @@ namespace nvp {
                double translX = 0.0,
                double translY = 0.0,
                double translZ = 0.0,
-               double focalLength = 1000,
+               double focalLength = FOCAL_LENGTH,
                double offsetXY = IMAGEPLANE_SIZE/2);
 
         void getCameraTransform(Eigen::Matrix4d& camTransf);
@@ -28,7 +28,7 @@ namespace nvp {
         Eigen::Matrix4d m_cameraTransf;
         Eigen::Matrix4d m_intrinsics;
         Eigen::Matrix4d m_extrinsics;
-        double m_focalLengthxy = 1000;
+        double m_focalLengthxy = FOCAL_LENGTH;
         double m_offsetXY = IMAGEPLANE_SIZE/2;
 
 

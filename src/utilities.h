@@ -7,6 +7,7 @@
 
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
+#include "PointCloud.h"
 
 namespace nvp {
     Eigen::Matrix4d createRotationMatrix(double rotRadiansX,
@@ -16,11 +17,9 @@ namespace nvp {
     void getNearestPointsToCamera(Eigen::MatrixXd &projectedPts,
                                   Eigen::MatrixXd &out_nearestProjectedPts);
 
-//    Eigen::MatrixXd sortMatrixByZ(Eigen::MatrixXd& coordMat);
-//
-//    bool isZBiggerThan(Eigen::Vector3d &vec1, Eigen::Vector3d &vec2);
-//
-//    void swapVectors(Eigen::Vector3d &vec1, Eigen::Vector3d &vec2);
+    void mergePointClouds(PointCloud& pc1,
+                          PointCloud& pc2,
+                          Eigen::MatrixXd& out_pointSet);
 }//namespace nvp
 
 

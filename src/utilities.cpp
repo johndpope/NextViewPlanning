@@ -54,7 +54,7 @@ namespace nvp {
     void createZBuffer(Eigen::MatrixXd &ptsCoord,
                        Eigen::MatrixXd &zBuffer,
                        Eigen::MatrixXd &idxBuffer,
-                       long &numNearestPts) {
+                       int &numNearestPts) {
         numNearestPts = 0;
         double xMin = ptsCoord.row(0).minCoeff();
         double xMax = ptsCoord.row(0).maxCoeff();
@@ -86,22 +86,26 @@ namespace nvp {
                 // save new z depth in the buffer
                 zBuffer(currXIdx, currYIdx) = ptsCoord(2, i);
                 // save the corresponding idx for the point in the idxBuffer
+                if (idxBuffer(currXIdx, currYIdx) == -1)
+                    numNearestPts++;
                 idxBuffer(currXIdx, currYIdx) = i;
-                numNearestPts++;
+
             }
         }
+        numNearestPts --;
+
     }
 
     void getNearestPointsToCamera(Eigen::MatrixXd &projectedPts,
                                   Eigen::MatrixXd &out_nearestProjectedPts) {
         Eigen::MatrixXd zBuffer, idxBuffer;
-        long numNearestPts = 0;
+        int numNearestPts = 0;
         createZBuffer(projectedPts,
                       zBuffer,
                       idxBuffer,
                       numNearestPts);
         out_nearestProjectedPts = Eigen::MatrixXd::Zero(3, numNearestPts);
-        long colIdx = 0;
+        int colIdx = 0;
 
         for (int i = 0; i < idxBuffer.rows(); i++) {
             for (int j = 0; j < idxBuffer.cols(); j++) {

@@ -5,5 +5,6 @@ bin/*
 output/*
 models/*
 .DS_Store
+.idea/*
 
 .idea/*

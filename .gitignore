@@ -2,7 +2,9 @@
 build/*
 bin/*
 #lib/Eigen/*
-#output/*
+output/*
+models/*
+.idea/*
 .DS_Store
 
 .idea/*

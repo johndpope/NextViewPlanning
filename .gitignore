@@ -6,5 +6,6 @@ output/*
 models/*
 .idea/*
 .DS_Store
+.idea/*
 
 .idea/*

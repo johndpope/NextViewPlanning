@@ -4,6 +4,8 @@
 #include <iostream>
 #include "defs.h"
 #include "utilities.h"
+#include "converter.h"
+#include <stdlib.h>
 
 
 namespace nvp {
@@ -176,6 +178,79 @@ namespace nvp {
         std::cout << "Found " << numberDuplicates << " duplicates" << std::endl;
         std::cout << "The reconstruction matrix after merge has "
         << points_all_scans.cols() << " points" << std::endl;
+    }
+
+    void computeNormals(Eigen::MatrixXd &pEIG,
+                        Eigen::MatrixXd &pNormals,
+                        int kNN) // set to 10 as a default
+    {
+        int nPts = int(pEIG.cols()); // actual number of data points
+        // int k = 0; //num of NN to return
+        int dim = 3; // number of dimensions
+        double eps = 0.0; // eps value for the kd search
+        ANNdist sqRad = 0.00005; // returns around 250 - 350 neighbours
+
+        ANNpointArray pANN; // fixed point set
+        ANNpoint queryP;// query point
+        ANNidxArray nnIdx; // near neighbor indices
+        ANNdistArray dists; // near neighbor distances
+        ANNkd_tree *kdTree; // search structure
+
+        pANN = convertEigenMatToANNarray(pEIG);
+        queryP = annAllocPt(dim);
+        nnIdx = new ANNidx[kNN];
+        dists = new ANNdist[kNN];
+        kdTree = new ANNkd_tree(pANN, nPts, dim);
+        // search for the closest neighbour in the kdtree
+        // nPts = 1;
+        for (int i = 0; i < nPts; i++) {
+            // std::cout << "*** i = " << i << std::endl;
+            Eigen::VectorXd thisPoint = pEIG.col(i);
+            queryP = convertEigenVecToANNpoint(thisPoint);
+            // approx fixed-radius kNN search
+
+            // how many points are in my sqRad search?
+            int numNN = kdTree->annkFRSearch(queryP, sqRad, 0);
+
+            if (numNN > kNN) {
+                kdTree->annkFRSearch(queryP, sqRad, kNN, nnIdx, dists, eps);
+
+                // my local point cloud is
+                Eigen::MatrixXd pLocal(3, kNN);
+                for (int j = 0; j < kNN; j++) {
+                    pLocal.col(j) = pEIG.col(nnIdx[j]);
+                }
+//                Eigen::Vector3d meanPLocal(pLocal.row(0).mean(), pLocal.row(1).mean(), pLocal.row(2).mean());
+                Eigen::Vector3d meanPLocal = pLocal.rowwise().mean();
+                Eigen::MatrixXd diff_p = pLocal - meanPLocal.replicate(1, kNN);
+
+                // std::cout << "*** pLocal = " << pLocal <<  "\n";
+                Eigen::Matrix3d qMat(Eigen::Matrix3d::Zero());
+                for (int j = 0; j < kNN; j++) {
+                    qMat += pLocal.col(j) * pLocal.col(j).transpose();
+                }
+                // qMat = qMat * (1/kNN); // normalize the cov matrix
+
+                Eigen::JacobiSVD<Eigen::MatrixXd> svd(qMat, Eigen::ComputeFullU | Eigen::ComputeFullV);
+
+                // Eigen::EigenSolver<Eigen::Matrix3d> es(qMat);
+                // std::cout << "The eigenvalues of A are:" << std::endl << es.eigenvalues() << std::endl;
+                // std::cout << "The singular values of A are:" << std::endl << svd.singularValues() << std::endl;
+                // std::cout << "Its right singular vectors are the columns of the full V matrix:" << std::endl << svd.matrixV() << std::endl;
+
+                // singular values are always sorted in decreasing order!
+                Eigen::Vector3d normalVec = svd.matrixV().col(2);
+                normalVec.normalize();
+                pNormals.col(i) = normalVec;
+            } // else increase the search radius
+
+        }
+        delete[] nnIdx;
+        delete[] dists;
+        delete kdTree;
+        annDeallocPts(pANN);
+        annDeallocPt(queryP);
+        annClose(); // deallocate any shared memory used for the kd search
     }
 
 

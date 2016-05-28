@@ -8,6 +8,8 @@
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 #include "PointCloud.h"
+#include "ANN/ANN.h"
+
 
 namespace nvp {
     Eigen::Matrix4d createRotationMatrix(double rotRadiansX,
@@ -22,8 +24,12 @@ namespace nvp {
                           Eigen::MatrixXd& out_pointSet);
     void mergePointCloudsNoDuplicates(PointCloud& pc,
                                       Eigen::MatrixXd &points_all_scans);
+    void computeNormals(Eigen::MatrixXd& pEIG,
+                        Eigen::MatrixXd& pNormals,
+                        int kNN = 10);
 
-    }//namespace nvp
+
+}//namespace nvp
 
 
 #endif //NEXTVIEWPLANNING_UTILITIES_H

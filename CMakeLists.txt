@@ -20,7 +20,11 @@ find_package(OpenMesh REQUIRED)
 include_directories(${OPENMESH_INCLUDE_DIR})
 link_directories(${OPENMESH_LIBRARY_DIR})
 
-#message(${OPENMESH_FOUND})
+find_package(ANN REQUIRED)
+include_directories(${ANN_INCLUDE_DIR})
+link_directories(${ANN_LIBRARY_DIR})
+
+#message(${ANN_FOUND})
 #message(${OPENMESH_LIBRARIES})
 
 include_directories(src)
@@ -33,6 +37,6 @@ set(SOURCE_FILES src/main.cpp src/PointCloud.cpp
 add_library(nvp_library ${SOURCE_FILES})
 
 add_executable(nextViewPlanning src/main.cpp)
-target_link_libraries(nextViewPlanning nvp_library ${OPENMESH_LIBRARIES})
+target_link_libraries(nextViewPlanning nvp_library ${ANN_LIBRARY} ${OPENMESH_LIBRARIES})
 
 install (TARGETS nextViewPlanning DESTINATION ${PROJECT_SOURCE_DIR}/bin)

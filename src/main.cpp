@@ -4,15 +4,91 @@
 #include "utilities.h"
 #include "Camera.h"
 #include <Eigen/Dense>
+#include <vector>
 #include "NextBestView.h"
 
 
 using namespace nvp;
 void testFramework();
+void testFrameworkForMultipleScans();
+void testNormalComputation();
+
 
 
 int main() {
     //testFramework();
+    //testFrameworkForMultipleScans();
+    testNormalComputation();
+
+    //****************************************************************
+//    int numberMesh;
+//    std::cout << "Enter <1> for the armadillo or <2> for the bunny mesh: \n";
+//    std::cin >> numberMesh;
+//
+//    if (numberMesh != 1 && numberMesh != 2) {
+//        std::cout << "Please enter <1> or <2> \n";
+//        std::cin >> numberMesh;
+//    }
+//
+//    std::cout << "Reading 3D model..." << std::endl;
+//    // read bunny by default - fewer points
+//    PointCloud originalPCD(MODEL_3_FILENAME);
+//    if(numberMesh == 1){
+//        // read armadillo mesh
+//        originalPCD = PointCloud(MODEL_1_FILENAME);
+//    }
+//    //read point cloud in
+//    std::cout << originalPCD.m_numPoints << " point read" << std::endl;
+//    originalPCD.setNormals();
+//
+//    //vector of cameras
+//    std::vector<Camera> scans;
+//    //generate the k given scans
+//
+//
+//    //compute the NBV
+//
+//
+//    //evaluate current NBV against the original mesh
+//
+//
+////    Eigen::MatrixXd mergedScans;
+////    getEstimatedReconstruction(scans, mergedScans);
+////
+////    std::string filenameEstimPCD = "../output/estimatedPCD.ply";
+////    PointCloud estimatedPCD(mergedScans);
+////    estimatedPCD.write(filenameEstimPCD);
+////
+////    std::cout << "Quality check..." << std::endl;
+////    compareOriginalWithReconstruction(originalPCD, estimatedPCD);
+//
+//    std::cout << "Writing 3D model to output folder..." << std::endl;
+//    if(numberMesh == 1){
+//        // write armadillo mesh
+//        originalPCD.write(MODEL_1_OUTPUT_FILENAME);
+//    }
+//    else
+//    {
+//        originalPCD.write(MODEL_3_OUTPUT_FILENAME);
+//    }
+//
+//    std::cout << "Done!\n";
+
+    return SUCCESS;
+}
+
+void testNormalComputation(){
+    PointCloud originalPCD("../output/estimated_scan_1.ply");
+    //read point cloud in
+    std::cout << originalPCD.m_numPoints << " point read" << std::endl;
+    originalPCD.setNormals();
+
+    std::cout << "Writing 3D model to output folder..." << std::endl;
+    originalPCD.write("../output/estimated_scan_1_withNormals.ply");
+    std::cout << "Done!\n";
+}
+
+void testFrameworkForMultipleScans(){
     int numberMesh;
     std::cout << "Enter <1> for the armadillo or <2> for the bunny mesh: \n";
     std::cin >> numberMesh;
@@ -51,8 +127,6 @@ int main() {
     compareOriginalWithReconstruction(originalPCD, estimatedPCD);
 
     std::cout << "Magic!";
-
-    return SUCCESS;
 }
 
 void testFramework(){

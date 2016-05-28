@@ -20,15 +20,16 @@ namespace nvp {
 
         for (MyMesh::VertexIter v_it = mesh.vertices_begin();
              v_it != mesh.vertices_end(); ++v_it) {
-            OpenMesh::Vec3d thisOMVert = mesh.point(*v_it);
+            MyTraits::Point thisOMVert = mesh.point(*v_it);
             Eigen::Vector3d thisEVert = convertOMVecToEIGENVec(thisOMVert);
 
             m_vertices.col(colIdx) = thisEVert;
             colIdx++;
         }
-       // std::cout << m_numPoints << " point read" << std::endl;
+        // std::cout << m_numPoints << " point read" << std::endl;
     }
-    PointCloud::PointCloud(Eigen::MatrixXd& in_pcd) {
+
+    PointCloud::PointCloud(Eigen::MatrixXd &in_pcd) {
         m_vertices = in_pcd;
         m_numPoints = in_pcd.cols();
     }
@@ -47,14 +48,37 @@ namespace nvp {
     int PointCloud::write(std::string filename) {
         MyMesh mesh;
         uint32_t colIdx = 0;
+        bool NORMALS = (m_normals.cols() != 0);
+
         for (int i = 0; i < m_numPoints; i++) {
-            OpenMesh::Vec3d thisVert = convertEIGENVecToOMVec(m_vertices.col(colIdx));
+            MyTraits::Point thisVert = convertEIGENVecToOMVec(m_vertices.col(colIdx));
             mesh.add_vertex(thisVert);
+
             colIdx++;
         }
-        std::cout << mesh.n_vertices() << " points written\n";
 
-        if (!OpenMesh::IO::write_mesh(mesh, filename)) {
+        if (NORMALS) {
+            colIdx = 0;
+            for (MyMesh::VertexIter v_it = mesh.vertices_begin();
+                 v_it != mesh.vertices_end(); ++v_it) {
+                Eigen::Vector3d thisNormal = m_normals.col(colIdx);
+                thisNormal.normalize();
+                MyTraits::Normal thisOMNormal = convertEIGENVecToOMVec(thisNormal);
+                // m_mesh.set_point( *v_it, thisOMVert);
+                mesh.set_normal(*v_it, thisOMNormal);
+                colIdx++;
+            }
+        }
+        std::cout << mesh.n_vertices() << " points written";
+
+        OpenMesh::IO::Options wopt;
+        if (mesh.has_vertex_normals()) {
+            std::cout << " with normals";
+            wopt += OpenMesh::IO::Options::VertexNormal;
+        }
+        std::cout << std::endl;
+
+        if (!OpenMesh::IO::write_mesh(mesh, filename, wopt)) {
             std::cerr << "Error: cannot write mesh to " << filename << std::endl;
             return ERROR;
         }
@@ -178,7 +202,14 @@ namespace nvp {
 
     }
 
-
+    void PointCloud::setNormals() {
+        int kNN = 10;
+        Eigen::MatrixXd myNormals(3, m_numPoints);
+        computeNormals(m_vertices, myNormals, kNN);
+        m_normals = myNormals;
+        //std::cout << "Normals computed = " << m_normals.cols() << std::endl;
+        //std::cout << "Example:\n" << m_normals.block(0, 0, 3, 10) << std::endl;
+    }
 
 
 }//namespace nvp

@@ -27,11 +27,14 @@ namespace nvp {
         void getCartesianCoordinates(Eigen::MatrixXd& cartCoord);
         void computeWorldCoordinates(Camera& camera);
         void computeNearestProjectedPts(Camera &camera);
+        void setNormals();
 
         double computeRadiusFromCentroid();
         long m_numPoints;
     private:
         Eigen::MatrixXd m_vertices; // 3xnumPoints
+        Eigen::MatrixXd m_normals; // 3xnumPoints
+
 
 
     };

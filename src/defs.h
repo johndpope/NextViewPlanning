@@ -7,8 +7,6 @@
 
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
-
-
 #include <OpenMesh/Core/IO/MeshIO.hh>
 #include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
 
@@ -16,9 +14,8 @@ namespace nvp {
     struct MyTraits: public OpenMesh::DefaultTraits
     {
         typedef OpenMesh::Vec3d Point;
-//        typedef OpenMesh::Vec3d Normal;
-//        VertexAttributes( OpenMesh::Attributes::Normal |
-//                          OpenMesh::Attributes::Color );
+        typedef OpenMesh::Vec3d Normal;
+        VertexAttributes( OpenMesh::Attributes::Normal);
 //        FaceAttributes( OpenMesh::Attributes::Normal | OpenMesh::Attributes::Color );
     };
     typedef OpenMesh::TriMesh_ArrayKernelT<MyTraits>  MyMesh;

@@ -18,10 +18,10 @@ void testNormalComputation();
 int main() {
     //testFramework();
     //testFrameworkForMultipleScans();
-    testNormalComputation();
+    //testNormalComputation();
 
     //****************************************************************
-//    int numberMesh;
+    int numberMesh = 2;
 //    std::cout << "Enter <1> for the armadillo or <2> for the bunny mesh: \n";
 //    std::cin >> numberMesh;
 //
@@ -29,50 +29,62 @@ int main() {
 //        std::cout << "Please enter <1> or <2> \n";
 //        std::cin >> numberMesh;
 //    }
+
+    std::cout << "Reading 3D model..." << std::endl;
+    // read bunny by default - fewer points
+    PointCloud originalPCD(MODEL_3_FILENAME);
+    if(numberMesh == 1){
+        // read armadillo mesh
+        originalPCD = PointCloud(MODEL_1_FILENAME);
+    }
+    //read point cloud in
+    std::cout << originalPCD.m_numPoints << " point read" << std::endl;
+    originalPCD.setNormals();
+
+    //generate the k given scan positions
+    int kPositions = 3;
+    std::vector<Camera> kCameraPositions;
+    Eigen::VectorXd degreesYRotation(kPositions);
+    degreesYRotation << 10,40,270;
+    getScanPositions(originalPCD,degreesYRotation,kCameraPositions);
+
+    //get candidate views for the NBV
+    Eigen::VectorXd candidateYRotDegrees;
+    int noCandidates = 0;
+    getCandidateViews(kCameraPositions,
+                      candidateYRotDegrees);
+
+    // compute score for each new view
+    Eigen::VectorXd scoresCandidateViews;
+    evaluateEachCandidateView(originalPCD,
+                              kCameraPositions,
+                              candidateYRotDegrees,
+                              scoresCandidateViews);
+
+    //evaluate current NBV against the original mesh
+
+
+//    Eigen::MatrixXd mergedScans;
+//    getEstimatedReconstruction(scans, mergedScans);
 //
-//    std::cout << "Reading 3D model..." << std::endl;
-//    // read bunny by default - fewer points
-//    PointCloud originalPCD(MODEL_3_FILENAME);
-//    if(numberMesh == 1){
-//        // read armadillo mesh
-//        originalPCD = PointCloud(MODEL_1_FILENAME);
-//    }
-//    //read point cloud in
-//    std::cout << originalPCD.m_numPoints << " point read" << std::endl;
-//    originalPCD.setNormals();
+//    std::string filenameEstimPCD = "../output/estimatedPCD.ply";
+//    PointCloud estimatedPCD(mergedScans);
+//    estimatedPCD.write(filenameEstimPCD);
 //
-//    //vector of cameras
-//    std::vector<Camera> scans;
-//    //generate the k given scans
-//
-//
-//    //compute the NBV
-//
-//
-//    //evaluate current NBV against the original mesh
-//
-//
-////    Eigen::MatrixXd mergedScans;
-////    getEstimatedReconstruction(scans, mergedScans);
-////
-////    std::string filenameEstimPCD = "../output/estimatedPCD.ply";
-////    PointCloud estimatedPCD(mergedScans);
-////    estimatedPCD.write(filenameEstimPCD);
-////
-////    std::cout << "Quality check..." << std::endl;
-////    compareOriginalWithReconstruction(originalPCD, estimatedPCD);
-//
-//    std::cout << "Writing 3D model to output folder..." << std::endl;
-//    if(numberMesh == 1){
-//        // write armadillo mesh
-//        originalPCD.write(MODEL_1_OUTPUT_FILENAME);
-//    }
-//    else
-//    {
-//        originalPCD.write(MODEL_3_OUTPUT_FILENAME);
-//    }
-//
-//    std::cout << "Done!\n";
+//    std::cout << "Quality check..." << std::endl;
+//    compareOriginalWithReconstruction(originalPCD, estimatedPCD);
+
+    std::cout << "Writing 3D model to output folder..." << std::endl;
+    if(numberMesh == 1){
+        // write armadillo mesh
+        originalPCD.write(MODEL_1_OUTPUT_FILENAME);
+    }
+    else
+    {
+        originalPCD.write(MODEL_3_OUTPUT_FILENAME);
+    }
+
+    std::cout << "Done!\n";
 
     return SUCCESS;
 }

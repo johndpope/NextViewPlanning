@@ -20,6 +20,9 @@ namespace nvp {
                    double translZ,
                    double focalLength,
                    double offsetXY) {
+        m_degreesXRot = rotDegreesX;
+        m_degreesYRot = rotDegreesY;
+        m_degreesZRot = rotDegreesZ;
         m_focalLengthxy = focalLength;
         m_offsetXY = offsetXY;
         setCameraIntrinsics(m_focalLengthxy,m_offsetXY);
@@ -48,6 +51,38 @@ namespace nvp {
         m_intrinsics(1,2) = offsets; // offset y
         m_intrinsics(0,0) = focalLength; // focal length x
         m_intrinsics(1,1) = focalLength; // focal length y
+    }
+
+    double Camera::getRotationYDegrees() {
+        return m_degreesYRot;
+    }
+
+    Camera &Camera::operator=(const Camera &pSrc) {
+// check for self - assignment
+        if (this == &pSrc)
+            return *this;
+
+        m_degreesXRot = pSrc.m_degreesXRot;
+        m_degreesYRot = pSrc.m_degreesYRot;
+        m_degreesZRot = pSrc.m_degreesZRot;
+        m_cameraTransf = pSrc.m_cameraTransf;
+        m_intrinsics = pSrc.m_intrinsics;
+        m_extrinsics = pSrc.m_extrinsics;
+        m_focalLengthxy = pSrc.m_focalLengthxy;
+        m_offsetXY = pSrc.m_offsetXY;
+
+        // return the existing object
+        return *this;    }
+
+    Camera::Camera(const Camera &pSrc) {
+        m_degreesXRot = pSrc.m_degreesXRot;
+        m_degreesYRot = pSrc.m_degreesYRot;
+        m_degreesZRot = pSrc.m_degreesZRot;
+        m_cameraTransf = pSrc.m_cameraTransf;
+        m_intrinsics = pSrc.m_intrinsics;
+        m_extrinsics = pSrc.m_extrinsics;
+        m_focalLengthxy = pSrc.m_focalLengthxy;
+        m_offsetXY = pSrc.m_offsetXY;
     }
 
 

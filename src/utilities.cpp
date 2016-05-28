@@ -138,9 +138,9 @@ namespace nvp {
         // Author: Karina Mady
         Eigen::MatrixXd currentPointSet;
         pc.getPoints(currentPointSet);
-        std::cout << "The current scan matrix has " << currentPointSet.cols() << " points" << std::endl;
-        std::cout << "The reconstruction matrix before this merge has "
-        << points_all_scans.cols() << " points" << std::endl;
+        //std::cout << "The current scan matrix has " << currentPointSet.cols() << " points" << std::endl;
+        //std::cout << "The reconstruction matrix before this merge has "
+        //<< points_all_scans.cols() << " points" << std::endl;
 
         Eigen::MatrixXd unique_m_vertices(3, currentPointSet.cols());
         int pIdx = 0;
@@ -175,9 +175,9 @@ namespace nvp {
         Eigen::MatrixXd temporaryMat(3, points_all_scans.cols() + pIdx);
         temporaryMat << points_all_scans, unique_m_vertices.block(0, 0, 3, pIdx);
         points_all_scans = temporaryMat;
-        std::cout << "Found " << numberDuplicates << " duplicates" << std::endl;
-        std::cout << "The reconstruction matrix after merge has "
-        << points_all_scans.cols() << " points" << std::endl;
+//        std::cout << "Found " << numberDuplicates << " duplicates" << std::endl;
+//        std::cout << "The reconstruction matrix after merge has "
+//        << points_all_scans.cols() << " points" << std::endl;
     }
 
     void computeNormals(Eigen::MatrixXd &pEIG,

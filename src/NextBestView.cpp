@@ -38,7 +38,7 @@ namespace nvp {
 
         for (auto camNo = 0; camNo < num_scans; camNo++) {
             rotationY_deg += degrees_input;
-            std::cout << "Scan: " << camNo << " & Rotation y = " << rotationY_deg << std::endl;
+            std::cout << "Scan: " << camNo+1 << " & Rotation y = " << rotationY_deg << std::endl;
 
             // transform the original point cloud by the yDegrees
             PointCloud pcTransformed(pc);
@@ -67,7 +67,6 @@ namespace nvp {
     void getEstimatedReconstruction(std::vector<Camera> const &scans,
                                     Eigen::MatrixXd &out_mergedScans){
         // Author: Karina Mady
-        PointCloud reconstructedPCD(out_mergedScans);
         Eigen::MatrixXd points_all_scans;
 
         std::cout << "\nStarting PCD reconstruction..." << std::endl;
@@ -86,13 +85,9 @@ namespace nvp {
             //std::cout << "Writing file " << outputFile << std::endl;
             currentPCD.write(outputFile);
 
-            //this function takes each point cloud and concatenates them into a single matrix
-            //this can be improved to avoid duplicate point being written
-
-            mergePointClouds(reconstructedPCD,
-                             currentPCD,
-                             points_all_scans);
-            reconstructedPCD.setPoints(points_all_scans);
+            //this function takes each point cloud and concatenates them
+            // into a single matrix with no duplicates
+            mergePointCloudsNoDuplicates(currentPCD,points_all_scans);
         }
         out_mergedScans = points_all_scans;
     }

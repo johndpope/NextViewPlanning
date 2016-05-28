@@ -13,10 +13,24 @@ void testFramework();
 
 int main() {
     //testFramework();
+    int numberMesh;
+    std::cout << "Enter <1> for the armadillo or <2> for the bunny mesh: \n";
+    std::cin >> numberMesh;
+
+    if (numberMesh != 1 && numberMesh != 2) {
+        std::cout << "Please enter <1> or <2> \n";
+        std::cin >> numberMesh;
+    }
 
     std::cout << "Reading 3D model..." << std::endl;
+    // read bunny by default - fewer points
+    PointCloud originalPCD(MODEL_3_FILENAME);
+    if(numberMesh == 1){
+        // read armadillo mesh
+        originalPCD = PointCloud(MODEL_1_FILENAME);
+    }
     //read point cloud in
-    PointCloud originalPCD(MODEL_1_FILENAME);
+    std::cout << originalPCD.m_numPoints << " point read" << std::endl;
 
     //vector of cameras
     std::vector<Camera> scans;
@@ -44,7 +58,7 @@ int main() {
 void testFramework(){
     std::cout << "Reading 3D model from models folder..." << std::endl;
 
-    PointCloud originalPCD(MODEL_3_FILENAME);
+    PointCloud originalPCD(MODEL_1_FILENAME);
 
 //    std::cout << "Before viewp: \n" << myPointSetBefore << std::endl;
     std::cout << originalPCD.m_numPoints << " points read\n";
@@ -81,7 +95,7 @@ void testFramework(){
     originalPCD.computeWorldCoordinates(currentCamera);
 
     std::cout << "Writing 3D model to output folder..." << std::endl;
-    originalPCD.write(MODEL_3_OUTPUT_FILENAME);
+    originalPCD.write(MODEL_1_OUTPUT_FILENAME);
     std::cout << "Magic!" << std::endl;
 
 }

@@ -92,7 +92,7 @@ namespace nvp {
 
             }
         }
-        numNearestPts --;
+        numNearestPts--;
 
     }
 
@@ -130,6 +130,52 @@ namespace nvp {
 
         std::cout << "Merged pc1 (" << pc1.m_numPoints <<
         ") with pc2(" << pc2.m_numPoints << ")\n";
+    }
+
+    void mergePointCloudsNoDuplicates(PointCloud &pc, Eigen::MatrixXd &points_all_scans) {
+        // Author: Karina Mady
+        Eigen::MatrixXd currentPointSet;
+        pc.getPoints(currentPointSet);
+        std::cout << "The current scan matrix has " << currentPointSet.cols() << " points" << std::endl;
+        std::cout << "The reconstruction matrix before this merge has "
+        << points_all_scans.cols() << " points" << std::endl;
+
+        Eigen::MatrixXd unique_m_vertices(3, currentPointSet.cols());
+        int pIdx = 0;
+        double threshold = 0.0001;
+        int numberDuplicates = 0;
+
+        //take every point in the current scan matrix
+        for (int j = 0; j < currentPointSet.cols(); j++) {
+            bool newPoint = true;
+            //take every point in the reconstruction matrix
+            for (int i = 0; i < points_all_scans.cols(); i++) {
+                //and match them to see if there are duplicates
+//              // compute the euclidean distance between the 2 vectors
+                double distVect = (currentPointSet.col(j) - points_all_scans.col(i)).norm();
+                // is the distance close to 0? if yes, they are duplicates
+                if (distVect < threshold) {
+                    //this point already exists
+                    newPoint = false;
+                    numberDuplicates++;
+                }
+            }
+            //if the point has not been found, it's new, so add it as unique
+            if (newPoint) {
+                //save the unique points into a temporary matrix to be used later in merge
+                unique_m_vertices.col(pIdx) = currentPointSet.col(j);
+                pIdx++;
+            }
+        }
+        pIdx--;
+
+        //temporary matrix to store the unique points between the reconstruction matrix and current scan matrix
+        Eigen::MatrixXd temporaryMat(3, points_all_scans.cols() + pIdx);
+        temporaryMat << points_all_scans, unique_m_vertices.block(0, 0, 3, pIdx);
+        points_all_scans = temporaryMat;
+        std::cout << "Found " << numberDuplicates << " duplicates" << std::endl;
+        std::cout << "The reconstruction matrix after merge has "
+        << points_all_scans.cols() << " points" << std::endl;
     }
 
 

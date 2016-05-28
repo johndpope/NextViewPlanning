@@ -20,7 +20,10 @@ namespace nvp {
     void mergePointClouds(PointCloud& pc1,
                           PointCloud& pc2,
                           Eigen::MatrixXd& out_pointSet);
-}//namespace nvp
+    void mergePointCloudsNoDuplicates(PointCloud& pc,
+                                      Eigen::MatrixXd &points_all_scans);
+
+    }//namespace nvp
 
 
 #endif //NEXTVIEWPLANNING_UTILITIES_H

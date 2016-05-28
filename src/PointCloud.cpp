@@ -26,6 +26,7 @@ namespace nvp {
             m_vertices.col(colIdx) = thisEVert;
             colIdx++;
         }
+       // std::cout << m_numPoints << " point read" << std::endl;
     }
     PointCloud::PointCloud(Eigen::MatrixXd& in_pcd) {
         m_vertices = in_pcd;

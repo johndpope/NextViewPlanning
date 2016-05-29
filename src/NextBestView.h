@@ -47,6 +47,7 @@ namespace nvp {
     int getNumNewPointsFromNewScan(PointCloud &pc,
                                    std::vector<Camera> &kViews,
                                    Camera &newView,
+                                   int numPoints_kViews,
                                    int zbufferSideSize = 50);
 
     void evaluateEachCandidateView(PointCloud &pc,

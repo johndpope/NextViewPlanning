@@ -273,14 +273,8 @@ namespace nvp {
     int getNumNewPointsFromNewScan(PointCloud &pc,
                                    std::vector<Camera> &kViews,
                                    Camera &newView,
+                                   int numPoints_kViews,
                                    int zbufferSideSize) {
-        Eigen::MatrixXd estimatedPCD_kviews;
-
-        // TODO: take this outside of the function, no need to compute it for each candidate
-        getEstimatedReconstructionFromKViews(pc,
-                                             kViews,
-                                             estimatedPCD_kviews,
-                                             zbufferSideSize);
 
         Eigen::MatrixXd estimatedPCD_kplus1views;
         // build k+1 views vector
@@ -298,8 +292,7 @@ namespace nvp {
 
         // note that the reconstructed PCD removes duplicates
 
-        int numNewPoints = int(estimatedPCD_kplus1views.cols()) -
-                           int(estimatedPCD_kviews.cols());
+        int numNewPoints = int(estimatedPCD_kplus1views.cols()) - numPoints_kViews;
 
         return numNewPoints;
     }
@@ -315,12 +308,22 @@ namespace nvp {
         std::vector<Camera> viewCandidates;
         getCameraVecFromDegrees(pc, candidateYDegrees, viewCandidates);
 
+        // get reconstruction from k views
+        Eigen::MatrixXd estimatedPCD_kviews;
+
+        getEstimatedReconstructionFromKViews(pc,
+                                             kViews,
+                                             estimatedPCD_kviews,
+                                             zbufferSideSize);
+
+        int numPoints_kViews = int(estimatedPCD_kviews.cols());
+
         for (int i = 0; i < noCandidates; i++) {
             std::cout << "Computing score for candidate view #" << i + 1 << "..." << std::endl;
-            // TODO: compute once the reconstr from k views and just add the new scan in this loop
             out_viewScores[i] = getNumNewPointsFromNewScan(pc,
                                                            kViews,
                                                            viewCandidates[i],
+                                                           numPoints_kViews,
                                                            zbufferSideSize);
         }
         std::cout << "Candidate views at: \n" << candidateYDegrees.transpose() << std::endl;

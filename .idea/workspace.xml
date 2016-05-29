@@ -14,14 +14,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c4c6dfac-4425-49e4-a10f-1fabebdb3f2b" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/NextBestView.cpp" afterPath="$PROJECT_DIR$/src/NextBestView.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/NextBestView.h" afterPath="$PROJECT_DIR$/src/NextBestView.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/PointCloud.cpp" afterPath="$PROJECT_DIR$/src/PointCloud.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/PointCloud.h" afterPath="$PROJECT_DIR$/src/PointCloud.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/defs.h" afterPath="$PROJECT_DIR$/src/defs.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.cpp" afterPath="$PROJECT_DIR$/src/main.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utilities.cpp" afterPath="$PROJECT_DIR$/src/utilities.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utilities.h" afterPath="$PROJECT_DIR$/src/utilities.h" />
     </list>
     <ignored path="NextViewPlanning.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -51,7 +47,7 @@
           <file leaf-file-name="PointCloud.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/PointCloud.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="355">
+                <state relative-caret-position="435">
                   <caret line="29" column="67" selection-start-line="29" selection-start-column="67" selection-end-line="29" selection-end-column="67" />
                   <folding>
                     <element signature="e#132#154#0" expanded="true" />
@@ -63,7 +59,7 @@
           <file leaf-file-name="utilities.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/utilities.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="205">
+                <state relative-caret-position="315">
                   <caret line="21" column="50" selection-start-line="21" selection-start-column="50" selection-end-line="21" selection-end-column="50" />
                   <folding>
                     <element signature="e#131#153#0" expanded="true" />
@@ -75,8 +71,8 @@
           <file leaf-file-name="NextBestView.h" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/NextBestView.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="430">
-                  <caret line="48" column="50" selection-start-line="48" selection-start-column="50" selection-end-line="48" selection-end-column="50" />
+                <state relative-caret-position="560">
+                  <caret line="49" column="55" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="55" />
                   <folding>
                     <element signature="e#137#159#0" expanded="true" />
                   </folding>
@@ -87,7 +83,7 @@
           <file leaf-file-name="defs.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/defs.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="262">
+                <state relative-caret-position="405">
                   <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
                   <folding>
                     <element signature="e#121#143#0" expanded="true" />
@@ -99,7 +95,7 @@
           <file leaf-file-name="Camera.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Camera.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
+                <state relative-caret-position="435">
                   <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
                   <folding>
                     <element signature="e#125#147#0" expanded="true" />
@@ -115,7 +111,7 @@
           <file leaf-file-name="PointCloud.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/PointCloud.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="328">
+                <state relative-caret-position="2925">
                   <caret line="195" column="44" selection-start-line="195" selection-start-column="44" selection-end-line="195" selection-end-column="44" />
                   <folding>
                     <element signature="e#55#74#0" expanded="true" />
@@ -127,7 +123,7 @@
           <file leaf-file-name="utilities.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/utilities.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="253">
+                <state relative-caret-position="1500">
                   <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
                   <folding>
                     <element signature="e#55#74#0" expanded="true" />
@@ -149,8 +145,8 @@
           <file leaf-file-name="NextBestView.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/NextBestView.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="478">
-                  <caret line="323" column="76" selection-start-line="323" selection-start-column="76" selection-end-line="323" selection-end-column="76" />
+                <state relative-caret-position="575">
+                  <caret line="325" column="76" selection-start-line="325" selection-start-column="76" selection-end-line="325" selection-end-column="76" />
                   <folding>
                     <element signature="e#55#74#0" expanded="true" />
                     <element signature="e#4617#5495#0" expanded="false" />
@@ -162,8 +158,8 @@
           <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="258">
-                  <caret line="69" column="29" selection-start-line="69" selection-start-column="4" selection-end-line="69" selection-end-column="29" />
+                <state relative-caret-position="288">
+                  <caret line="90" column="30" selection-start-line="90" selection-start-column="30" selection-end-line="90" selection-end-column="30" />
                   <folding>
                     <element signature="e#0#19#0" expanded="true" />
                   </folding>
@@ -191,10 +187,10 @@
         <option value="$PROJECT_DIR$/src/defs.h" />
         <option value="$PROJECT_DIR$/src/utilities.h" />
         <option value="$PROJECT_DIR$/src/utilities.cpp" />
-        <option value="$PROJECT_DIR$/src/NextBestView.h" />
         <option value="$PROJECT_DIR$/src/PointCloud.cpp" />
         <option value="$PROJECT_DIR$/src/PointCloud.h" />
         <option value="$PROJECT_DIR$/src/main.cpp" />
+        <option value="$PROJECT_DIR$/src/NextBestView.h" />
         <option value="$PROJECT_DIR$/src/NextBestView.cpp" />
       </list>
     </option>
@@ -479,12 +475,11 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.07582939" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35171697" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17793965" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17757009" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38356164" sideWeight="0.50913423" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32739726" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2494043" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27367327" sideWeight="0.49086577" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20145379" sideWeight="0.49086577" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -493,6 +488,7 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -910,7 +906,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Camera.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="435">
           <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding>
             <element signature="e#125#147#0" expanded="true" />
@@ -920,7 +916,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/defs.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
+        <state relative-caret-position="405">
           <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding>
             <element signature="e#121#143#0" expanded="true" />
@@ -932,13 +928,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/utilities.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
+        <state relative-caret-position="315">
           <caret line="21" column="50" selection-start-line="21" selection-start-column="50" selection-end-line="21" selection-end-column="50" />
           <folding>
             <element signature="e#131#153#0" expanded="true" />
@@ -948,7 +943,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/utilities.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
+        <state relative-caret-position="1500">
           <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
           <folding>
             <element signature="e#55#74#0" expanded="true" />
@@ -968,7 +963,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/PointCloud.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
+        <state relative-caret-position="435">
           <caret line="29" column="67" selection-start-line="29" selection-start-column="67" selection-end-line="29" selection-end-column="67" />
           <folding>
             <element signature="e#132#154#0" expanded="true" />
@@ -978,7 +973,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/PointCloud.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
+        <state relative-caret-position="2925">
           <caret line="195" column="44" selection-start-line="195" selection-start-column="44" selection-end-line="195" selection-end-column="44" />
           <folding>
             <element signature="e#55#74#0" expanded="true" />
@@ -988,8 +983,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="69" column="29" selection-start-line="69" selection-start-column="4" selection-end-line="69" selection-end-column="29" />
+        <state relative-caret-position="288">
+          <caret line="90" column="30" selection-start-line="90" selection-start-column="30" selection-end-line="90" selection-end-column="30" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -998,8 +993,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/NextBestView.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="48" column="50" selection-start-line="48" selection-start-column="50" selection-end-line="48" selection-end-column="50" />
+        <state relative-caret-position="560">
+          <caret line="49" column="55" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="55" />
           <folding>
             <element signature="e#137#159#0" expanded="true" />
           </folding>
@@ -1008,8 +1003,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/NextBestView.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="323" column="76" selection-start-line="323" selection-start-column="76" selection-end-line="323" selection-end-column="76" />
+        <state relative-caret-position="575">
+          <caret line="325" column="76" selection-start-line="325" selection-start-column="76" selection-end-line="325" selection-end-column="76" />
           <folding>
             <element signature="e#55#74#0" expanded="true" />
             <element signature="e#4617#5495#0" expanded="false" />

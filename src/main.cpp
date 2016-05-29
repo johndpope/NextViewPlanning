@@ -54,8 +54,8 @@ int main() {
     int kPositions = 3;
     std::vector<Camera> kViewVector;
     Eigen::VectorXd degreesYRotation(kPositions);
-    // TODO: does it work if we have just one starting point?
-    degreesYRotation << 10, 40, 120;
+    // it works starting with one or more viewpoints
+    degreesYRotation << 10,40,120;
     getCameraVecFromDegrees(originalPCD, degreesYRotation, kViewVector);
 
     //get candidate views for the NBV

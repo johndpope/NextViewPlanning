@@ -93,7 +93,8 @@ namespace nvp {
 
     void getEstimatedReconstructionFromKViews(PointCloud &pc,
                                               std::vector<Camera> const &kViews,
-                                              Eigen::MatrixXd &out_mergedScans) {
+                                              Eigen::MatrixXd &out_mergedScans,
+                                              int zbufferSideSize) {
         // this function doesn't write all the intermediary scans
         Eigen::MatrixXd points_all_scans;
 
@@ -104,7 +105,8 @@ namespace nvp {
             // create a new camera object
             Camera currentCamera(kViews[camNo]);
 
-            pcTransformed.computeNearestProjectedPts(currentCamera);
+            pcTransformed.computeNearestProjectedPts(currentCamera,
+                                                     zbufferSideSize);
 
             pcTransformed.computeWorldCoordinates(currentCamera);
 
@@ -135,17 +137,18 @@ namespace nvp {
     }
 
     double evaluateNBV(std::vector<Camera> &kplus1Views,
-                       PointCloud &originalPCD) {
+                       PointCloud &originalPCD,
+                       int zbufferSideSize) {
         // Author: Karina Mady
         Eigen::MatrixXd mergedScans;
         double scan_score = -1;
 
         PointCloud pcTransformed(originalPCD);
 
-        // TODO: add the width of the zbuffer as a parameter -> higher
         getEstimatedReconstructionFromKViews(originalPCD,
                                              kplus1Views,
-                                             mergedScans);
+                                             mergedScans,
+                                             zbufferSideSize);
 
         //get the reconstructed point cloud
         PointCloud estimatedPCD(mergedScans);
@@ -167,7 +170,7 @@ namespace nvp {
     }
 
     Camera getCameraFromDegrees(PointCloud &pc,
-                              double &rotYDegrees) {
+                                double &rotYDegrees) {
         // set the rotation and translation for the extrinsics of the camera
         double rotationX_deg = 0.0, rotationZ_deg = 0.0;
         double translationX, translationY, translationZ;
@@ -175,11 +178,11 @@ namespace nvp {
         translationZ = pc.computeRadiusFromCentroid();
 
         Camera currentCamera(rotationX_deg,
-                            rotYDegrees,
-                            rotationZ_deg,
-                            translationX,
-                            translationY,
-                            translationZ);
+                             rotYDegrees,
+                             rotationZ_deg,
+                             translationX,
+                             translationY,
+                             translationZ);
         return currentCamera;
     }
 
@@ -269,14 +272,15 @@ namespace nvp {
 
     int getNumNewPointsFromNewScan(PointCloud &pc,
                                    std::vector<Camera> &kViews,
-                                   Camera &newView) {
+                                   Camera &newView,
+                                   int zbufferSideSize) {
         Eigen::MatrixXd estimatedPCD_kviews;
 
         // TODO: take this outside of the function, no need to compute it for each candidate
-        // TODO: add the width of the zbuffer as a parameter -> lower
         getEstimatedReconstructionFromKViews(pc,
                                              kViews,
-                                             estimatedPCD_kviews);
+                                             estimatedPCD_kviews,
+                                             zbufferSideSize);
 
         Eigen::MatrixXd estimatedPCD_kplus1views;
         // build k+1 views vector
@@ -285,7 +289,8 @@ namespace nvp {
 
         getEstimatedReconstructionFromKViews(pc,
                                              kplus1Views,
-                                             estimatedPCD_kplus1views);
+                                             estimatedPCD_kplus1views,
+                                             zbufferSideSize);
 
         // get the number of new points provided by the new scan by
         // subtracting the PCD obtained from the k+1 views and
@@ -303,6 +308,7 @@ namespace nvp {
                                    std::vector<Camera> &kViews,
                                    Eigen::VectorXd &candidateYDegrees,
                                    Eigen::VectorXd &out_viewScores) {
+        int zbufferSideSize = 50;
         int noCandidates = int(candidateYDegrees.size());
         out_viewScores = Eigen::VectorXd::Zero(noCandidates);
         // generate vector of camera position candidates
@@ -311,9 +317,11 @@ namespace nvp {
 
         for (int i = 0; i < noCandidates; i++) {
             std::cout << "Computing score for candidate view #" << i + 1 << "..." << std::endl;
+            // TODO: compute once the reconstr from k views and just add the new scan in this loop
             out_viewScores[i] = getNumNewPointsFromNewScan(pc,
                                                            kViews,
-                                                           viewCandidates[i]);
+                                                           viewCandidates[i],
+                                                           zbufferSideSize);
         }
         std::cout << "Candidate views at: \n" << candidateYDegrees.transpose() << std::endl;
         std::cout << "Scores for the candidate views:\n" << out_viewScores.transpose() << std::endl;

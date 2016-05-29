@@ -19,7 +19,8 @@ namespace nvp {
                                          double rotRadiansZ);
 
     void getNearestPointsToCamera(Eigen::MatrixXd &projectedPts,
-                                  Eigen::MatrixXd &out_nearestProjectedPts);
+                                  Eigen::MatrixXd &out_nearestProjectedPts,
+                                  int zbufferSideSize = 100);
 
     void mergePointClouds(PointCloud &pc1,
                           PointCloud &pc2,

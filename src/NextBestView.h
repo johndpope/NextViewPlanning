@@ -21,14 +21,16 @@ namespace nvp {
                                            PointCloud &rc);
 
     double evaluateNBV(std::vector<Camera> &kplus1Views,
-                       PointCloud &originalPCD);
+                       PointCloud &originalPCD,
+                       int zbufferSideSize = 200);
 
     //*************** Individual Section *******************
 
     // this function doesn't write all the intermediary scans
     void getEstimatedReconstructionFromKViews(PointCloud &pc,
                                               std::vector<Camera> const &kViews,
-                                              Eigen::MatrixXd &out_mergedScans);
+                                              Eigen::MatrixXd &out_mergedScans,
+                                              int zbufferSideSize = 100);
 
     Camera getCameraFromDegrees(PointCloud &pc,
                                 double &rotYDegrees);
@@ -44,7 +46,8 @@ namespace nvp {
 
     int getNumNewPointsFromNewScan(PointCloud &pc,
                                    std::vector<Camera> &kViews,
-                                   Camera &newView);
+                                   Camera &newView,
+                                   int zbufferSideSize = 50);
 
     void evaluateEachCandidateView(PointCloud &pc,
                                    std::vector<Camera> &kViews,

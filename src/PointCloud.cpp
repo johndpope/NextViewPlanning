@@ -186,7 +186,8 @@ namespace nvp {
         this->applyTransformation(worldToCamera);
     }
 
-    void PointCloud::computeNearestProjectedPts(Camera &camera) {
+    void PointCloud::computeNearestProjectedPts(Camera &camera,
+                                                int zbufferSideSize) {
         // this method projects all of the points in the view of the camera and
         // it saves only the ones that are first seen with a z-buffer
 
@@ -195,7 +196,8 @@ namespace nvp {
         Eigen::MatrixXd nearestProjectedPts;
 
         getNearestPointsToCamera(m_vertices,
-                                 nearestProjectedPts);
+                                 nearestProjectedPts,
+                                 zbufferSideSize);
 
         m_vertices = nearestProjectedPts;
         m_numPoints = m_vertices.cols();

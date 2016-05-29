@@ -88,7 +88,8 @@ int main() {
 
     // TODO: do this in a loop for all the candidate views to show that you actually chose the best one wrt to the original PCD
     // evaluate current NBV against the original mesh
-    double score = evaluateNBV(kplus1ViewVector, originalPCD);
+    int zbufferSideSize = 200;
+    double score = evaluateNBV(kplus1ViewVector, originalPCD, zbufferSideSize);
 
 
 //    Eigen::MatrixXd mergedScans;

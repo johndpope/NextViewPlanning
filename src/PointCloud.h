@@ -26,7 +26,8 @@ namespace nvp {
         void getCenterXY(double& x, double& y);
         void getCartesianCoordinates(Eigen::MatrixXd& cartCoord);
         void computeWorldCoordinates(Camera& camera);
-        void computeNearestProjectedPts(Camera &camera);
+        void computeNearestProjectedPts(Camera &camera,
+                                        int zbufferSideSize = 100);
         void setNormals();
 
         double computeRadiusFromCentroid();

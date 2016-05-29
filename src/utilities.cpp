@@ -56,7 +56,8 @@ namespace nvp {
     void createZBuffer(Eigen::MatrixXd &ptsCoord,
                        Eigen::MatrixXd &zBuffer,
                        Eigen::MatrixXd &idxBuffer,
-                       int &numNearestPts) {
+                       int &numNearestPts,
+                       int zbufferSideSize) {
         numNearestPts = 0;
         double xMin = ptsCoord.row(0).minCoeff();
         double xMax = ptsCoord.row(0).maxCoeff();
@@ -64,8 +65,8 @@ namespace nvp {
         double yMax = ptsCoord.row(1).maxCoeff();
         double zMin = ptsCoord.row(2).minCoeff();
         double zMax = ptsCoord.row(2).maxCoeff();
-        int widthBuffer = ZBUFFER_SIDE;
-        int heightBuffer = ZBUFFER_SIDE;
+        int widthBuffer = zbufferSideSize;
+        int heightBuffer = zbufferSideSize;
 
         zBuffer = zMax * Eigen::MatrixXd::Ones(widthBuffer, heightBuffer);
         idxBuffer = -1 * Eigen::MatrixXd::Ones(widthBuffer, heightBuffer);
@@ -99,13 +100,15 @@ namespace nvp {
     }
 
     void getNearestPointsToCamera(Eigen::MatrixXd &projectedPts,
-                                  Eigen::MatrixXd &out_nearestProjectedPts) {
+                                  Eigen::MatrixXd &out_nearestProjectedPts,
+                                  int zbufferSideSize) {
         Eigen::MatrixXd zBuffer, idxBuffer;
         int numNearestPts = 0;
         createZBuffer(projectedPts,
                       zBuffer,
                       idxBuffer,
-                      numNearestPts);
+                      numNearestPts,
+                      zbufferSideSize);
         out_nearestProjectedPts = Eigen::MatrixXd::Zero(3, numNearestPts);
         int colIdx = 0;
 

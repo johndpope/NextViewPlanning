@@ -28,6 +28,8 @@ namespace nvp {
                         Eigen::MatrixXd& pNormals,
                         int kNN = 10);
 
+    void printScoreToConsole(double score);
+
 
 }//namespace nvp
 

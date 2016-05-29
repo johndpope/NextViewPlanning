@@ -134,10 +134,42 @@ namespace nvp {
 
     }
 
-    void getScanPositions(PointCloud &pc,
-                          Eigen::VectorXd &kCamPos,
-                          std::vector<Camera> &out_kCamVect) {
-        int k = int(kCamPos.size());
+    double evaluateNBV(std::vector<Camera> &kplus1Views,
+                       PointCloud &originalPCD) {
+        // Author: Karina Mady
+        Eigen::MatrixXd mergedScans;
+        double scan_score = -1;
+
+        PointCloud pcTransformed(originalPCD);
+
+        // TODO: add the width of the zbuffer as a parameter -> higher
+        getEstimatedReconstructionFromKViews(originalPCD,
+                                             kplus1Views,
+                                             mergedScans);
+
+        //get the reconstructed point cloud
+        PointCloud estimatedPCD(mergedScans);
+
+        int numPointsOriginalPCD = int(originalPCD.m_numPoints);
+        int numPointsEstimatedPCD = int(estimatedPCD.m_numPoints);
+
+        std::cout << "The original cloud has " << numPointsOriginalPCD << " points" << std::endl;
+        std::cout << "The reconstructed cloud has " << numPointsEstimatedPCD << " points" << std::endl;
+
+        //compare the number of points in the reconstructed cloud
+        // with the number of points in the original input cloud
+        //The closer the value to 1 (equivalent to 100 %), the better.
+        scan_score = double(numPointsEstimatedPCD) / double(numPointsOriginalPCD);
+
+        printScoreToConsole(scan_score);
+
+        return scan_score;
+    }
+
+    void getCameraVecFromDegrees(PointCloud &pc,
+                                 Eigen::VectorXd &kYDegrees,
+                                 std::vector<Camera> &out_kCamVect) {
+        int k = int(kYDegrees.size());
         out_kCamVect.reserve(k);
         // set the rotation and translation for the extrinsics of the camera
         double rotationX_deg = 0.0, rotationY_deg = 0.0, rotationZ_deg = 0.0;
@@ -146,7 +178,7 @@ namespace nvp {
         translationZ = pc.computeRadiusFromCentroid();
 
         for (int i = 0; i < k; i++) {
-            rotationY_deg = kCamPos[i];
+            rotationY_deg = kYDegrees[i];
             Camera currentCamera(rotationX_deg,
                                  rotationY_deg,
                                  rotationZ_deg,
@@ -218,10 +250,12 @@ namespace nvp {
                                     stepsDegrees,
                                     out_candidateYDegrees,
                                     noCandidates);
-        out_candidateYDegrees.conservativeResize(noCandidates,1);
+        out_candidateYDegrees.conservativeResize(noCandidates, 1);
 
         std::cout << "Found " << out_candidateYDegrees.size() << " candidate views\n";
         //std::cout << out_candidateYDegrees.transpose() << std::endl;
+
+        // TODO: add new step with increased resolution + increase stepsDegrees in this case
     }
 
     int getNumNewPointsFromNewScan(PointCloud &pc,
@@ -229,6 +263,8 @@ namespace nvp {
                                    Camera &newView) {
         Eigen::MatrixXd estimatedPCD_kviews;
 
+        // TODO: take this outside of the function, no need to compute it for each candidate
+        // TODO: add the width of the zbuffer as a parameter -> lower
         getEstimatedReconstructionFromKViews(pc,
                                              kViews,
                                              estimatedPCD_kviews);
@@ -265,17 +301,19 @@ namespace nvp {
         out_viewScores = Eigen::VectorXd::Zero(noCandidates);
         // generate vector of camera position candidates
         std::vector<Camera> viewCandidates;
-        getScanPositions(pc,candidateYDegrees,viewCandidates);
+        getCameraVecFromDegrees(pc, candidateYDegrees, viewCandidates);
 
         for (int i = 0; i < noCandidates; i++) {
-            std::cout << "Computing score for candidate view #" << i + 1 << "..." <<std::endl;
+            std::cout << "Computing score for candidate view #" << i + 1 << "..." << std::endl;
             out_viewScores[i] = getNumNewPointsFromNewScan(pc,
                                                            kViews,
                                                            viewCandidates[i]);
         }
-        std::cout << "Candidate views at: \n" <<  candidateYDegrees.transpose() << std::endl;
+        std::cout << "Candidate views at: \n" << candidateYDegrees.transpose() << std::endl;
         std::cout << "Scores for the candidate views:\n" << out_viewScores.transpose() << std::endl;
 
     }
+
+
 
 }// namespace nvp

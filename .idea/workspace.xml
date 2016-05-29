@@ -14,11 +14,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c4c6dfac-4425-49e4-a10f-1fabebdb3f2b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Camera.cpp" afterPath="$PROJECT_DIR$/src/Camera.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Camera.h" afterPath="$PROJECT_DIR$/src/Camera.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/NextBestView.cpp" afterPath="$PROJECT_DIR$/src/NextBestView.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/NextBestView.h" afterPath="$PROJECT_DIR$/src/NextBestView.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.cpp" afterPath="$PROJECT_DIR$/src/main.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/defs.h" afterPath="$PROJECT_DIR$/src/defs.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utilities.cpp" afterPath="$PROJECT_DIR$/src/utilities.cpp" />
     </list>
     <ignored path="NextViewPlanning.iws" />
@@ -43,15 +39,17 @@
     <favorites_list name="NextViewPlanning" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.426529">
+    <splitter split-orientation="horizontal" split-proportion="0.4225576">
       <split-first>
         <leaf>
           <file leaf-file-name="PointCloud.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/PointCloud.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="105">
-                  <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-                  <folding />
+                <state relative-caret-position="224">
+                  <caret line="32" column="12" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="12" />
+                  <folding>
+                    <element signature="e#132#154#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -59,8 +57,8 @@
           <file leaf-file-name="utilities.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/utilities.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="150">
-                  <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
+                <state relative-caret-position="450">
+                  <caret line="30" column="19" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
                   <folding>
                     <element signature="e#131#153#0" expanded="true" />
                   </folding>
@@ -68,11 +66,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="NextBestView.h" pinned="false" current-in-tab="true">
+          <file leaf-file-name="NextBestView.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/NextBestView.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="338">
-                  <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+                <state relative-caret-position="207">
+                  <caret line="23" column="46" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
                   <folding>
                     <element signature="e#137#159#0" expanded="true" />
                   </folding>
@@ -80,12 +78,14 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="defs.h" pinned="false" current-in-tab="false">
+          <file leaf-file-name="defs.h" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/defs.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="12">
-                  <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
-                  <folding />
+                <state relative-caret-position="282">
+                  <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#121#143#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -118,11 +118,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="utilities.cpp" pinned="false" current-in-tab="false">
+          <file leaf-file-name="utilities.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/utilities.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="375">
-                  <caret line="179" column="30" selection-start-line="179" selection-start-column="30" selection-end-line="179" selection-end-column="30" />
+                <state relative-caret-position="163">
+                  <caret line="161" column="17" selection-start-line="161" selection-start-column="17" selection-end-line="161" selection-end-column="17" />
                   <folding>
                     <element signature="e#55#74#0" expanded="true" />
                     <element signature="e#182#1366#0" expanded="false" />
@@ -131,7 +131,7 @@
                     <element signature="e#1951#3872#0" expanded="false" />
                     <element signature="e#3878#4656#0" expanded="false" />
                     <element signature="e#4662#5161#0" expanded="false" />
-                    <element signature="e#7415#10714#0" expanded="false" />
+                    <element signature="e#7419#10718#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -147,12 +147,16 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="NextBestView.cpp" pinned="false" current-in-tab="true">
+          <file leaf-file-name="NextBestView.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/NextBestView.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="277">
-                  <caret line="270" column="71" selection-start-line="270" selection-start-column="71" selection-end-line="270" selection-end-column="71" />
-                  <folding />
+                <state relative-caret-position="762">
+                  <caret line="196" column="68" selection-start-line="196" selection-start-column="68" selection-end-line="196" selection-end-column="68" />
+                  <folding>
+                    <element signature="e#208#2423#0" expanded="false" />
+                    <element signature="e#2429#3647#0" expanded="false" />
+                    <element signature="e#4480#5358#0" expanded="false" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -160,8 +164,8 @@
           <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="249">
-                  <caret line="108" column="50" selection-start-line="108" selection-start-column="50" selection-end-line="108" selection-end-column="50" />
+                <state relative-caret-position="285">
+                  <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#19#0" expanded="true" />
                   </folding>
@@ -182,21 +186,22 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/CMake/FindANN.cmake" />
         <option value="$PROJECT_DIR$/src/converter.cpp" />
-        <option value="$PROJECT_DIR$/src/utilities.h" />
         <option value="$PROJECT_DIR$/src/converter.h" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/src/PointCloud.h" />
-        <option value="$PROJECT_DIR$/src/defs.h" />
         <option value="$PROJECT_DIR$/src/PointCloud.cpp" />
         <option value="$PROJECT_DIR$/src/Camera.cpp" />
         <option value="$PROJECT_DIR$/src/Camera.h" />
+        <option value="$PROJECT_DIR$/src/PointCloud.h" />
         <option value="$PROJECT_DIR$/src/NextBestView.h" />
-        <option value="$PROJECT_DIR$/src/utilities.cpp" />
-        <option value="$PROJECT_DIR$/src/main.cpp" />
+        <option value="$PROJECT_DIR$/src/utilities.h" />
         <option value="$PROJECT_DIR$/src/NextBestView.cpp" />
+        <option value="$PROJECT_DIR$/src/main.cpp" />
+        <option value="$PROJECT_DIR$/src/utilities.cpp" />
+        <option value="$PROJECT_DIR$/src/defs.h" />
       </list>
     </option>
   </component>
+  <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
     <option name="width" value="1280" />
     <option name="height" value="800" />
@@ -461,9 +466,10 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329235" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24931507" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38356164" sideWeight="0.50913423" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32786885" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32739726" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2494043" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25342464" sideWeight="0.49086577" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40273973" sideWeight="0.49086577" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -472,7 +478,6 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -510,7 +515,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="3" />
+      <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -539,7 +544,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
           <caret line="25" column="43" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="43" />
-          <folding />
+          <folding>
+            <element signature="e#121#143#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -575,7 +582,7 @@
             <element signature="e#1951#3872#0" expanded="false" />
             <element signature="e#3878#4656#0" expanded="false" />
             <element signature="e#4662#5161#0" expanded="false" />
-            <element signature="e#7415#10714#0" expanded="false" />
+            <element signature="e#7419#10718#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -642,7 +649,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
           <caret line="25" column="43" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="43" />
-          <folding />
+          <folding>
+            <element signature="e#121#143#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -678,7 +687,7 @@
             <element signature="e#1951#3872#0" expanded="false" />
             <element signature="e#3878#4656#0" expanded="false" />
             <element signature="e#4662#5161#0" expanded="false" />
-            <element signature="e#7415#10714#0" expanded="false" />
+            <element signature="e#7419#10718#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -751,7 +760,7 @@
             <element signature="e#1951#3872#0" expanded="false" />
             <element signature="e#3878#4656#0" expanded="false" />
             <element signature="e#4662#5161#0" expanded="false" />
-            <element signature="e#7415#10714#0" expanded="false" />
+            <element signature="e#7419#10718#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -780,7 +789,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
           <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#121#143#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -890,14 +901,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/PointCloud.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Camera.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
@@ -926,51 +929,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/defs.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12">
-          <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utilities.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
-          <folding>
-            <element signature="e#131#153#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/NextBestView.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-          <folding>
-            <element signature="e#137#159#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utilities.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="179" column="30" selection-start-line="179" selection-start-column="30" selection-end-line="179" selection-end-column="30" />
-          <folding>
-            <element signature="e#55#74#0" expanded="true" />
-            <element signature="e#182#1366#0" expanded="false" />
-            <element signature="e#1372#1850#0" expanded="false" />
-            <element signature="e#1856#1945#0" expanded="false" />
-            <element signature="e#1951#3872#0" expanded="false" />
-            <element signature="e#3878#4656#0" expanded="false" />
-            <element signature="e#4662#5161#0" expanded="false" />
-            <element signature="e#7415#10714#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/converter.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -979,21 +937,82 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.cpp">
+    <entry file="file://$PROJECT_DIR$/src/PointCloud.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="108" column="50" selection-start-line="108" selection-start-column="50" selection-end-line="108" selection-end-column="50" />
+        <state relative-caret-position="224">
+          <caret line="32" column="12" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="12" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#132#154#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/NextBestView.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="23" column="46" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
+          <folding>
+            <element signature="e#137#159#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utilities.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="19" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
+          <folding>
+            <element signature="e#131#153#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/NextBestView.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="270" column="71" selection-start-line="270" selection-start-column="71" selection-end-line="270" selection-end-column="71" />
-          <folding />
+        <state relative-caret-position="762">
+          <caret line="196" column="68" selection-start-line="196" selection-start-column="68" selection-end-line="196" selection-end-column="68" />
+          <folding>
+            <element signature="e#208#2423#0" expanded="false" />
+            <element signature="e#2429#3647#0" expanded="false" />
+            <element signature="e#4480#5358#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utilities.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="161" column="17" selection-start-line="161" selection-start-column="17" selection-end-line="161" selection-end-column="17" />
+          <folding>
+            <element signature="e#55#74#0" expanded="true" />
+            <element signature="e#182#1366#0" expanded="false" />
+            <element signature="e#1372#1850#0" expanded="false" />
+            <element signature="e#1856#1945#0" expanded="false" />
+            <element signature="e#1951#3872#0" expanded="false" />
+            <element signature="e#3878#4656#0" expanded="false" />
+            <element signature="e#4662#5161#0" expanded="false" />
+            <element signature="e#7419#10718#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/defs.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="282">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding>
+            <element signature="e#121#143#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

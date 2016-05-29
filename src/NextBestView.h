@@ -9,23 +9,30 @@
 #include <vector>
 
 namespace nvp {
+    //*************** Basic Framework *******************
+
     void generateScansFromDegrees(std::vector<Camera> &scans,
                                   PointCloud &pc);
 
     void getEstimatedReconstruction(std::vector<Camera> const &scans,
                                     Eigen::MatrixXd &out_mergedScans);
 
+    void compareOriginalWithReconstruction(PointCloud &ic,
+                                           PointCloud &rc);
+
+    double evaluateNBV(std::vector<Camera> &kplus1Views,
+                       PointCloud &originalPCD);
+
+    //*************** Individual Section *******************
+
     // this function doesn't write all the intermediary scans
     void getEstimatedReconstructionFromKViews(PointCloud &pc,
                                               std::vector<Camera> const &kViews,
                                               Eigen::MatrixXd &out_mergedScans);
 
-    void compareOriginalWithReconstruction(PointCloud &ic,
-                                           PointCloud &rc);
-
     // this function generates the vector of Cameras for the k views
-    void getScanPositions(PointCloud &pc,
-                          Eigen::VectorXd &kCamPos,
+    void getCameraVecFromDegrees(PointCloud &pc,
+                          Eigen::VectorXd &kYDegrees,
                           std::vector<Camera> &out_kCamVect);
 
     void getCandidateViews(std::vector<Camera> &kViews,

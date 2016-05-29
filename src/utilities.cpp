@@ -144,7 +144,6 @@ namespace nvp {
 
         Eigen::MatrixXd unique_m_vertices(3, currentPointSet.cols());
         int pIdx = 0;
-        double threshold = 0.0001;
         int numberDuplicates = 0;
 
         //take every point in the current scan matrix
@@ -156,7 +155,7 @@ namespace nvp {
 //              // compute the euclidean distance between the 2 vectors
                 double distVect = (currentPointSet.col(j) - points_all_scans.col(i)).norm();
                 // is the distance close to 0? if yes, they are duplicates
-                if (distVect < threshold) {
+                if (std::abs(distVect) < std::numeric_limits<double>::epsilon()) {
                     //this point already exists
                     newPoint = false;
                     numberDuplicates++;
@@ -251,6 +250,31 @@ namespace nvp {
         annDeallocPts(pANN);
         annDeallocPt(queryP);
         annClose(); // deallocate any shared memory used for the kd search
+    }
+
+    void printScoreToConsole(double score) {
+        // Author: Karina Mady
+        std::cout << "***\n";
+        if (std::abs(score - 1.0) < std::numeric_limits<double>::epsilon())
+            std::cout << "Congratulations, you have achieved the impossible.\n"
+                    "You have created a perfect reconstruction ->"
+            << score << std::endl;
+        else if (std::abs(score - 0.0) < std::numeric_limits<double>::epsilon())
+            std::cout << "Your value as a programmer is equal to your score ->"
+            << score << std::endl;
+        else if (score > 0.0 && score < 0.5)
+            std::cout << "Rubbish result ->"
+            << score << ". You didn't even get half the vertices" << std::endl;
+        else if (score >= 0.5 && score < 0.8)
+            std::cout << "Decent result ->" << score << std::endl;
+        else if (score >= 0.8 && score < 0.9)
+            std::cout << "Not bad, human ->" << score << std::endl;
+        else if (score >= 0.9 && score < 1.0)
+            std::cout << "Bow before me, mortal. I got ->" << score << std::endl;
+        else
+            std::cout << "You are the ultimate failure of mankind :(" << std::endl;
+        std::cout << "***\n";
+
     }
 
 

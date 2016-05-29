@@ -9,35 +9,44 @@
 
 
 using namespace nvp;
+
 void testFramework();
+
 void testFrameworkForMultipleScans();
+
 void testNormalComputation();
 
 
-
 int main() {
-    //testFramework();
+//    testFramework();
+//    return SUCCESS
     //testFrameworkForMultipleScans();
     //testNormalComputation();
-
+// TODO: add full framework that sets a path -> with stopping condition
     //****************************************************************
     int numberMesh = 2;
-//    std::cout << "Enter <1> for the armadillo or <2> for the bunny mesh: \n";
+//    std::cout << "Enter <1> for the armadillo, "
+//            "<2> for the bunny or "
+//            "<3> for the dragon mesh \n";
 //    std::cin >> numberMesh;
 //
-//    if (numberMesh != 1 && numberMesh != 2) {
-//        std::cout << "Please enter <1> or <2> \n";
+//    if (numberMesh != 1 && numberMesh != 2 && numberMesh != 3) {
+//        std::cout << "Please enter <1> or <2> or <3> \n";
 //        std::cin >> numberMesh;
 //    }
 
     std::cout << "Reading 3D model..." << std::endl;
     // read bunny by default - fewer points
-    PointCloud originalPCD(MODEL_3_FILENAME);
-    if(numberMesh == 1){
-        // read armadillo mesh
-        originalPCD = PointCloud(MODEL_1_FILENAME);
-    }
-    //read point cloud in
+    PointCloud originalPCD(MODEL_2_FILENAME);
+//    if (numberMesh == 1) {
+//        // read armadillo mesh
+//        originalPCD = PointCloud(MODEL_1_FILENAME);
+//    }
+//    else if (numberMesh == 3) {
+//        // read dragon mesh
+//        originalPCD = PointCloud(MODEL_3_FILENAME);
+//    }
+
     std::cout << originalPCD.m_numPoints << " point read" << std::endl;
     originalPCD.setNormals();
 
@@ -45,8 +54,9 @@ int main() {
     int kPositions = 3;
     std::vector<Camera> kCameraPositions;
     Eigen::VectorXd degreesYRotation(kPositions);
-    degreesYRotation << 10,40,270;
-    getScanPositions(originalPCD,degreesYRotation,kCameraPositions);
+    // TODO: does it work if we have just one starting point?
+    degreesYRotation << 10, 40, 120;
+    getCameraVecFromDegrees(originalPCD, degreesYRotation, kCameraPositions);
 
     //get candidate views for the NBV
     Eigen::VectorXd candidateYRotDegrees;
@@ -55,13 +65,26 @@ int main() {
                       candidateYRotDegrees);
 
     // compute score for each new view
+    // TODO: add score based on point quality as well
     Eigen::VectorXd scoresCandidateViews;
     evaluateEachCandidateView(originalPCD,
                               kCameraPositions,
                               candidateYRotDegrees,
                               scoresCandidateViews);
 
+    // TODO: get maximum score and save that as NBV
+
+    // TODO: build vector k+1 with the best view in utilities
+    std::vector<Camera> candidateViews;
+    getCameraVecFromDegrees(originalPCD, candidateYRotDegrees, candidateViews);
+    std::vector<Camera> kplus1Views(kCameraPositions.size() + 1);
+    for (int i = 0; i < kCameraPositions.size(); i++) {
+        kplus1Views.push_back(kCameraPositions[i]);
+    }
+    kplus1Views.push_back(candidateViews[3]);
+
     //evaluate current NBV against the original mesh
+    double score = evaluateNBV(kplus1Views, originalPCD);
 
 
 //    Eigen::MatrixXd mergedScans;
@@ -75,21 +98,24 @@ int main() {
 //    compareOriginalWithReconstruction(originalPCD, estimatedPCD);
 
     std::cout << "Writing 3D model to output folder..." << std::endl;
-    if(numberMesh == 1){
-        // write armadillo mesh
-        originalPCD.write(MODEL_1_OUTPUT_FILENAME);
-    }
-    else
-    {
-        originalPCD.write(MODEL_3_OUTPUT_FILENAME);
-    }
+//    if (numberMesh == 1) {
+//        // write armadillo mesh
+//        originalPCD.write(MODEL_1_OUTPUT_FILENAME);
+//    }
+//    else if (numberMesh == 3) {
+//        // write armadillo mesh
+//        originalPCD.write(MODEL_3_OUTPUT_FILENAME);
+//    }
+//    else {
+    originalPCD.write(MODEL_2_OUTPUT_FILENAME);
+//    }
 
     std::cout << "Done!\n";
 
     return SUCCESS;
 }
 
-void testNormalComputation(){
+void testNormalComputation() {
     PointCloud originalPCD("../output/estimated_scan_1.ply");
     //read point cloud in
     std::cout << originalPCD.m_numPoints << " point read" << std::endl;
@@ -100,7 +126,7 @@ void testNormalComputation(){
     std::cout << "Done!\n";
 }
 
-void testFrameworkForMultipleScans(){
+void testFrameworkForMultipleScans() {
     int numberMesh;
     std::cout << "Enter <1> for the armadillo or <2> for the bunny mesh: \n";
     std::cin >> numberMesh;
@@ -113,7 +139,7 @@ void testFrameworkForMultipleScans(){
     std::cout << "Reading 3D model..." << std::endl;
     // read bunny by default - fewer points
     PointCloud originalPCD(MODEL_3_FILENAME);
-    if(numberMesh == 1){
+    if (numberMesh == 1) {
         // read armadillo mesh
         originalPCD = PointCloud(MODEL_1_FILENAME);
     }
@@ -141,10 +167,10 @@ void testFrameworkForMultipleScans(){
     std::cout << "Magic!";
 }
 
-void testFramework(){
+void testFramework() {
     std::cout << "Reading 3D model from models folder..." << std::endl;
 
-    PointCloud originalPCD(MODEL_1_FILENAME);
+    PointCloud originalPCD(MODEL_2_FILENAME);
 
 //    std::cout << "Before viewp: \n" << myPointSetBefore << std::endl;
     std::cout << originalPCD.m_numPoints << " points read\n";
@@ -181,7 +207,7 @@ void testFramework(){
     originalPCD.computeWorldCoordinates(currentCamera);
 
     std::cout << "Writing 3D model to output folder..." << std::endl;
-    originalPCD.write(MODEL_1_OUTPUT_FILENAME);
+    originalPCD.write(MODEL_2_OUTPUT_FILENAME);
     std::cout << "Magic!" << std::endl;
 
 }

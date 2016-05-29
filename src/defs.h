@@ -31,11 +31,13 @@ namespace nvp {
     static std::string MODEL_1_FILENAME = "../models/_armadillo.ply";
     static std::string MODEL_1_OUTPUT_FILENAME = "../output/_out_armadillo.ply";
 
-    static std::string MODEL_2_FILENAME = "../models/_cube.ply";
-    static std::string MODEL_2_OUTPUT_FILENAME = "../output/_out_cube.ply";
+    static std::string MODEL_2_FILENAME = "../models/_bunny.ply";
+    static std::string MODEL_2_OUTPUT_FILENAME = "../output/_out_bunny.ply";
 
-    static std::string MODEL_3_FILENAME = "../models/_bunny.ply";
-    static std::string MODEL_3_OUTPUT_FILENAME = "../output/_out_bunny.ply";
+    static std::string MODEL_3_FILENAME = "../models/_dragon.ply";
+    static std::string MODEL_3_OUTPUT_FILENAME = "../output/_out_dragon.ply";
+
+
 
 
 #define SUCCESS 0;

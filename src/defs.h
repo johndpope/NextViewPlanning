@@ -25,7 +25,7 @@ namespace nvp {
 
     static const int IMAGEPLANE_SIZE = 600;
     static const int FOCAL_LENGTH = 800;
-    static const int ZBUFFER_SIDE = 100;
+    static const int ZBUFFER_SIDE = 50;
 
 
     static std::string MODEL_1_FILENAME = "../models/_armadillo.ply";

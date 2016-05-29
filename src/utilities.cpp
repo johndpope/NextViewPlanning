@@ -179,10 +179,34 @@ namespace nvp {
 //        << points_all_scans.cols() << " points" << std::endl;
     }
 
+    void printScoreToConsole(double score) {
+        // Author: Karina Mady
+        std::cout << "***\n";
+        if (std::abs(score - 1.0) < std::numeric_limits<double>::epsilon())
+            std::cout << "Congratulations, you have achieved the impossible.\n"
+                    "You have created a perfect reconstruction ->"
+            << score << std::endl;
+        else if (std::abs(score - 0.0) < std::numeric_limits<double>::epsilon())
+            std::cout << "Your value as a programmer is equal to your score ->"
+            << score << std::endl;
+        else if (score > 0.0 && score < 0.5)
+            std::cout << "Rubbish result ->"
+            << score << ". You didn't even get half the vertices" << std::endl;
+        else if (score >= 0.5 && score < 0.8)
+            std::cout << "Decent result ->" << score << std::endl;
+        else if (score >= 0.8 && score < 0.9)
+            std::cout << "Not bad, human ->" << score << std::endl;
+        else if (score >= 0.9 && score < 1.0)
+            std::cout << "Bow before me, mortal. I got ->" << score << std::endl;
+        else
+            std::cout << "You are the ultimate failure of mankind :(" << std::endl;
+        std::cout << "***\n";
+
+    }
+
     void computeNormals(Eigen::MatrixXd &pEIG,
                         Eigen::MatrixXd &pNormals,
-                        int kNN) // set to 10 as a default
-    {
+                        int kNN) {
         int nPts = int(pEIG.cols()); // actual number of data points
         // int k = 0; //num of NN to return
         int dim = 3; // number of dimensions
@@ -252,29 +276,15 @@ namespace nvp {
         annClose(); // deallocate any shared memory used for the kd search
     }
 
-    void printScoreToConsole(double score) {
-        // Author: Karina Mady
-        std::cout << "***\n";
-        if (std::abs(score - 1.0) < std::numeric_limits<double>::epsilon())
-            std::cout << "Congratulations, you have achieved the impossible.\n"
-                    "You have created a perfect reconstruction ->"
-            << score << std::endl;
-        else if (std::abs(score - 0.0) < std::numeric_limits<double>::epsilon())
-            std::cout << "Your value as a programmer is equal to your score ->"
-            << score << std::endl;
-        else if (score > 0.0 && score < 0.5)
-            std::cout << "Rubbish result ->"
-            << score << ". You didn't even get half the vertices" << std::endl;
-        else if (score >= 0.5 && score < 0.8)
-            std::cout << "Decent result ->" << score << std::endl;
-        else if (score >= 0.8 && score < 0.9)
-            std::cout << "Not bad, human ->" << score << std::endl;
-        else if (score >= 0.9 && score < 1.0)
-            std::cout << "Bow before me, mortal. I got ->" << score << std::endl;
-        else
-            std::cout << "You are the ultimate failure of mankind :(" << std::endl;
-        std::cout << "***\n";
+    std::vector<Camera> getKplus1ViewVector(std::vector<Camera> &kViewVect,
+                                            Camera &kplus1View) {
+        std::vector<Camera> kplus1Views(kViewVect.size() + 1);
 
+        for (int i = 0; i < kViewVect.size(); i++) {
+            kplus1Views.push_back(kViewVect[i]);
+        }
+        kplus1Views.push_back(kplus1View);
+        return kplus1Views;
     }
 
 

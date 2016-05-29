@@ -12,6 +12,8 @@
 
 
 namespace nvp {
+    //*************** Basic Framework *******************
+
     Eigen::Matrix4d createRotationMatrix(double rotRadiansX,
                                          double rotRadiansY,
                                          double rotRadiansZ);
@@ -19,16 +21,23 @@ namespace nvp {
     void getNearestPointsToCamera(Eigen::MatrixXd &projectedPts,
                                   Eigen::MatrixXd &out_nearestProjectedPts);
 
-    void mergePointClouds(PointCloud& pc1,
-                          PointCloud& pc2,
-                          Eigen::MatrixXd& out_pointSet);
-    void mergePointCloudsNoDuplicates(PointCloud& pc,
+    void mergePointClouds(PointCloud &pc1,
+                          PointCloud &pc2,
+                          Eigen::MatrixXd &out_pointSet);
+
+    void mergePointCloudsNoDuplicates(PointCloud &pc,
                                       Eigen::MatrixXd &points_all_scans);
-    void computeNormals(Eigen::MatrixXd& pEIG,
-                        Eigen::MatrixXd& pNormals,
-                        int kNN = 10);
 
     void printScoreToConsole(double score);
+
+    //*************** Individual Section *******************
+
+    void computeNormals(Eigen::MatrixXd &pEIG,
+                        Eigen::MatrixXd &pNormals,
+                        int kNN = 10);
+
+    std::vector<Camera> getKplus1ViewVector(std::vector<Camera> &kViewVect,
+                                            Camera &kplus1View);
 
 
 }//namespace nvp

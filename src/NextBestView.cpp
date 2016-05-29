@@ -166,25 +166,34 @@ namespace nvp {
         return scan_score;
     }
 
+    Camera getCameraFromDegrees(PointCloud &pc,
+                              double &rotYDegrees) {
+        // set the rotation and translation for the extrinsics of the camera
+        double rotationX_deg = 0.0, rotationZ_deg = 0.0;
+        double translationX, translationY, translationZ;
+        pc.getCenterXY(translationX, translationY);
+        translationZ = pc.computeRadiusFromCentroid();
+
+        Camera currentCamera(rotationX_deg,
+                            rotYDegrees,
+                            rotationZ_deg,
+                            translationX,
+                            translationY,
+                            translationZ);
+        return currentCamera;
+    }
+
     void getCameraVecFromDegrees(PointCloud &pc,
                                  Eigen::VectorXd &kYDegrees,
                                  std::vector<Camera> &out_kCamVect) {
         int k = int(kYDegrees.size());
         out_kCamVect.reserve(k);
-        // set the rotation and translation for the extrinsics of the camera
-        double rotationX_deg = 0.0, rotationY_deg = 0.0, rotationZ_deg = 0.0;
-        double translationX, translationY, translationZ;
-        pc.getCenterXY(translationX, translationY);
-        translationZ = pc.computeRadiusFromCentroid();
+        double rotationY_deg;
 
         for (int i = 0; i < k; i++) {
             rotationY_deg = kYDegrees[i];
-            Camera currentCamera(rotationX_deg,
-                                 rotationY_deg,
-                                 rotationZ_deg,
-                                 translationX,
-                                 translationY,
-                                 translationZ);
+
+            Camera currentCamera = getCameraFromDegrees(pc, rotationY_deg);
 //            std::cout << "Adding camera #" << i << std::endl;
             out_kCamVect.push_back(currentCamera);
         }
@@ -222,8 +231,8 @@ namespace nvp {
         }
     }
 
-    void getCandidateViews(std::vector<Camera> &kViews,
-                           Eigen::VectorXd &out_candidateYDegrees) {
+    void getCandidateViewsDegrees(std::vector<Camera> &kViews,
+                                  Eigen::VectorXd &out_candidateYDegrees) {
         int noCandidates = 0;
         int k = int(kViews.size());
         int stepsDegrees = 50;
@@ -271,11 +280,8 @@ namespace nvp {
 
         Eigen::MatrixXd estimatedPCD_kplus1views;
         // build k+1 views vector
-        std::vector<Camera> kplus1Views(kViews.size() + 1);
-        for (int i = 0; i < kViews.size(); i++) {
-            kplus1Views.push_back(kViews[i]);
-        }
-        kplus1Views.push_back(newView);
+        std::vector<Camera> kplus1Views = getKplus1ViewVector(kViews,
+                                                              newView);
 
         getEstimatedReconstructionFromKViews(pc,
                                              kplus1Views,
@@ -313,7 +319,6 @@ namespace nvp {
         std::cout << "Scores for the candidate views:\n" << out_viewScores.transpose() << std::endl;
 
     }
-
 
 
 }// namespace nvp

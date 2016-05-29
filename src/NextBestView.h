@@ -30,12 +30,15 @@ namespace nvp {
                                               std::vector<Camera> const &kViews,
                                               Eigen::MatrixXd &out_mergedScans);
 
+    Camera getCameraFromDegrees(PointCloud &pc,
+                                double &rotYDegrees);
+
     // this function generates the vector of Cameras for the k views
     void getCameraVecFromDegrees(PointCloud &pc,
                           Eigen::VectorXd &kYDegrees,
                           std::vector<Camera> &out_kCamVect);
 
-    void getCandidateViews(std::vector<Camera> &kViews,
+    void getCandidateViewsDegrees(std::vector<Camera> &kViews,
                            Eigen::VectorXd &out_candidateYDegrees);
 
 

@@ -52,39 +52,43 @@ int main() {
 
     //generate the k given scan positions
     int kPositions = 3;
-    std::vector<Camera> kCameraPositions;
+    std::vector<Camera> kViewVector;
     Eigen::VectorXd degreesYRotation(kPositions);
     // TODO: does it work if we have just one starting point?
     degreesYRotation << 10, 40, 120;
-    getCameraVecFromDegrees(originalPCD, degreesYRotation, kCameraPositions);
+    getCameraVecFromDegrees(originalPCD, degreesYRotation, kViewVector);
 
     //get candidate views for the NBV
     Eigen::VectorXd candidateYRotDegrees;
     int noCandidates = 0;
-    getCandidateViews(kCameraPositions,
-                      candidateYRotDegrees);
+    getCandidateViewsDegrees(kViewVector,
+                             candidateYRotDegrees);
 
     // compute score for each new view
     // TODO: add score based on point quality as well
     Eigen::VectorXd scoresCandidateViews;
     evaluateEachCandidateView(originalPCD,
-                              kCameraPositions,
+                              kViewVector,
                               candidateYRotDegrees,
                               scoresCandidateViews);
 
-    // TODO: get maximum score and save that as NBV
+    // get maximum score and save that as the NBV
+    Eigen::VectorXd::Index maxRow, maxCol;
+    int maxScoreNBV = int(scoresCandidateViews.maxCoeff(&maxRow, &maxCol));
 
-    // TODO: build vector k+1 with the best view in utilities
-    std::vector<Camera> candidateViews;
-    getCameraVecFromDegrees(originalPCD, candidateYRotDegrees, candidateViews);
-    std::vector<Camera> kplus1Views(kCameraPositions.size() + 1);
-    for (int i = 0; i < kCameraPositions.size(); i++) {
-        kplus1Views.push_back(kCameraPositions[i]);
-    }
-    kplus1Views.push_back(candidateViews[3]);
+    std::cout << "Found maximum score of " << scoresCandidateViews[maxRow] <<
+    " for " << candidateYRotDegrees[maxRow] << " degrees\n";
+    Camera kplus1View = getCameraFromDegrees(originalPCD, candidateYRotDegrees[maxRow]);
 
-    //evaluate current NBV against the original mesh
-    double score = evaluateNBV(kplus1Views, originalPCD);
+//    std::vector<Camera> candidateKViewsVect;
+//    getCameraVecFromDegrees(originalPCD, candidateYRotDegrees, candidateKViewsVect);
+
+    std::vector<Camera> kplus1ViewVector = getKplus1ViewVector(kViewVector,
+                                                               kplus1View);
+
+    // TODO: do this in a loop for all the candidate views to show that you actually chose the best one wrt to the original PCD
+    // evaluate current NBV against the original mesh
+    double score = evaluateNBV(kplus1ViewVector, originalPCD);
 
 
 //    Eigen::MatrixXd mergedScans;

@@ -27,28 +27,33 @@ namespace nvp {
             colIdx++;
         }
         // std::cout << m_numPoints << " point read" << std::endl;
+        m_normals = Eigen::MatrixXd::Zero(3,1);
     }
 
     PointCloud::PointCloud(Eigen::MatrixXd &in_pcd) {
         m_vertices = in_pcd;
         m_numPoints = in_pcd.cols();
+        m_normals = Eigen::MatrixXd::Zero(3,1);
     }
 
     void PointCloud::getPoints(Eigen::MatrixXd &out_pointSet) {
 //        out_pointSet = Eigen::MatrixXd::Zero(3,m_numPoints);
         out_pointSet = m_vertices;
+
     }
 
     void PointCloud::setPoints(Eigen::MatrixXd &in_pointSet) {
         m_vertices = in_pointSet;
         m_numPoints = in_pointSet.cols();
+        m_normals = Eigen::MatrixXd::Zero(3,1);
     }
 
 
     int PointCloud::write(std::string filename) {
         MyMesh mesh;
         uint32_t colIdx = 0;
-        bool NORMALS = (m_normals.cols() != 0);
+        bool NORMALS = (m_normals.col(0).prod() != 0);
+        std::cout << "NORMALS flag = " << NORMALS << std::endl;
 
         for (int i = 0; i < m_numPoints; i++) {
             MyTraits::Point thisVert = convertEIGENVecToOMVec(m_vertices.col(colIdx));
@@ -72,7 +77,7 @@ namespace nvp {
         std::cout << mesh.n_vertices() << " points written";
 
         OpenMesh::IO::Options wopt;
-        if (mesh.has_vertex_normals()) {
+        if (NORMALS && mesh.has_vertex_normals()) {
             std::cout << " with normals";
             wopt += OpenMesh::IO::Options::VertexNormal;
         }
@@ -101,6 +106,7 @@ namespace nvp {
 
         m_vertices = pSrc.m_vertices;
         m_numPoints = pSrc.m_numPoints;
+        m_normals = pSrc.m_normals;
 
         // return the existing object
         return *this;
@@ -109,6 +115,8 @@ namespace nvp {
     PointCloud::PointCloud(const PointCloud &pSrc) {
         m_vertices = pSrc.m_vertices;
         m_numPoints = pSrc.m_numPoints;
+        m_normals = pSrc.m_normals;
+
     }
 
     double PointCloud::computeRadiusFromCentroid() {

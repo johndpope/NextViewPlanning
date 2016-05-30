@@ -18,8 +18,7 @@ void testNormalComputation();
 
 
 int main() {
-//    testFramework();
-//    return SUCCESS
+    //testFramework();
     //testFrameworkForMultipleScans();
     //testNormalComputation();
 // TODO: add full framework that sets a path -> with stopping condition
@@ -47,24 +46,29 @@ int main() {
 //        originalPCD = PointCloud(MODEL_3_FILENAME);
 //    }
 
-    std::cout << originalPCD.m_numPoints << " point read" << std::endl;
-    originalPCD.setNormals();
+    std::cout << originalPCD.m_numPoints << " points read" << std::endl;
+//    originalPCD.setNormals();
 
-    //generate the k given scan positions
+    //****************************************************************
+    // Generate k given scan positions
     int kPositions = 3;
     std::vector<Camera> kViewVector;
     Eigen::VectorXd degreesYRotation(kPositions);
     // it works starting with one or more viewpoints
-    degreesYRotation << 10,40,120;
+    degreesYRotation << 10, 40, 120;
     getCameraVecFromDegrees(originalPCD, degreesYRotation, kViewVector);
 
-    //get candidate views for the NBV
+    // ******************************************************
+    // Get candidate views for the NBV
     Eigen::VectorXd candidateYRotDegrees;
-    int noCandidates = 0;
     getCandidateViewsDegrees(kViewVector,
                              candidateYRotDegrees);
+    int noCandidates = int(candidateYRotDegrees.size());
 
-    // compute score for each new view
+    // ******************************************************
+    // Compute scores for each new view (no ground truth) =
+    // the amount of new points brought by each candidate scan
+    // NOTE: we use a lower resolution of each scan to make the computation faster
     // TODO: add score based on point quality as well
     Eigen::VectorXd scoresCandidateViews;
     evaluateEachCandidateView(originalPCD,
@@ -75,45 +79,59 @@ int main() {
     // get maximum score and save that as the NBV
     Eigen::VectorXd::Index maxRow, maxCol;
     int maxScoreNBV = int(scoresCandidateViews.maxCoeff(&maxRow, &maxCol));
-
     std::cout << "Found maximum score of " << scoresCandidateViews[maxRow] <<
     " for " << candidateYRotDegrees[maxRow] << " degrees\n";
     Camera kplus1View = getCameraFromDegrees(originalPCD, candidateYRotDegrees[maxRow]);
-
-//    std::vector<Camera> candidateKViewsVect;
-//    getCameraVecFromDegrees(originalPCD, candidateYRotDegrees, candidateKViewsVect);
-
     std::vector<Camera> kplus1ViewVector = getKplus1ViewVector(kViewVector,
                                                                kplus1View);
 
-    // TODO: do this in a loop for all the candidate views to show that you actually chose the best one wrt to the original PCD
-    // evaluate current NBV against the original mesh
-    int zbufferSideSize = 200;
-    double score = evaluateNBV(kplus1ViewVector, originalPCD, zbufferSideSize);
+    // ******************************************************
+    // Evaluate current NBV against the original mesh
+    int zbufferSideSize = 150;
 
+    std::cout << "Eval with GT - Compute score for chosen NBV with "
+    << candidateYRotDegrees[maxRow] << " degrees\n";
+    double scoreGT = evaluateNBV(kplus1ViewVector,
+                                 originalPCD,
+                                 zbufferSideSize);
+    printScoreToConsole(scoreGT);
 
-//    Eigen::MatrixXd mergedScans;
-//    getEstimatedReconstruction(scans, mergedScans);
-//
-//    std::string filenameEstimPCD = "../output/estimatedPCD.ply";
-//    PointCloud estimatedPCD(mergedScans);
-//    estimatedPCD.write(filenameEstimPCD);
-//
-//    std::cout << "Quality check..." << std::endl;
-//    compareOriginalWithReconstruction(originalPCD, estimatedPCD);
+    // ******************************************************
+    // ********************** OPTIONAL **********************
+    // Check with the ground truth if we actually chose the best candidate view
+    Eigen::VectorXd scoresGTVec(noCandidates);
+    for (int i = 0; i < noCandidates; i++) {
+        std::cout << "Eval with GT - Compute score for candidate view #" << i + 1 << ": ";
+        Camera kplus1View_temp = getCameraFromDegrees(originalPCD,
+                                                      candidateYRotDegrees[i]);
+
+        // create a temporary vector of k+1 views for each candidate position
+        std::vector<Camera> kplus1ViewVector_temp = getKplus1ViewVector(kViewVector,
+                                                                        kplus1View_temp);
+        scoresGTVec[i] = evaluateNBV(kplus1ViewVector_temp,
+                                     originalPCD,
+                                     zbufferSideSize);
+        std::cout << scoresGTVec[i] << std::endl;
+    }
+    Eigen::VectorXd::Index maxRowGT, maxColGT;
+    int maxScoreGT = int(scoresGTVec.maxCoeff(&maxRowGT, &maxColGT));
+    std::cout << "Eval with GT - Found maximum score of " << scoresGTVec[maxRowGT] <<
+    " for " << candidateYRotDegrees[maxRowGT] << " degrees\n";
+
+    // ******************************************************
+    // Clean up - Estimate PCD from k+1 views and write it
+    std::cout << "Estimate PCD from k+1 views...\n";
+    Eigen::MatrixXd kplus1PCDEstimation;
+    zbufferSideSize = 150;
+    getEstimatedReconstructionFromKViews(originalPCD,
+                                         kplus1ViewVector,
+                                         kplus1PCDEstimation,
+                                         zbufferSideSize);
 
     std::cout << "Writing 3D model to output folder..." << std::endl;
-//    if (numberMesh == 1) {
-//        // write armadillo mesh
-//        originalPCD.write(MODEL_1_OUTPUT_FILENAME);
-//    }
-//    else if (numberMesh == 3) {
-//        // write armadillo mesh
-//        originalPCD.write(MODEL_3_OUTPUT_FILENAME);
-//    }
-//    else {
-    originalPCD.write(MODEL_2_OUTPUT_FILENAME);
-//    }
+    PointCloud estimatedPCD(kplus1PCDEstimation);
+    std::string filenameEstimPCD = "../output/estimatedPCD.ply";
+    estimatedPCD.write(filenameEstimPCD);
 
     std::cout << "Done!\n";
 

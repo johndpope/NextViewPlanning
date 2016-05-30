@@ -156,15 +156,13 @@ namespace nvp {
         int numPointsOriginalPCD = int(originalPCD.m_numPoints);
         int numPointsEstimatedPCD = int(estimatedPCD.m_numPoints);
 
-        std::cout << "The original cloud has " << numPointsOriginalPCD << " points" << std::endl;
-        std::cout << "The reconstructed cloud has " << numPointsEstimatedPCD << " points" << std::endl;
+//        std::cout << "The original cloud has " << numPointsOriginalPCD << " points" << std::endl;
+//        std::cout << "The reconstructed cloud has " << numPointsEstimatedPCD << " points" << std::endl;
 
         //compare the number of points in the reconstructed cloud
         // with the number of points in the original input cloud
         //The closer the value to 1 (equivalent to 100 %), the better.
         scan_score = double(numPointsEstimatedPCD) / double(numPointsOriginalPCD);
-
-        printScoreToConsole(scan_score);
 
         return scan_score;
     }

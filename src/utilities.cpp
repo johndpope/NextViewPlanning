@@ -282,24 +282,75 @@ namespace nvp {
 
     std::vector<Camera> getKplus1ViewVector(std::vector<Camera> &kViewVect,
                                             Camera &kplus1View) {
-        std::vector<Camera> kplus1Views(kViewVect.size() + 1);
-
-        for (int i = 0; i < kViewVect.size(); i++) {
-            kplus1Views.push_back(kViewVect[i]);
-        }
+//        std::vector<Camera> kplus1Views(kViewVect.size() + 1);
+//
+//        for (int i = 0; i < kViewVect.size(); i++) {
+//            kplus1Views.push_back(kViewVect[i]);
+//        }
+        std::vector<Camera> kplus1Views = kViewVect;
         kplus1Views.push_back(kplus1View);
         return kplus1Views;
     }
 
     double getMaxFromEigVector(Eigen::VectorXd &inputVec, int &idxMax) {
-        if(inputVec.rows() < inputVec.cols())
+        if(inputVec.cols() !=1)
         {
             throw std::invalid_argument("The input vector should be a column vector!");
         }
         Eigen::VectorXd::Index maxRow, maxCol;
-        int maxScoreNBV = int(inputVec.maxCoeff(&maxRow, &maxCol));
+        double maxScoreNBV = inputVec.maxCoeff(&maxRow, &maxCol);
         idxMax = int(maxRow);
         return maxScoreNBV;
+    }
+    double getMinFromEigVector(Eigen::VectorXd &inputVec, int &idxMin) {
+        if (inputVec.cols() !=1 ) {
+            throw std::invalid_argument("The input vector should be a column vector!");
+        }
+        Eigen::VectorXd::Index minRow, minCol;
+        double minValue = inputVec.minCoeff(&minRow, &minCol);
+        idxMin = int(minRow);
+        return minValue;
+    }
+
+    void writePCDAndCamera(PointCloud &pc, std::vector<Camera> &cameraVect) {
+        PointCloud simulatedScan(pc);
+
+        // use this to compute the nearest points as seen from the camera (zBuffer)
+        int zbufferSideSize = 100;
+
+        simulatedScan.computeNearestProjectedPts(cameraVect[0],
+                                                 zbufferSideSize);
+
+        // convert the projected points back to the world coordinate frame
+        simulatedScan.computeWorldCoordinates(cameraVect[0]);
+        simulatedScan.setNormals();
+
+        Eigen::MatrixXd pointSet;
+        simulatedScan.getPoints(pointSet);
+
+        Eigen::MatrixXd normalSet;
+        simulatedScan.getNormals(normalSet);
+
+        int numCameras = int(cameraVect.size());
+        Eigen::MatrixXd newPointSet(3, simulatedScan.m_numPoints + numCameras);
+        newPointSet.block(0, 0, 3, simulatedScan.m_numPoints) = pointSet;
+
+        Eigen::MatrixXd newNormalSet(3, simulatedScan.m_numPoints + numCameras);
+        newNormalSet.block(0, 0, 3, simulatedScan.m_numPoints) = normalSet;
+
+        for (int i = 0; i < numCameras; i++) {
+            Eigen::Vector3d cameraOrientation = cameraVect[i].getCameraOrientation();
+            Eigen::Vector3d cameraPosition = cameraVect[i].getCameraPosition();
+
+            newPointSet.col(simulatedScan.m_numPoints + i) = cameraPosition;
+            newNormalSet.col(simulatedScan.m_numPoints + i) = cameraOrientation;
+        }
+
+        simulatedScan.setPointsAndNormals(newPointSet, newNormalSet);
+
+        std::string filenameEstimPCD = "../output/estimScan_newView.ply";
+        simulatedScan.write(filenameEstimPCD);
+
     }
 
 

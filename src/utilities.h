@@ -42,9 +42,14 @@ namespace nvp {
 
     double getMaxFromEigVector(Eigen::VectorXd& inputVec,
                                int& idxMax);
+    double getMinFromEigVector(Eigen::VectorXd &inputVec,
+                               int &idxMin);
+
+    void writePCDAndCamera(PointCloud &pc,
+                           std::vector<Camera> &cameraVect);
 
 
-}//namespace nvp
+    }//namespace nvp
 
 
 #endif //NEXTVIEWPLANNING_UTILITIES_H

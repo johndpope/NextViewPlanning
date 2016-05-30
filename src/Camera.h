@@ -32,6 +32,11 @@ namespace nvp {
 
         double getRotationYDegrees();
 
+        Eigen::Vector3d getCameraOrientation();
+
+        Eigen::Vector3d getCameraPosition();
+
+
     private:
         double m_degreesXRot;
         double m_degreesYRot;

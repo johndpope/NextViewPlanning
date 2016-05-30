@@ -16,8 +16,12 @@ void testFrameworkForMultipleScans();
 
 void testNormalComputation();
 
+void testCameraRotation();
+
 
 int main() {
+    //testCameraRotation();
+    //return SUCCESS;
     //testFramework();
     //testFrameworkForMultipleScans();
     //testNormalComputation();
@@ -34,7 +38,6 @@ int main() {
 //        std::cin >> numberMesh;
 //    }
 
-    std::cout << "Reading 3D model..." << std::endl;
     // read bunny by default - fewer points
     PointCloud originalPCD(MODEL_2_FILENAME);
 //    if (numberMesh == 1) {
@@ -47,14 +50,13 @@ int main() {
 //    }
 
     std::cout << originalPCD.m_numPoints << " points read" << std::endl;
-//    originalPCD.setNormals();
 
     //****************************************************************
     // Generate k given scan positions
     int kPositions = 3;
     std::vector<Camera> kViewVector;
     Eigen::VectorXd degreesYRotation(kPositions);
-    // it works starting with one or more viewpoints
+    // NOTE: it works starting with two or more viewpoints
     degreesYRotation << 10, 40, 120;
     getCameraVecFromDegrees(originalPCD, degreesYRotation, kViewVector);
 
@@ -88,7 +90,6 @@ int main() {
                                          kplus1PCDEstimation,
                                          zbufferSideSize);
 
-    std::cout << "Writing 3D model to output folder..." << std::endl;
     PointCloud estimatedPCD(kplus1PCDEstimation);
     std::string filenameEstimPCD = "../output/estimatedPCD.ply";
     estimatedPCD.write(filenameEstimPCD);
@@ -104,7 +105,6 @@ void testNormalComputation() {
     std::cout << originalPCD.m_numPoints << " point read" << std::endl;
     originalPCD.setNormals();
 
-    std::cout << "Writing 3D model to output folder..." << std::endl;
     originalPCD.write("../output/estimated_scan_1_withNormals.ply");
     std::cout << "Done!\n";
 }
@@ -119,7 +119,6 @@ void testFrameworkForMultipleScans() {
         std::cin >> numberMesh;
     }
 
-    std::cout << "Reading 3D model..." << std::endl;
     // read bunny by default - fewer points
     PointCloud originalPCD(MODEL_3_FILENAME);
     if (numberMesh == 1) {
@@ -151,7 +150,6 @@ void testFrameworkForMultipleScans() {
 }
 
 void testFramework() {
-    std::cout << "Reading 3D model from models folder..." << std::endl;
 
     PointCloud originalPCD(MODEL_2_FILENAME);
 
@@ -161,20 +159,9 @@ void testFramework() {
     std::cout << "Process 3d point cloud..." << std::endl;
     // set the rotation and translation for the extrinsics of the camera
     // change the Y rotation to move along the horizontal axis of the mesh
-    double rotationX_deg = 0.0, rotationY_deg = 90.0, rotationZ_deg = 0.0;
-    double translationX, translationY, translationZ;
+    double rotationY_deg = 180.0;
 
-    // center the camera wrt to the point cloud
-    originalPCD.getCenterXY(translationX, translationY);
-    translationZ = originalPCD.computeRadiusFromCentroid();
-
-    // create a new camera object
-    Camera currentCamera(rotationX_deg,
-                         rotationY_deg,
-                         rotationZ_deg,
-                         translationX,
-                         translationY,
-                         translationZ);
+    Camera currentCamera = getCameraFromDegrees(originalPCD, rotationY_deg);
 
     // use this to obtain all of the projected points, irrespective of their depth
     // pc.computeProjectedCoordinates(currentCamera);
@@ -189,8 +176,18 @@ void testFramework() {
     // convert the projected points back to the world coordinate frame
     originalPCD.computeWorldCoordinates(currentCamera);
 
-    std::cout << "Writing 3D model to output folder..." << std::endl;
     originalPCD.write(MODEL_2_OUTPUT_FILENAME);
     std::cout << "Magic!" << std::endl;
 
+}
+
+void testCameraRotation() {
+    PointCloud myPCD(MODEL_1_FILENAME);
+
+    std::vector<Camera> camVector;
+    Eigen::VectorXd degreesYRotation(4);
+    degreesYRotation << 0, 90, 180, 270;
+    getCameraVecFromDegrees(myPCD, degreesYRotation, camVector);
+
+    writePCDAndCamera(myPCD, camVector);
 }

@@ -10,6 +10,8 @@
 namespace nvp {
 
     PointCloud::PointCloud(std::string filename) {
+        std::cout << "Reading 3D model from file:" << filename << "..." << std::endl;
+
         MyMesh mesh;
         if (!OpenMesh::IO::read_mesh(mesh, filename)) {
             std::cerr << "Error: Cannot read mesh from " << filename << std::endl;
@@ -47,9 +49,16 @@ namespace nvp {
         m_numPoints = in_pointSet.cols();
         m_normals = Eigen::MatrixXd::Zero(3,1);
     }
-
+    void PointCloud::setPointsAndNormals(Eigen::MatrixXd &in_pointSet,
+                                         Eigen::MatrixXd &in_normals) {
+        m_vertices = in_pointSet;
+        m_numPoints = in_pointSet.cols();
+        m_normals = in_normals;
+    }
 
     int PointCloud::write(std::string filename) {
+        std::cout << "Writing file: " << filename << "..." << std::endl;
+
         MyMesh mesh;
         uint32_t colIdx = 0;
         bool NORMALS = (m_normals.col(0).prod() != 0);
@@ -158,9 +167,9 @@ namespace nvp {
     }
 
     void PointCloud::getCenterXY(double &x, double &y) {
-        Eigen::Vector3d meanP = m_vertices.colwise().mean();
-        x = meanP[0];
-        y = meanP[1];
+        Eigen::Vector3d meanP = m_vertices.rowwise().mean();
+        x = -meanP[0];
+        y = -meanP[1];
     }
 
     void PointCloud::getCartesianCoordinates(Eigen::MatrixXd &cartCoord) {
@@ -219,6 +228,14 @@ namespace nvp {
         m_normals = myNormals;
         //std::cout << "Normals computed = " << m_normals.cols() << std::endl;
         //std::cout << "Example:\n" << m_normals.block(0, 0, 3, 10) << std::endl;
+    }
+
+    void PointCloud::getNormals(Eigen::MatrixXd &out_normals) {
+        bool NORMALS = (m_normals.col(0).prod() != 0);
+
+        if (!NORMALS)
+            this->setNormals();
+        out_normals = m_normals;
     }
 
 

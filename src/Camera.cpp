@@ -85,6 +85,32 @@ namespace nvp {
         m_offsetXY = pSrc.m_offsetXY;
     }
 
+    Eigen::Vector3d Camera::getCameraOrientation() {
+        // So if the "in" axis is the z-axis, for instance,
+        // then the vector pointing in the direction
+        // the camera is pointing
+
+        Eigen::Matrix3d rotationMat = m_extrinsics.block(0,0,3,3);
+        Eigen::Vector3d zAxis(3);
+        zAxis << 0,0,1;
+        Eigen::Vector3d camDirection = rotationMat.inverse() * zAxis;
+
+        std::cout << "Camera direction: " << camDirection.transpose()
+        << " for a rotation of " << m_degreesYRot << std::endl;
+
+        return camDirection;
+    }
+
+    Eigen::Vector3d Camera::getCameraPosition() {
+        Eigen::Matrix3d rotationMat = m_extrinsics.block(0,0,3,3);
+        Eigen::Vector3d translation = m_extrinsics.block(0,3,3,1);
+
+        Eigen::Vector3d camPos = - rotationMat.inverse() * translation;
+
+        std::cout << "Camera position: " << camPos.transpose()
+        << " for a rotation of " << m_degreesYRot << std::endl;
+        return camPos;
+    }
 
 } //namespace nvp
 

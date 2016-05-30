@@ -58,30 +58,11 @@ int main() {
     degreesYRotation << 10, 40, 120;
     getCameraVecFromDegrees(originalPCD, degreesYRotation, kViewVector);
 
-    // ******************************************************
-    // Get candidate views for the NBV
-    Eigen::VectorXd candidateYRotDegrees;
-    getCandidateViewsDegrees(kViewVector,
-                             candidateYRotDegrees);
-    int noCandidates = int(candidateYRotDegrees.size());
+    //****************************************************************
+    // Compute the Next Best View
+    Camera kplus1View = computeNBV(originalPCD,
+                                   kViewVector);
 
-    // ******************************************************
-    // Compute scores for each new view (no ground truth) =
-    // the amount of new points brought by each candidate scan
-    // NOTE: we use a lower resolution of each scan to make the computation faster
-    // TODO: add score based on point quality as well
-    Eigen::VectorXd scoresCandidateViews;
-    evaluateEachCandidateView(originalPCD,
-                              kViewVector,
-                              candidateYRotDegrees,
-                              scoresCandidateViews);
-
-    // get maximum score and save that as the NBV
-    Eigen::VectorXd::Index maxRow, maxCol;
-    int maxScoreNBV = int(scoresCandidateViews.maxCoeff(&maxRow, &maxCol));
-    std::cout << "Found maximum score of " << scoresCandidateViews[maxRow] <<
-    " for " << candidateYRotDegrees[maxRow] << " degrees\n";
-    Camera kplus1View = getCameraFromDegrees(originalPCD, candidateYRotDegrees[maxRow]);
     std::vector<Camera> kplus1ViewVector = getKplus1ViewVector(kViewVector,
                                                                kplus1View);
 
@@ -90,33 +71,12 @@ int main() {
     int zbufferSideSize = 150;
 
     std::cout << "Eval with GT - Compute score for chosen NBV with "
-    << candidateYRotDegrees[maxRow] << " degrees\n";
+    << kplus1View.getRotationYDegrees() << " degrees\n";
     double scoreGT = evaluateNBV(kplus1ViewVector,
                                  originalPCD,
                                  zbufferSideSize);
     printScoreToConsole(scoreGT);
 
-    // ******************************************************
-    // ********************** OPTIONAL **********************
-    // Check with the ground truth if we actually chose the best candidate view
-    Eigen::VectorXd scoresGTVec(noCandidates);
-    for (int i = 0; i < noCandidates; i++) {
-        std::cout << "Eval with GT - Compute score for candidate view #" << i + 1 << ": ";
-        Camera kplus1View_temp = getCameraFromDegrees(originalPCD,
-                                                      candidateYRotDegrees[i]);
-
-        // create a temporary vector of k+1 views for each candidate position
-        std::vector<Camera> kplus1ViewVector_temp = getKplus1ViewVector(kViewVector,
-                                                                        kplus1View_temp);
-        scoresGTVec[i] = evaluateNBV(kplus1ViewVector_temp,
-                                     originalPCD,
-                                     zbufferSideSize);
-        std::cout << scoresGTVec[i] << std::endl;
-    }
-    Eigen::VectorXd::Index maxRowGT, maxColGT;
-    int maxScoreGT = int(scoresGTVec.maxCoeff(&maxRowGT, &maxColGT));
-    std::cout << "Eval with GT - Found maximum score of " << scoresGTVec[maxRowGT] <<
-    " for " << candidateYRotDegrees[maxRowGT] << " degrees\n";
 
     // ******************************************************
     // Clean up - Estimate PCD from k+1 views and write it

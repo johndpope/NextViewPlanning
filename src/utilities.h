@@ -40,6 +40,9 @@ namespace nvp {
     std::vector<Camera> getKplus1ViewVector(std::vector<Camera> &kViewVect,
                                             Camera &kplus1View);
 
+    double getMaxFromEigVector(Eigen::VectorXd& inputVec,
+                               int& idxMax);
+
 
 }//namespace nvp
 

@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include "defs.h"
+#include <stdexcept>
 #include "utilities.h"
 #include "converter.h"
 #include <stdlib.h>
@@ -288,6 +289,17 @@ namespace nvp {
         }
         kplus1Views.push_back(kplus1View);
         return kplus1Views;
+    }
+
+    double getMaxFromEigVector(Eigen::VectorXd &inputVec, int &idxMax) {
+        if(inputVec.rows() < inputVec.cols())
+        {
+            throw std::invalid_argument("The input vector should be a column vector!");
+        }
+        Eigen::VectorXd::Index maxRow, maxCol;
+        int maxScoreNBV = int(inputVec.maxCoeff(&maxRow, &maxCol));
+        idxMax = int(maxRow);
+        return maxScoreNBV;
     }
 
 

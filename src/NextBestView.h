@@ -37,11 +37,17 @@ namespace nvp {
 
     // this function generates the vector of Cameras for the k views
     void getCameraVecFromDegrees(PointCloud &pc,
-                          Eigen::VectorXd &kYDegrees,
-                          std::vector<Camera> &out_kCamVect);
+                                 Eigen::VectorXd &kYDegrees,
+                                 std::vector<Camera> &out_kCamVect);
 
-    void getCandidateViewsDegrees(std::vector<Camera> &kViews,
-                           Eigen::VectorXd &out_candidateYDegrees);
+    void getInitialCandidateViewsDegrees(std::vector<Camera> &kViews,
+                                         Eigen::VectorXd &out_candidateYDegrees);
+
+
+    // monster function that outputs the best NBV
+    Camera computeNBV(PointCloud &pc,
+                      std::vector<Camera> &kViewVector,
+                      bool FLAG_EVALwGT = false);
 
 
     int getNumNewPointsFromNewScan(PointCloud &pc,

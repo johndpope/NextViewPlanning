@@ -232,16 +232,20 @@ namespace nvp {
         }
     }
 
-    void getCandidateViewsDegrees(std::vector<Camera> &kViews,
-                                  Eigen::VectorXd &out_candidateYDegrees) {
+    void getInitialCandidateViewsDegrees(std::vector<Camera> &kViews,
+                                         Eigen::VectorXd &out_candidateYDegrees) {
+        // NOTE: this is the first step of the candidate view selection
         int noCandidates = 0;
         int k = int(kViews.size());
-        int stepsDegrees = 50;
+        int stepsDegrees = 70;
 
         out_candidateYDegrees = Eigen::VectorXd::Zero(int(std::floor(360 / stepsDegrees)));
 
+        // ******************************************************
+        // First step: very sparse sample of viewpoints around one axis
+        // the scores for each view are computed and the best one is
+        // selected for the next step
         Camera prevView = kViews[0];
-
         for (int currK = 1; currK < k; currK++) {
             Camera currentView(kViews[currK]);
 
@@ -262,10 +266,121 @@ namespace nvp {
                                     noCandidates);
         out_candidateYDegrees.conservativeResize(noCandidates, 1);
 
-        std::cout << "Found " << out_candidateYDegrees.size() << " candidate views\n";
-        //std::cout << out_candidateYDegrees.transpose() << std::endl;
+        std::cout << std::endl;
+        std::cout << "Candidate search:\n\nGlobal sparse search - Found "
+        << out_candidateYDegrees.size() << " candidate views\n";
+        std::cout << out_candidateYDegrees.transpose() << std::endl;
+    }
 
-        // TODO: add new step with increased resolution + increase stepsDegrees in this case
+    Camera computeNBV(PointCloud &pc,
+                      std::vector<Camera> &kViewVector,
+                      bool FLAG_EVALwGT) {
+        double NBV_degrees = 0;
+        // ******************************************************
+        // Get initial candidate views for the NBV - very sparse
+        Eigen::VectorXd initialCandidViewYDegrees;
+        getInitialCandidateViewsDegrees(kViewVector,
+                                        initialCandidViewYDegrees);
+        int noCandidates = int(initialCandidViewYDegrees.size());
+
+        // ******************************************************
+        // Compute scores for each new candidate view (no ground truth) =
+        // the amount of new points brought by each candidate scan
+        // NOTE: we use a lower resolution of each scan to make the computation faster
+        // TODO: add score based on point quality as well
+        Eigen::VectorXd scoresCandidateViews;
+        evaluateEachCandidateView(pc,
+                                  kViewVector,
+                                  initialCandidViewYDegrees,
+                                  scoresCandidateViews);
+
+        // get maximum score and use that candidate view for
+        // the search in local neighbourhood
+        int idxMaxInit = 0;
+        double initMaxScore = getMaxFromEigVector(scoresCandidateViews, idxMaxInit);
+        std::cout << "Global sparse search - Found maximum score of " << scoresCandidateViews[idxMaxInit] <<
+        " for " << initialCandidViewYDegrees[idxMaxInit] << " degrees\n";
+
+        if (FLAG_EVALwGT) {
+            // ******************************************************
+            // ********************** OPTIONAL **********************
+            // Check with the ground truth if we actually chose the best candidate view
+            int zbufferSideSize = 150;
+            Eigen::VectorXd scoresGTVec(noCandidates);
+            for (int i = 0; i < noCandidates; i++) {
+                std::cout << "Eval with GT - Compute score for candidate view #" << i + 1 << ": ";
+                Camera kplus1View_temp = getCameraFromDegrees(pc,
+                                                              initialCandidViewYDegrees[i]);
+
+                // create a temporary vector of k+1 views for each candidate position
+                std::vector<Camera> kplus1ViewVector_temp = getKplus1ViewVector(kViewVector,
+                                                                                kplus1View_temp);
+                scoresGTVec[i] = evaluateNBV(kplus1ViewVector_temp,
+                                             pc,
+                                             zbufferSideSize);
+                std::cout << scoresGTVec[i] << std::endl;
+            }
+            int idxMaxScoreGT;
+            double maxScoreGT = getMaxFromEigVector(scoresGTVec, idxMaxScoreGT);
+            std::cout << "Eval with GT - Found maximum score of " << scoresGTVec[idxMaxScoreGT] <<
+            " for " << initialCandidViewYDegrees[idxMaxScoreGT] << " degrees\n";
+        }
+
+        NBV_degrees = initialCandidViewYDegrees[idxMaxInit];
+        // if you're happy with this initial search, uncomment the next line
+        // return getCameraFromDegrees(pc,NBV_degrees);
+
+        std::cout << std::endl;
+        // ******************************************************
+        // Use the candidate view with the best score to search for
+        // a better solution in its neighbourhood
+        double localSearchDegrees = 20.0;
+        int numLocalCandid = int(localSearchDegrees * 2 / 10) + 1;
+        Eigen::VectorXd finalCandidViewYDegrees =
+                Eigen::VectorXd::LinSpaced(numLocalCandid,
+                                           -localSearchDegrees,
+                                           +localSearchDegrees);
+        // add degrees in the candidate view vector relative to the new max
+        finalCandidViewYDegrees = NBV_degrees * Eigen::VectorXd::Ones(numLocalCandid)
+                                  + finalCandidViewYDegrees;
+        // all of the numbers should be between 0 and 360 degrees!
+        for (int i = 0; i < numLocalCandid; i++) {
+            // -10 ends up being 350
+            // 370 ends up being 20
+            if(finalCandidViewYDegrees[i] < 0)
+                finalCandidViewYDegrees[i] += 360 ;
+            else if(finalCandidViewYDegrees[i] < 0)
+                finalCandidViewYDegrees[i] -= 360;
+        }
+        std::cout << "Local search - Found new candidate views\n"<<
+                finalCandidViewYDegrees.transpose() << std::endl;
+
+        Eigen::VectorXd finalScoresCandidViews;
+        evaluateEachCandidateView(pc,
+                                  kViewVector,
+                                  finalCandidViewYDegrees,
+                                  finalScoresCandidViews);
+        int idxMaxFin = 0;
+        double finMaxScore = getMaxFromEigVector(finalScoresCandidViews, idxMaxFin);
+        std::cout << "Local search - Found maximum score of " << finMaxScore <<
+        " for " << finalCandidViewYDegrees[idxMaxFin] << " degrees\n";
+        // ******************************************************
+        // if the final maximum score is better than the one from the initial step
+        // use the new view as the NBV
+        if (finMaxScore > initMaxScore)
+        {
+            NBV_degrees = finalCandidViewYDegrees[idxMaxFin];
+
+        }
+        else // initMaxScore >= finMaxScore
+        {
+            finMaxScore = initMaxScore;
+            NBV_degrees = initialCandidViewYDegrees[idxMaxInit];
+
+        }
+        std::cout << "Final NEXT BEST VIEW = " << NBV_degrees
+        << " with a score of " << finMaxScore << std::endl << std::endl;
+        return getCameraFromDegrees(pc, NBV_degrees);
     }
 
     int getNumNewPointsFromNewScan(PointCloud &pc,
@@ -288,7 +403,7 @@ namespace nvp {
         // subtracting the PCD obtained from the k+1 views and
         // the PCD obtained from the k views
 
-        // note that the reconstructed PCD removes duplicates
+        // ! the reconstructed PCD has no duplicates
 
         int numNewPoints = int(estimatedPCD_kplus1views.cols()) - numPoints_kViews;
 

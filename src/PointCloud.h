@@ -42,6 +42,8 @@ namespace nvp {
 
         void computeNearestProjectedPts(Camera &camera,
                                         int zbufferSideSize = 100);
+        double computeRadiusFromCentroid();
+
 
         void getNormals(Eigen::MatrixXd &out_normals);
 
@@ -50,7 +52,6 @@ namespace nvp {
         void setPointsAndNormals(Eigen::MatrixXd &in_pointSet,
                                  Eigen::MatrixXd &in_normals);
 
-        double computeRadiusFromCentroid();
 
         long m_numPoints;
     private:

@@ -56,6 +56,11 @@ namespace nvp {
                                    int numPoints_kViews,
                                    int zbufferSideSize = 50);
 
+    double getQualityScoreFromNewScan(PointCloud &pc,
+                                   Camera &newView,
+                                   int zbufferSideSize = 50);
+
+
     void evaluateEachCandidateView(PointCloud &pc,
                                    std::vector<Camera> &kViews,
                                    Eigen::VectorXd &candidateYDegrees,

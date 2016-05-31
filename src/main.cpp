@@ -53,11 +53,11 @@ int main() {
 
     //****************************************************************
     // Generate k given scan positions
-    int kPositions = 3;
+    int kPositions = 2;
     std::vector<Camera> kViewVector;
     Eigen::VectorXd degreesYRotation(kPositions);
     // NOTE: it works starting with two or more viewpoints
-    degreesYRotation << 10, 40, 120;
+    degreesYRotation << 10, 40;
     getCameraVecFromDegrees(originalPCD, degreesYRotation, kViewVector);
 
     //****************************************************************
@@ -70,7 +70,7 @@ int main() {
 
     // ******************************************************
     // Evaluate current NBV against the original mesh
-    int zbufferSideSize = 150;
+    int zbufferSideSize = 200;
 
     std::cout << "Eval with GT - Compute score for chosen NBV with "
     << kplus1View.getRotationYDegrees() << " degrees\n";
@@ -84,7 +84,7 @@ int main() {
     // Clean up - Estimate PCD from k+1 views and write it
     std::cout << "Estimate PCD from k+1 views...\n";
     Eigen::MatrixXd kplus1PCDEstimation;
-    zbufferSideSize = 150;
+    zbufferSideSize = 200;
     getEstimatedReconstructionFromKViews(originalPCD,
                                          kplus1ViewVector,
                                          kplus1PCDEstimation,

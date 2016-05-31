@@ -95,8 +95,8 @@ namespace nvp {
         zAxis << 0,0,1;
         Eigen::Vector3d camDirection = rotationMat.inverse() * zAxis;
 
-        std::cout << "Camera direction: " << camDirection.transpose()
-        << " for a rotation of " << m_degreesYRot << std::endl;
+//        std::cout << "Camera direction: " << camDirection.transpose()
+//        << " for a rotation of " << m_degreesYRot << std::endl;
 
         return camDirection;
     }
@@ -107,8 +107,8 @@ namespace nvp {
 
         Eigen::Vector3d camPos = - rotationMat.inverse() * translation;
 
-        std::cout << "Camera position: " << camPos.transpose()
-        << " for a rotation of " << m_degreesYRot << std::endl;
+//        std::cout << "Camera position: " << camPos.transpose()
+//        << " for a rotation of " << m_degreesYRot << std::endl;
         return camPos;
     }
 

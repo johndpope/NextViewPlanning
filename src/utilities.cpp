@@ -159,7 +159,9 @@ namespace nvp {
 //              // compute the euclidean distance between the 2 vectors
                 double distVect = (currentPointSet.col(j) - points_all_scans.col(i)).norm();
                 // is the distance close to 0? if yes, they are duplicates
-                if (std::abs(distVect) < std::numeric_limits<double>::epsilon()) {
+//                if (std::abs(distVect) < std::numeric_limits<double>::epsilon()) {
+                if (std::abs(distVect) < 0.001) {
+
                     //this point already exists
                     newPoint = false;
                     numberDuplicates++;
@@ -293,8 +295,7 @@ namespace nvp {
     }
 
     double getMaxFromEigVector(Eigen::VectorXd &inputVec, int &idxMax) {
-        if(inputVec.cols() !=1)
-        {
+        if (inputVec.cols() != 1) {
             throw std::invalid_argument("The input vector should be a column vector!");
         }
         Eigen::VectorXd::Index maxRow, maxCol;
@@ -302,8 +303,9 @@ namespace nvp {
         idxMax = int(maxRow);
         return maxScoreNBV;
     }
+
     double getMinFromEigVector(Eigen::VectorXd &inputVec, int &idxMin) {
-        if (inputVec.cols() !=1 ) {
+        if (inputVec.cols() != 1) {
             throw std::invalid_argument("The input vector should be a column vector!");
         }
         Eigen::VectorXd::Index minRow, minCol;
@@ -313,14 +315,13 @@ namespace nvp {
     }
 
     void writePCDAndCamera(PointCloud &pc, std::vector<Camera> &cameraVect) {
-        PointCloud simulatedScan(pc);
 
+        PointCloud simulatedScan(pc);
         // use this to compute the nearest points as seen from the camera (zBuffer)
         int zbufferSideSize = 100;
 
         simulatedScan.computeNearestProjectedPts(cameraVect[0],
                                                  zbufferSideSize);
-
         // convert the projected points back to the world coordinate frame
         simulatedScan.computeWorldCoordinates(cameraVect[0]);
         simulatedScan.setNormals();

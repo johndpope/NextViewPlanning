@@ -69,8 +69,10 @@ namespace nvp {
         Eigen::MatrixXd points_all_scans;
 
         std::cout << "\nStarting PCD reconstruction..." << std::endl;
+//        Eigen::MatrixXd pointsRec = Eigen::MatrixXd::Zero(3, 1);
+//        PointCloud pcReconstruction(pointsRec);
 
-        for (auto camNo = 0; camNo < scans.size(); ++camNo) {
+        for (int camNo = 0; camNo < scans.size(); camNo++) {
             //for every scan create a point cloud and read the points in
             std::string inputFile = "../output/scan_" +
                                     std::to_string(camNo + 1) + ".ply";
@@ -86,7 +88,10 @@ namespace nvp {
 
             //this function takes each point cloud and concatenates them
             // into a single matrix with no duplicates
-            mergePointCloudsNoDuplicates(currentPCD, points_all_scans);
+            // TODO: change this!
+            mergePointCloudsNoDuplicates(currentPCD,
+                                         points_all_scans);
+//            pcReconstruction.setPoints(points_all_scans);
         }
         out_mergedScans = points_all_scans;
     }
@@ -97,22 +102,27 @@ namespace nvp {
                                               int zbufferSideSize) {
         // this function doesn't write all the intermediary scans
         Eigen::MatrixXd points_all_scans;
+//        Eigen::MatrixXd pointsRec = Eigen::MatrixXd::Zero(3, 1);
+//        PointCloud pcReconstruction(pointsRec);
 
         int k = int(kViews.size());
         for (auto camNo = 0; camNo < k; camNo++) {
-            PointCloud pcTransformed(pc);
+            PointCloud currentPc(pc);
 
             // create a new camera object
             Camera currentCamera(kViews[camNo]);
 
-            pcTransformed.computeNearestProjectedPts(currentCamera,
-                                                     zbufferSideSize);
+            currentPc.computeNearestProjectedPts(currentCamera,
+                                                 zbufferSideSize);
 
-            pcTransformed.computeWorldCoordinates(currentCamera);
+            currentPc.computeWorldCoordinates(currentCamera);
 
-            mergePointCloudsNoDuplicates(pcTransformed, points_all_scans);
+            mergePointCloudsNoDuplicates(currentPc, points_all_scans);
 
+//            pcReconstruction.setPoints(points_all_scans);
         }
+//        std::cout << "AFTER - reconMat = \n"  << points_all_scans.block(0,0,3,10) << std::endl;
+
         out_mergedScans = points_all_scans;
     }
 
@@ -347,13 +357,13 @@ namespace nvp {
         for (int i = 0; i < numLocalCandid; i++) {
             // -10 ends up being 350
             // 370 ends up being 20
-            if(finalCandidViewYDegrees[i] < 0)
-                finalCandidViewYDegrees[i] += 360 ;
-            else if(finalCandidViewYDegrees[i] < 0)
+            if (finalCandidViewYDegrees[i] < 0)
+                finalCandidViewYDegrees[i] += 360;
+            else if (finalCandidViewYDegrees[i] < 0)
                 finalCandidViewYDegrees[i] -= 360;
         }
-        std::cout << "Local search - Found new candidate views\n"<<
-                finalCandidViewYDegrees.transpose() << std::endl;
+        std::cout << "Local search - Found new candidate views\n" <<
+        finalCandidViewYDegrees.transpose() << std::endl;
 
         Eigen::VectorXd finalScoresCandidViews;
         evaluateEachCandidateView(pc,
@@ -367,8 +377,7 @@ namespace nvp {
         // ******************************************************
         // if the final maximum score is better than the one from the initial step
         // use the new view as the NBV
-        if (finMaxScore > initMaxScore)
-        {
+        if (finMaxScore > initMaxScore) {
             NBV_degrees = finalCandidViewYDegrees[idxMaxFin];
 
         }
@@ -410,12 +419,51 @@ namespace nvp {
         return numNewPoints;
     }
 
+    double getQualityScoreFromNewScan(PointCloud &pc,
+                                      Camera &newView,
+                                      int zbufferSideSize) {
+        double qualityScoreTotal = 0.0;
+
+        Eigen::Vector3d cameraOrientation = newView.getCameraOrientation();
+
+        cameraOrientation.normalize();
+//        Eigen::Vector3d cameraPosition = newView.getCameraPosition();
+
+        PointCloud pcdTemp(pc);
+        pcdTemp.computeNearestProjectedPts(newView, zbufferSideSize);
+        pcdTemp.computeWorldCoordinates(newView);
+        pcdTemp.setNormals();
+
+        Eigen::MatrixXd pointSet;
+        Eigen::MatrixXd normalsPCD;
+        pcdTemp.getPoints(pointSet);
+        pcdTemp.getNormals(normalsPCD);
+
+        int numPts = int(pcdTemp.m_numPoints);
+
+        // sum the cos of the angle formed by the normal of each point
+        // with the camera orientation
+        double cosineAlpha = 0;
+        for (int i = 0; i < numPts; i++) {
+            Eigen::Vector3d thisPoint = pointSet.col(i);
+            thisPoint.normalize();
+            cosineAlpha = std::abs(thisPoint.dot(cameraOrientation));
+            qualityScoreTotal += cosineAlpha;
+        }
+
+//        qualityScoreTotal = qualityScoreTotal / numPts;
+        return qualityScoreTotal;
+    }
+
     void evaluateEachCandidateView(PointCloud &pc,
                                    std::vector<Camera> &kViews,
                                    Eigen::VectorXd &candidateYDegrees,
                                    Eigen::VectorXd &out_viewScores) {
-        int zbufferSideSize = 50;
+        int zbufferSideSize = 100;
         int noCandidates = int(candidateYDegrees.size());
+        Eigen::VectorXd scores_newInf = Eigen::VectorXd::Zero(noCandidates);
+        Eigen::VectorXd scores_qualityPts = Eigen::VectorXd::Zero(noCandidates);
+
         out_viewScores = Eigen::VectorXd::Zero(noCandidates);
         // generate vector of camera position candidates
         std::vector<Camera> viewCandidates;
@@ -432,15 +480,23 @@ namespace nvp {
         int numPoints_kViews = int(estimatedPCD_kviews.cols());
 
         for (int i = 0; i < noCandidates; i++) {
+            PointCloud pcdTemp = pc;
             std::cout << "Computing score for candidate view #" << i + 1 << "..." << std::endl;
-            out_viewScores[i] = getNumNewPointsFromNewScan(pc,
-                                                           kViews,
-                                                           viewCandidates[i],
-                                                           numPoints_kViews,
-                                                           zbufferSideSize);
+            scores_newInf[i] = getNumNewPointsFromNewScan(pcdTemp,
+                                                          kViews,
+                                                          viewCandidates[i],
+                                                          numPoints_kViews,
+                                                          zbufferSideSize);
+            scores_qualityPts[i] = getQualityScoreFromNewScan(pcdTemp,
+                                                              viewCandidates[i],
+                                                              zbufferSideSize);
+            out_viewScores[i] = scores_newInf[i];
         }
+
         std::cout << "Candidate views at: \n" << candidateYDegrees.transpose() << std::endl;
-        std::cout << "Scores for the candidate views:\n" << out_viewScores.transpose() << std::endl;
+        std::cout << "Scores - new information:\n" << scores_newInf.transpose() << std::endl;
+        std::cout << "Scores - scan quality:\n" << scores_qualityPts.transpose() << std::endl;
+        std::cout << "Final Scores:\n" << out_viewScores.transpose() << std::endl;
 
     }
 

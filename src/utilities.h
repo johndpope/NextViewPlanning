@@ -26,8 +26,8 @@ namespace nvp {
                           PointCloud &pc2,
                           Eigen::MatrixXd &out_pointSet);
 
-    void mergePointCloudsNoDuplicates(PointCloud &pc,
-                                      Eigen::MatrixXd &points_all_scans);
+    void mergePointCloudsNoDuplicates(PointCloud &pc1,
+                                      Eigen::MatrixXd &out_reconstruction);
 
     void printScoreToConsole(double score);
 

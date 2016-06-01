@@ -16,12 +16,8 @@ namespace nvp {
         typedef OpenMesh::Vec3d Point;
         typedef OpenMesh::Vec3d Normal;
         VertexAttributes( OpenMesh::Attributes::Normal);
-//        FaceAttributes( OpenMesh::Attributes::Normal | OpenMesh::Attributes::Color );
     };
     typedef OpenMesh::TriMesh_ArrayKernelT<MyTraits>  MyMesh;
-    // declares a column-major sparse matrix type of double
-//    typedef Eigen::SparseMatrix<double> SparseMatrix;
-//    typedef Eigen::Triplet<double> Triplet;
 
     static const int IMAGEPLANE_SIZE = 600;
     static const int FOCAL_LENGTH = 800;

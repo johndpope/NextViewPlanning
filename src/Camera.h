@@ -11,6 +11,8 @@
 namespace nvp {
     class Camera {
     public:
+        //*************** Core Framework *******************
+
         Camera(Eigen::Matrix4d extrinsics);
 
         Camera(double rotDegreesX = 0.0,
@@ -31,6 +33,8 @@ namespace nvp {
         void getCameraTransform(Eigen::Matrix4d &camTransf);
 
         double getRotationYDegrees();
+
+        //*************** Individual Section *******************
 
         Eigen::Vector3d getCameraOrientation();
 

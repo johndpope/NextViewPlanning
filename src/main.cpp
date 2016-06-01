@@ -21,56 +21,60 @@ void testCameraRotation();
 
 int main() {
     //testCameraRotation();
-    //return SUCCESS;
     //testFramework();
     //testFrameworkForMultipleScans();
     //testNormalComputation();
-// TODO: add full framework that sets a path -> with stopping condition
+    //return SUCCESS;
+
     //****************************************************************
     int numberMesh = 2;
-//    std::cout << "Enter <1> for the armadillo, "
-//            "<2> for the bunny or "
-//            "<3> for the dragon mesh \n";
-//    std::cin >> numberMesh;
-//
-//    if (numberMesh != 1 && numberMesh != 2 && numberMesh != 3) {
-//        std::cout << "Please enter <1> or <2> or <3> \n";
-//        std::cin >> numberMesh;
-//    }
+    std::cout << "Enter <1> for the armadillo, "
+            "<2> for the bunny or "
+            "<3> for the dragon mesh \n";
+    std::cin >> numberMesh;
+
+    if (numberMesh != 1 && numberMesh != 2 && numberMesh != 3) {
+        std::cout << "Please enter <1> or <2> or <3> \n";
+        std::cin >> numberMesh;
+    }
 
     // read bunny by default - fewer points
     PointCloud originalPCD(MODEL_2_FILENAME);
-//    if (numberMesh == 1) {
-//        // read armadillo mesh
-//        originalPCD = PointCloud(MODEL_1_FILENAME);
-//    }
-//    else if (numberMesh == 3) {
-//        // read dragon mesh
-//        originalPCD = PointCloud(MODEL_3_FILENAME);
-//    }
+    if (numberMesh == 1) {
+        // read armadillo mesh
+        originalPCD = PointCloud(MODEL_1_FILENAME);
+    }
+    else if (numberMesh == 3) {
+        // read dragon mesh
+        originalPCD = PointCloud(MODEL_3_FILENAME);
+    }
 
     std::cout << originalPCD.m_numPoints << " points read" << std::endl;
 
     //****************************************************************
     // Generate k given scan positions
-    int kPositions = 2;
+    int kPositions = 3;
     std::vector<Camera> kViewVector;
     Eigen::VectorXd degreesYRotation(kPositions);
     // NOTE: it works starting with two or more viewpoints
-    degreesYRotation << 10, 40;
+    degreesYRotation << 10, 40, 120;
     getCameraVecFromDegrees(originalPCD, degreesYRotation, kViewVector);
 
     //****************************************************************
     // Compute the Next Best View
+    // set this flag to true if you want an evaluation with the ground truth
+    // for each candidate view
+    bool EVAL_WITH_GT = false;
     Camera kplus1View = computeNBV(originalPCD,
-                                   kViewVector);
+                                   kViewVector,
+                                   EVAL_WITH_GT);
 
     std::vector<Camera> kplus1ViewVector = getKplus1ViewVector(kViewVector,
                                                                kplus1View);
 
     // ******************************************************
     // Evaluate current NBV against the original mesh
-    int zbufferSideSize = 200;
+    int zbufferSideSize = 400;
 
     std::cout << "Eval with GT - Compute score for chosen NBV with "
     << kplus1View.getRotationYDegrees() << " degrees\n";
@@ -84,7 +88,7 @@ int main() {
     // Clean up - Estimate PCD from k+1 views and write it
     std::cout << "Estimate PCD from k+1 views...\n";
     Eigen::MatrixXd kplus1PCDEstimation;
-    zbufferSideSize = 200;
+    zbufferSideSize = 400;
     getEstimatedReconstructionFromKViews(originalPCD,
                                          kplus1ViewVector,
                                          kplus1PCDEstimation,
@@ -110,20 +114,26 @@ void testNormalComputation() {
 }
 
 void testFrameworkForMultipleScans() {
-    int numberMesh;
-    std::cout << "Enter <1> for the armadillo or <2> for the bunny mesh: \n";
+    int numberMesh = 2;
+    std::cout << "Enter <1> for the armadillo, "
+            "<2> for the bunny or "
+            "<3> for the dragon mesh \n";
     std::cin >> numberMesh;
 
-    if (numberMesh != 1 && numberMesh != 2) {
-        std::cout << "Please enter <1> or <2> \n";
+    if (numberMesh != 1 && numberMesh != 2 && numberMesh != 3) {
+        std::cout << "Please enter <1> or <2> or <3> \n";
         std::cin >> numberMesh;
     }
 
     // read bunny by default - fewer points
-    PointCloud originalPCD(MODEL_3_FILENAME);
+    PointCloud originalPCD(MODEL_2_FILENAME);
     if (numberMesh == 1) {
         // read armadillo mesh
         originalPCD = PointCloud(MODEL_1_FILENAME);
+    }
+    else if (numberMesh == 3) {
+        // read dragon mesh
+        originalPCD = PointCloud(MODEL_3_FILENAME);
     }
     //read point cloud in
     std::cout << originalPCD.m_numPoints << " point read" << std::endl;

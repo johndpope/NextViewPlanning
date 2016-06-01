@@ -88,12 +88,59 @@ namespace nvp {
 
             //this function takes each point cloud and concatenates them
             // into a single matrix with no duplicates
-            // TODO: change this!
             mergePointCloudsNoDuplicates(currentPCD,
                                          points_all_scans);
 //            pcReconstruction.setPoints(points_all_scans);
         }
         out_mergedScans = points_all_scans;
+    }
+
+    void compareOriginalWithReconstruction(PointCloud &ic, PointCloud &rc) {
+        // Author: Karina Mady
+
+        Eigen::MatrixXd inputCloudPoints, reconstructedCloudPoints;
+        ic.getPoints(inputCloudPoints);
+        rc.getPoints(reconstructedCloudPoints);
+
+        if (ic.m_numPoints == rc.m_numPoints)
+            std::cout << "Smashed it! We got all the vertices" << std::endl;
+        else if (ic.m_numPoints < rc.m_numPoints)
+            std::cout << "We have more vertices than we started with. Duplicates?" << std::endl;
+        else if (ic.m_numPoints > rc.m_numPoints)
+            std::cout << "You're missing vertices, John Snow! The scans don't capture everything" << std::endl;
+        else
+            std::cout << "You should change your career,Khaleesi" << std::endl;
+
+    }
+
+    double evaluateNBV(std::vector<Camera> &kplus1Views,
+                       PointCloud &originalPCD,
+                       int zbufferSideSize) {
+        Eigen::MatrixXd mergedScans;
+        double scan_score = -1;
+
+        PointCloud pcTransformed(originalPCD);
+
+        getEstimatedReconstructionFromKViews(originalPCD,
+                                             kplus1Views,
+                                             mergedScans,
+                                             zbufferSideSize);
+
+        //get the reconstructed point cloud
+        PointCloud estimatedPCD(mergedScans);
+
+        int numPointsOriginalPCD = int(originalPCD.m_numPoints);
+        int numPointsEstimatedPCD = int(estimatedPCD.m_numPoints);
+
+//        std::cout << "The original cloud has " << numPointsOriginalPCD << " points" << std::endl;
+//        std::cout << "The reconstructed cloud has " << numPointsEstimatedPCD << " points" << std::endl;
+
+        //compare the number of points in the reconstructed cloud
+        // with the number of points in the original input cloud
+        //The closer the value to 1 (equivalent to 100 %), the better.
+        scan_score = double(numPointsEstimatedPCD) / double(numPointsOriginalPCD);
+
+        return scan_score;
     }
 
     void getEstimatedReconstructionFromKViews(PointCloud &pc,
@@ -124,57 +171,6 @@ namespace nvp {
 //        std::cout << "AFTER - reconMat = \n"  << points_all_scans.block(0,0,3,10) << std::endl;
 
         out_mergedScans = points_all_scans;
-    }
-
-
-//compares the vertices between ic (original cloud) and rc (reconstructed cloud)
-    void compareOriginalWithReconstruction(PointCloud &ic, PointCloud &rc) {
-        // Author: Karina Mady
-
-        Eigen::MatrixXd inputCloudPoints, reconstructedCloudPoints;
-        ic.getPoints(inputCloudPoints);
-        rc.getPoints(reconstructedCloudPoints);
-
-        if (ic.m_numPoints == rc.m_numPoints)
-            std::cout << "Smashed it! We got all the vertices" << std::endl;
-        else if (ic.m_numPoints < rc.m_numPoints)
-            std::cout << "We have more vertices than we started with. Duplicates?" << std::endl;
-        else if (ic.m_numPoints > rc.m_numPoints)
-            std::cout << "You're missing vertices, John Snow! The scans don't capture everything" << std::endl;
-        else
-            std::cout << "You should change your career,Khaleesi" << std::endl;
-
-    }
-
-    double evaluateNBV(std::vector<Camera> &kplus1Views,
-                       PointCloud &originalPCD,
-                       int zbufferSideSize) {
-        // Author: Karina Mady
-        Eigen::MatrixXd mergedScans;
-        double scan_score = -1;
-
-        PointCloud pcTransformed(originalPCD);
-
-        getEstimatedReconstructionFromKViews(originalPCD,
-                                             kplus1Views,
-                                             mergedScans,
-                                             zbufferSideSize);
-
-        //get the reconstructed point cloud
-        PointCloud estimatedPCD(mergedScans);
-
-        int numPointsOriginalPCD = int(originalPCD.m_numPoints);
-        int numPointsEstimatedPCD = int(estimatedPCD.m_numPoints);
-
-//        std::cout << "The original cloud has " << numPointsOriginalPCD << " points" << std::endl;
-//        std::cout << "The reconstructed cloud has " << numPointsEstimatedPCD << " points" << std::endl;
-
-        //compare the number of points in the reconstructed cloud
-        // with the number of points in the original input cloud
-        //The closer the value to 1 (equivalent to 100 %), the better.
-        scan_score = double(numPointsEstimatedPCD) / double(numPointsOriginalPCD);
-
-        return scan_score;
     }
 
     Camera getCameraFromDegrees(PointCloud &pc,
@@ -297,7 +293,6 @@ namespace nvp {
         // Compute scores for each new candidate view (no ground truth) =
         // the amount of new points brought by each candidate scan
         // NOTE: we use a lower resolution of each scan to make the computation faster
-        // TODO: add score based on point quality as well
         Eigen::VectorXd scoresCandidateViews;
         evaluateEachCandidateView(pc,
                                   kViewVector,
@@ -366,6 +361,7 @@ namespace nvp {
         finalCandidViewYDegrees.transpose() << std::endl;
 
         Eigen::VectorXd finalScoresCandidViews;
+        // you could increase the resolution(zbuffer) for this step, if you need to
         evaluateEachCandidateView(pc,
                                   kViewVector,
                                   finalCandidViewYDegrees,
@@ -374,18 +370,43 @@ namespace nvp {
         double finMaxScore = getMaxFromEigVector(finalScoresCandidViews, idxMaxFin);
         std::cout << "Local search - Found maximum score of " << finMaxScore <<
         " for " << finalCandidViewYDegrees[idxMaxFin] << " degrees\n";
+        if (FLAG_EVALwGT) {
+            // ******************************************************
+            // ********************** OPTIONAL **********************
+            // Check with the ground truth if we actually chose the best candidate view
+            int zbufferSideSize = 150;
+            Eigen::VectorXd scoresGTVec(numLocalCandid);
+            for (int i = 0; i < numLocalCandid; i++) {
+                std::cout << "Eval with GT - Compute score for candidate view #" << i + 1 << ": ";
+                Camera kplus1View_temp = getCameraFromDegrees(pc,
+                                                              finalCandidViewYDegrees[i]);
+
+                // create a temporary vector of k+1 views for each candidate position
+                std::vector<Camera> kplus1ViewVector_temp = getKplus1ViewVector(kViewVector,
+                                                                                kplus1View_temp);
+                scoresGTVec[i] = evaluateNBV(kplus1ViewVector_temp,
+                                             pc,
+                                             zbufferSideSize);
+                std::cout << scoresGTVec[i] << std::endl;
+            }
+            int idxMaxScoreGT;
+            double maxScoreGT = getMaxFromEigVector(scoresGTVec, idxMaxScoreGT);
+            std::cout << "Eval with GT - Found maximum score of " << scoresGTVec[idxMaxScoreGT] <<
+            " for " << finalCandidViewYDegrees[idxMaxScoreGT] << " degrees\n";
+        }
+
+
+
         // ******************************************************
         // if the final maximum score is better than the one from the initial step
         // use the new view as the NBV
         if (finMaxScore > initMaxScore) {
             NBV_degrees = finalCandidViewYDegrees[idxMaxFin];
-
         }
         else // initMaxScore >= finMaxScore
         {
             finMaxScore = initMaxScore;
             NBV_degrees = initialCandidViewYDegrees[idxMaxInit];
-
         }
         std::cout << "Final NEXT BEST VIEW = " << NBV_degrees
         << " with a score of " << finMaxScore << std::endl << std::endl;
@@ -478,6 +499,7 @@ namespace nvp {
                                              zbufferSideSize);
 
         int numPoints_kViews = int(estimatedPCD_kviews.cols());
+        double alpha = 0.6;
 
         for (int i = 0; i < noCandidates; i++) {
             PointCloud pcdTemp = pc;
@@ -490,7 +512,8 @@ namespace nvp {
             scores_qualityPts[i] = getQualityScoreFromNewScan(pcdTemp,
                                                               viewCandidates[i],
                                                               zbufferSideSize);
-            out_viewScores[i] = scores_newInf[i];
+//            out_viewScores[i] = scores_newInf[i];
+            out_viewScores[i] = alpha * scores_newInf[i] + (1-alpha) * scores_qualityPts[i];
         }
 
         std::cout << "Candidate views at: \n" << candidateYDegrees.transpose() << std::endl;

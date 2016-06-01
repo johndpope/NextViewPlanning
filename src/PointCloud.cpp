@@ -62,7 +62,7 @@ namespace nvp {
         MyMesh mesh;
         uint32_t colIdx = 0;
         bool NORMALS = (m_normals.col(0).prod() != 0);
-        std::cout << "NORMALS flag = " << NORMALS << std::endl;
+//        std::cout << "NORMALS flag = " << NORMALS << std::endl;
 
         for (int i = 0; i < m_numPoints; i++) {
             MyTraits::Point thisVert = convertEIGENVecToOMVec(m_vertices.col(colIdx));
